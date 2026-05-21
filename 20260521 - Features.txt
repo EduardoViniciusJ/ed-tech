@@ -1,0 +1,148 @@
+## STRY0010 - Expandir Tabela Perfil Acadêmico/Cadastro
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0013_CAMPOS_CADASTRO  
+**Parent**: EDTECH_01_CORE
+
+**O que precisa**:  
+Atualizar a tabela u_edu_perfil_academico para armazenar dados complementares de alunos, professores, colaboradores internos e gestores acadêmicos. A tabela deve continuar vinculada ao sys_user, mantendo separados os dados de acesso e os dados acadêmicos/profissionais.
+
+**Critérios de aceite**:
+
+**Critérios de aceite:**
+
+- Campo **Tipo de Perfil** criado.
+- Campo **RA/Matrícula** criado.
+- Campo **Registro Funcional** criado.
+- Campo **Curso** criado ou validado.
+- Campo **Campus** criado ou validado.
+- Campo **Período** criado ou validado.
+- Campo **Turno** criado.
+- Campo **Status Acadêmico** criado ou validado.
+- Campo **Telefone Celular** criado.
+- Campo **E-mail Institucional** obtido do sys_user.
+- Campo **Data de Ingresso** criado.
+- Campos de endereço criados, se aprovados pela cliente.
+- Campos podem ser usados para preencher automaticamente variáveis dos formulários.
+
+## STRY0011 - Criar Variable Sets Comuns Dos Formulários
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0014_VARIABLE_SETS_COMUNS  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Administrador do portal que precisa padronizar perguntas comuns entre os formulários de Suporte, Financeiro e Secretaria, evitando retrabalho e garantindo que todos os serviços coletem dados básicos do solicitante de forma consistente.
+
+**O que precisa**:  
+Criar Variable Sets reutilizáveis para os campos comuns dos formulários do portal. Esses blocos devem ser usados nos Record Producers das três áreas core para padronizar dados do solicitante, contato, identificação acadêmica, descrição da solicitação e anexos.
+
+**Critérios de aceite**:
+
+- Variable Set **Dados do Solicitante** criado.
+- Variable Set **Dados Acadêmicos do Solicitante** criado.
+- Variable Set **Contato e Retorno** criado.
+- Variable Set **Descrição da Solicitação** criado.
+- Variable Set **Anexos/Evidências** criado.
+- Campos comuns disponíveis para reutilização em formulários de Suporte, Financeiro e Secretaria.
+
+---
+
+## STRY0012 - Criar Variable Set De Suporte Técnico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0015_VS_SUPORTE_TECNICO  
+**Parent**: EDTECH_02_SUPORTE
+
+**Persona**:  
+Aluno ou professor que precisa relatar problemas técnicos no AVA, Moodle, portal ou envio de atividades, informando detalhes suficientes para que o Suporte consiga entender e resolver o problema rapidamente.
+
+**O que precisa**:  
+Criar um Variable Set específico para chamados de Suporte Técnico, com perguntas voltadas aos problemas core que estão no arquivo de TCC: aula que não abre, vídeo que não carrega, erro no envio de atividade e dificuldade de acesso ao portal/AVA.
+
+**Critérios de aceite**:
+
+- Variable Set **Detalhes do Problema Técnico** criado.
+- Campo **Sistema afetado** criado com opções: AVA/Moodle, Portal do Aluno, Vídeo/Aula, Envio de Atividade, Outro.
+- Campo **Tipo de problema** criado com opções: Aula não abre, Vídeo não carrega, Erro no envio da atividade, Problema de acesso, Outro.
+- Campo **URL ou caminho da tela com erro** criado.
+- Campo **Dispositivo utilizado** criado.
+- Campo **Navegador utilizado** criado.
+- Campo **Mensagem de erro apresentada** criado.
+- Campo **Data e horário aproximado do problema** criado.
+- Campo **Anexo de evidência/print** disponível.
+
+---
+
+## STRY0013 - Criar Variable Set Financeiro
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0016_VS_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Persona**:  
+Aluno que precisa resolver uma pendência financeira, como segunda via de boleto, envio de comprovante, dúvida sobre pagamento ou contestação de multa causada por atraso na emissão do boleto.
+
+**O que precisa**:  
+Criar um Variable Set específico para solicitações financeiras, coletando dados suficientes para que a equipe Financeira identifique o aluno, o boleto, a competência, o vencimento e possíveis comprovantes.
+
+**Critérios de aceite**:
+
+- Variable Set **Detalhes da Solicitação Financeira** criado.
+- Campo **Tipo de solicitação financeira** criado com opções: 2ª via de boleto, Envio de comprovante, Contestação de multa, Dúvida financeira, Outro.
+- Campo **Mês/competência** criado.
+- Campo **Data de vencimento** criado.
+- Campo **Valor aproximado** criado.
+- Campo **Número do boleto** criado, opcional.
+- Campo **Comprovante de pagamento** criado, opcional.
+- Campo **Descrição da situação** criado.
+- Campos ficam disponíveis para uso nos Record Producers financeiros.
+
+---
+
+## STRY0014 - Criar Variable Set Da Secretaria Acadêmica
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0017_VS_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:  
+Aluno que precisa solicitar documentos acadêmicos sem ir presencialmente à secretaria, informando o tipo de documento, finalidade e dados necessários para emissão.
+
+**O que precisa**:  
+Criar um Variable Set específico para solicitações da Secretaria Acadêmica, cobrindo os documentos principais e serviços comuns de uma instituição de ensino, como comprovante de matrícula, declaração, histórico escolar e diploma.
+
+**Critérios de aceite**:
+
+- Variable Set **Detalhes da Solicitação Acadêmica** criado.
+- Campo **Tipo de documento** criado com opções: Comprovante de matrícula, Declaração acadêmica, Histórico escolar, Diploma, Outro.
+- Campo **Finalidade do documento** criado.
+- Campo **Curso** criado ou preenchido automaticamente quando possível.
+- Campo **RA/Matrícula** criado ou preenchido automaticamente quando possível.
+- Campo **Forma de entrega** criado com opções: Digital, Retirada presencial.
+- Campo **Observações adicionais** criado.
+- Campos ficam disponíveis para uso nos Record Producers da Secretaria.
+
+---
+
+## STRY0015 - Ajustar Record Producer De Suporte Técnico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0018_RP_SUPORTE_CORE  
+**Parent**: EDTECH_02_SUPORTE
+
+**Persona**:  
+Aluno ou professor que precisa registrar um problema técnico no portal, AVA ou Moodle e acompanhar a resolução sem depender de e-mail ou atendimento informal.
+
+**O que precisa**:  
+Atualizar o Record Producer **Relatar Problema com AVA/Moodle** para usar os Variable Sets comuns e o Variable Set específico de Suporte Técnico. O formulário deve cobrir os principais problemas relatados no PDF sem criar vários formulários separados para cada tipo de erro.
+
+**Critérios de aceite**:
+
+- Record Producer **Relatar Problema com AVA** atualizado.
+- Formulário usa os Variable Sets comuns.
+- Formulário usa o Variable Set **Detalhes do Problema Técnico**.
+- O campo **Tipo de problema** permite selecionar aula que não abre, vídeo que não carrega, erro no envio de atividade ou problema de acesso.
+- Ao enviar, um registro é criado em Incident [incident].
+- O chamado é direcionado para o grupo **Suporte**.
+- A linguagem do formulário é clara para aluno e professor.

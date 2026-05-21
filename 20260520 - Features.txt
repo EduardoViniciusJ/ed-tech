@@ -1,0 +1,203 @@
+## STRY0001 - Criar Grupos de Usuários
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE  
+**Responsável**:  
+
+**Persona**:  
+Administrador do sistema que precisa organizar os usuários dentro do ServiceNow de acordo com o papel de cada um no processo de atendimento. Essa configuração serve para separar quem abre chamados, quem resolve chamados e quem apenas acompanha ou aprova informações. Com os grupos criados corretamente, o sistema fica mais organizado e preparado para aplicar permissões, regras, filas de atendimento e direcionamento de solicitações.
+
+**O que precisa**:  
+Criar os grupos de solicitantes, solucionadores e gestores dentro do ServiceNow, preenchendo também a descrição de cada grupo.
+
+**Critérios de aceite**:
+
+- Grupo **Alunos** criado com description: usuários alunos que abrem solicitações no portal.
+- Grupo **Professores** criado com description: usuários professores que abrem solicitações no portal.
+- Grupo **Suporte** criado com description: equipe responsável por chamados técnicos.
+- Grupo **Financeira** criado com description: equipe responsável por chamados financeiros.
+- Grupo **Secretaria** criado com description: equipe responsável por chamados acadêmicos e documentos.
+- Grupo **Gestores Acadêmicos** criado com description: usuários que visualizam e aprovam informações acadêmicas.
+
+---
+
+## STRY0002 - Criar Roles e Vincular aos Grupos
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE  
+**Responsável**:  
+
+**Persona**:  
+Administrador do sistema que precisa definir quais permissões cada equipe terá dentro do ServiceNow. Essa configuração é importante para garantir que somente os grupos corretos possam acessar, editar ou acompanhar determinados tipos de chamados. As roles ajudam a controlar a segurança do sistema e evitam que usuários sem responsabilidade sobre uma área façam alterações indevidas.
+
+**O que precisa**:  
+Criar as roles do sistema e associar cada role ao grupo responsável pelo atendimento.
+
+**Critérios de aceite**:
+
+- Role **u_edu_suporte** criada.
+- Role **u_edu_financeiro** criada.
+- Role **u_edu_secretaria** criada.
+- Role **u_edu_gestor** criada.
+- Grupo **Suporte** vinculado à role **u_edu_suporte**.
+- Grupo **Financeira** vinculado à role **u_edu_financeiro**.
+- Grupo **Secretaria** vinculado à role **u_edu_secretaria**.
+- Grupo **Gestores Acadêmicos** vinculado à role **u_edu_gestor**.
+- Grupos **Alunos** e **Professores** permanecem sem roles.
+
+---
+
+## STRY0003 - Criar Tabela Perfil Acadêmico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE  
+**Responsável**:  
+
+**Persona**:  
+Administrador acadêmico que precisa consultar e manter informações acadêmicas dos usuários sem alterar diretamente os dados principais da tabela nativa de usuários. Essa tabela será usada para guardar dados como matrícula, curso, período, campus e status acadêmico. Com isso, as informações acadêmicas ficam organizadas em uma estrutura própria, facilitando consultas, relatórios e futuras regras de negócio.
+
+**O que precisa**:  
+Criar uma tabela customizada para armazenar os dados acadêmicos dos usuários sem alterar a tabela nativa de usuários.
+
+**Critérios de aceite**:
+
+- Tabela **Perfil Acadêmico** criada com nome técnico **u_edu_perfil_academico**.
+- Tabela criada sem estender outra tabela.
+- Campo **Usuário** criado como referência para **User [sys_user]**.
+- Campo **Matrícula** criado.
+- Campo **Curso** criado.
+- Campo **Período** criado.
+- Campo **Campus** criado.
+- Campo **Status** criado.
+
+---
+
+## STRY0004 - Criar Tabelas Core dos Departamentos
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE  
+**Responsável**:  
+
+**Persona**:  
+Equipe de atendimento que precisa registrar solicitações em tabelas separadas de acordo com o departamento responsável. Essa separação permite que Financeiro e Secretaria tenham seus próprios registros, campos, regras e fluxos de atendimento. A criação dessas tabelas facilita o roteamento dos chamados, melhora a organização das demandas e permite evoluir cada área de forma independente.
+
+**O que precisa**:  
+Criar as tabelas próprias do Financeiro e da Secretaria, estendendo a tabela nativa **Task**.
+
+**Critérios de aceite**:
+
+- Tabela **Solicitação Financeira** criada.
+- Nome técnico da tabela definido como **x_edu_financeiro**.
+- Tabela **Solicitação Financeira** estende **Task [task]**.
+- Tabela **Solicitação Secretaria** criada.
+- Nome técnico da tabela definido como **x_edu_secretaria**.
+- Tabela **Solicitação Secretaria** estende **Task [task]**.
+- Suporte técnico permanece usando a tabela nativa **Incident [incident]**.
+
+---
+
+## STRY0005 - Criar Catálogos Departamentais
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL  
+**Responsável**:  
+
+**Persona**:  
+Aluno ou professor que precisa acessar o portal e encontrar os serviços separados por área de atendimento. A criação dos catálogos ajuda o usuário a entender onde deve procurar cada tipo de solicitação, como suporte técnico, financeiro ou secretaria acadêmica. Isso melhora a experiência no portal e reduz a chance de o usuário abrir uma solicitação no local errado.
+
+**O que precisa**:  
+Criar catálogos independentes para organizar os serviços de Suporte, Financeiro e Secretaria.
+
+**Critérios de aceite**:
+
+- Catálogo **Catálogo de Suporte Técnico** criado.
+- Catálogo **Catálogo Financeiro** criado.
+- Catálogo **Catálogo da Secretaria Acadêmica** criado.
+- Cada catálogo fica disponível para receber suas categorias e formulários.
+
+---
+
+## STRY0006 - Criar Categorias dos Catálogos
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL  
+**Responsável**:  
+
+**Persona**:  
+Aluno ou professor que precisa encontrar rapidamente o tipo de serviço desejado dentro do portal. As categorias servem para organizar os itens de catálogo por assunto, deixando a navegação mais simples e intuitiva. Com as categorias corretas, cada formulário fica agrupado no catálogo certo, facilitando o acesso e deixando o portal mais claro para o usuário final.
+
+**O que precisa**:  
+Criar categorias dentro de cada catálogo para organizar os serviços por assunto.
+
+**Critérios de aceite**:
+
+- Categoria **Serviços de TI / AVA** criada no **Catálogo de Suporte Técnico**.
+- Categoria **Boletos e Pagamentos** criada no **Catálogo Financeiro**.
+- Categoria **Documentos e Declarações** criada no **Catálogo da Secretaria Acadêmica**.
+- Todas as categorias ficam vinculadas aos catálogos corretos.
+
+---
+
+## STRY0007 - Criar Record Producer de Suporte Técnico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE  
+**Responsável**:  
+
+**Persona**:  
+Aluno ou professor que precisa registrar problemas técnicos relacionados ao AVA, Moodle ou outros serviços de tecnologia. O Record Producer deve permitir que o usuário envie a solicitação pelo portal de forma simples, sem precisar conhecer a tabela técnica usada pelo ServiceNow. Ao finalizar o formulário, o sistema deve criar automaticamente um incidente para que a equipe de Suporte possa atender a demanda.
+
+**O que precisa**:  
+Criar um Record Producer para abrir incidentes técnicos diretamente pela tabela **Incident**.
+
+**Critérios de aceite**:
+
+- Record Producer **Relatar Problema com AVA/Moodle** criado.
+- Record Producer aponta para **Incident [incident]**.
+- Item vinculado ao **Catálogo de Suporte Técnico**.
+- Item vinculado à categoria **Serviços de TI / AVA**.
+- Ao enviar o formulário, um incidente é criado.
+
+---
+
+## STRY0008 - Criar Record Producer Financeiro
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO  
+**Responsável**:  
+
+**Persona**:  
+Aluno que precisa solicitar atendimento financeiro pelo portal, como segunda via de boleto ou dúvidas relacionadas a pagamentos. O Record Producer deve transformar o preenchimento do formulário em uma solicitação financeira dentro da tabela correta. Isso permite que a equipe Financeira receba a demanda de forma organizada, com o registro já direcionado para o departamento responsável.
+
+**O que precisa**:  
+Criar um Record Producer para gerar solicitações financeiras diretamente na tabela correta.
+
+**Critérios de aceite**:
+
+- Record Producer **Solicitar 2ª Via de Boleto** criado.
+- Record Producer aponta para **Solicitação Financeira [x_edu_financeiro]**.
+- Item vinculado ao **Catálogo Financeiro**.
+- Item vinculado à categoria **Boletos e Pagamentos**.
+- Ao enviar o formulário, uma solicitação financeira é criada.
+
+---
+
+## STRY0009 - Criar Record Producer da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA  
+**Responsável**:  
+
+**Persona**:  
+Aluno que precisa solicitar documentos acadêmicos pelo portal, como comprovante de matrícula ou declarações. O Record Producer deve permitir que essa solicitação seja feita de forma simples e gere automaticamente um registro na tabela da Secretaria. Com isso, a equipe da Secretaria Acadêmica consegue receber, acompanhar e resolver as demandas em uma estrutura própria de atendimento.
+
+**O que precisa**:  
+Criar um Record Producer para gerar solicitações da secretaria diretamente na tabela correta.
+
+**Critérios de aceite**:
+
+- Record Producer **Emitir Comprovante de Matrícula** criado.
+- Record Producer aponta para **Solicitação Secretaria [x_edu_secretaria]**.
+- Item vinculado ao **Catálogo da Secretaria Acadêmica**.
+- Item vinculado à categoria **Documentos e Declarações**.
+- Ao enviar o formulário, uma solicitação da secretaria é criada.
