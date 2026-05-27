@@ -1,0 +1,249 @@
+
+## STRY0023 - Criar Usuários nos Grupos
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0023_USUARIOS_GRUPOS  
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Equipe de desenvolvimento e QA que precisa validar ponta a ponta os fluxos do portal por perfil real de solicitante e atendente.
+
+**O que precisa**:  
+Criar usuários de teste por perfil e vinculá-los aos grupos corretos para apoiar homologação, demonstração e testes de permissão.
+
+**Critérios de aceite**:
+
+- Usuários de teste criados para perfis de Aluno, Professor, Suporte, Financeira, Secretaria e Gestor Acadêmico.
+- Cada usuário está vinculado ao grupo correspondente, sem permissões administrativas indevidas.
+- Por agora três usuários em cada grupo.
+
+---
+
+## STRY0024 - Atualizar Reference de Curso e Campus nos Record Producers
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0024_REFERENCIAS_CURSO_CAMPUS  
+**Parent**: EDTECH_01_CORE
+
+**Persona:**  
+Administrador do sistema que precisa padronizar os dados acadêmicos dos formulários, evitando curso e campus em **texto livre** e melhorando qualidade de relatório, filtro e roteamento.
+
+**O que precisa:**  
+Atualizar **as variáveis dos Variable Sets** que carregam Curso e Campus para tipo **Reference** (apontando para tabelas curso e campus), e validar os Record Producers que usam esses sets.
+
+**Record Producers impactados:**
+
+- Relatar Problema com AVA/Moodle (Suporte)
+- Solicitar 2ª Via de Boleto (Financeiro)
+- Enviar Comprovante de Pagamento (Financeiro)
+- Contestar Multa por Atraso de Boleto (Financeiro)
+- Emitir Comprovante de Matrícula (Secretaria)
+- Solicitar Declaração Acadêmica (Secretaria)
+- Solicitar Histórico Escolar (Secretaria)
+- Solicitar Diploma (Secretaria)
+
+**Critérios de aceite:**
+
+- Variáveis de **Curso** e **Campus** dos Record Producers core usam referência (não texto livre).
+- Mapeamento para os registros criados permanece funcional após a mudança.
+
+---
+
+## STRY0025 - Preencher Automaticamente Dados do Aluno com Catalog Client Script e Script Include nos Variable Sets Comuns
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0025_AUTOPREENCHIMENTO  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno que precisa solicitar documentos acadêmicos sem redigitar informações que o sistema já conhece.
+
+**O que precisa**:  
+Implementar preenchimento automático, com base no usuário logado e no perfil acadêmico, para as variáveis reutilizadas nos Record Producers do portal, usando Catalog Client Script no formulário e Script Include para consulta dos dados no servidor.
+
+**Variáveis**:
+
+- Solicitante
+- RA
+- Curso
+- Período
+- E-mail de contato
+- Telefone
+
+**Onde aplicar**:
+
+- Dados do Solicitante
+- Dados Acadêmicos do Solicitante
+- Contato e Retorno
+
+**O que fazer no ServiceNow (nomeando os artefatos)**:
+
+- Criar Script Include que consulta sys_user e u_edu_perfil_academico e retorna JSON.
+- Criar 3 Catalog Client Scripts do tipo onLoad, associados aos respectivos Variable Sets, por exemplo:
+    1. Auto Preenchimento Dados do Solicitante
+    2. Auto Preenchimento Dados Acadêmicos
+    3. Auto Preenchimento Contato e Retorno
+- Cada Catalog Client Script chama o Script Include via GlideAjax e preenche somente as **variáveis do seu bloco**.
+
+**Critérios de aceite**:
+
+- Usuário logado tem seus dados preenchidos automaticamente ao abrir o formulário.
+- Solicitante é carregado com o usuário autenticado.
+- RA, Curso e Período são carregados a partir do perfil acadêmico.
+- E-mail de contato e Telefone são preenchidos automaticamente quando disponíveis.
+
+---
+
+## STRY0026 - Restringir Acesso aos Record Producers por User Criteria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0026_USER_CRITERIA  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno ou professor que acessa o Portal/Employee Center e deve visualizar apenas os serviços disponíveis para seu perfil.
+
+**O que precisa**:  
+Criar e aplicar User Criteria para controlar quais grupos conseguem visualizar cada Record Producer no portal, separando serviços de aluno, professor e suporte.
+
+**Record Producers impactados**:
+
+- Emitir Comprovante de Matrícula: disponível para Alunos
+- Solicitar Declaração Acadêmica: disponível para Alunos
+- Solicitar Histórico Escolar: disponível para Alunos
+- Solicitar Diploma: disponível para Alunos
+- Solicitar 2ª Via de Boleto: disponível para Alunos
+- Enviar Comprovante de Pagamento: disponível para Alunos
+- Contestar Multa por Atraso de Boleto: disponível para Alunos
+- Relatar Problema com AVA/Moodle: disponível para Alunos e Professores
+
+**O que fazer no ServiceNow**:
+
+- Criar User Criteria chamado UC - EDTECH - Alunos.
+- Criar User Criteria chamado UC - EDTECH - Alunos e Professores.
+- Aplicar Alunos nos RPs de Secretaria e Financeiro.
+- Aplicar Alunos e Professores no RP de Suporte Técnico.
+
+**Critérios de aceite**:
+
+- Aluno visualiza os RPs de Secretaria, Financeiro e Suporte.
+- Professor visualiza apenas o RP de Suporte, se esse for o escopo aprovado.
+- Usuários fora dos critérios não visualizam os serviços no portal.
+- Nenhum RP interno ou de teste fica visível indevidamente.
+- A regra funciona no Portal/Employee Center.
+
+---
+
+## STRY0027 - Definir Read Only, Hidden e Mandatory no RP Emitir Comprovante de Matrícula
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0027_UI_POLICY  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:  
+Aluno que precisa solicitar comprovante de matrícula em um formulário simples, com dados acadêmicos preenchidos automaticamente e protegidos contra alteração indevida.
+
+**O que precisa**:  
+Criar Catalog UI Policy para controlar quais campos ficam visíveis, obrigatórios, ocultos ou somente leitura no Record Producer Emitir Comprovante de Matrícula.
+
+**Record Producer impactado**:
+
+- Emitir Comprovante de Matrícula
+
+**Campos somente leitura**:
+
+- Solicitante
+- RA/Matrícula
+- Curso
+- Tipo de documento
+- E-mail de contato, se vier do e-mail institucional
+
+**Campos visíveis e editáveis**:
+
+- Forma de entrega
+- Observações
+- Assunto curto
+- Descrição detalhada
+
+**O que fazer no ServiceNow**:
+
+- Criar Catalog UI Policy chamada UP - RP Comprovante - Proteger Dados do Aluno.
+- Definir Read only = true para Solicitante, RA/Matrícula, Curso, Tipo de documento e E-mail de contato.
+- Definir Mandatory = true para Forma de entrega e Assunto curto, se o time quiser garantir contexto mínimo.
+- Validar se Descrição detalhada e Observações não estão duplicando função; se estiverem, deixar apenas um deles como principal.
+- Garantir que a UI Policy rode depois do autopreenchimento da STRY0025.
+
+**Critérios de aceite**:
+
+- Campos acadêmicos preenchidos automaticamente não podem ser alterados pelo aluno.
+- O formulário exibe apenas informações úteis para o pedido de comprovante.
+- Tipo de documento fica fixo como Comprovante de matrícula.
+- O aluno consegue submeter a solicitação sem preencher dados que o sistema já conhece.
+- O comportamento funciona no Portal/Employee Center.
+
+---
+
+## STRY0028 - Vincular Catálogos Acadêmicos ao Portal do Aluno
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0028_VINCULAR_CATALOGOS_PORTAL  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno que acessa o portal e precisa encontrar os catálogos acadêmicos de Suporte, Financeiro e Secretaria.
+
+**O que precisa**:  
+Vincular os catálogos customizados do projeto ao Service Portal/Employee Center para que fiquem visíveis fora da navegação administrativa.
+
+**Catálogos impactados**:
+
+- Catálogo da Secretaria Acadêmica
+- Catálogo Financeiro
+- Catálogo de Suporte Técnico
+
+**Categorias impactadas**:
+
+- Documentos e Declarações
+- Boletos e Pagamentos
+- Serviços de TI / AVA
+
+**O que fazer no ServiceNow**:
+
+- Abrir o portal utilizado pelo aluno em Service Portal > Portals.
+- Na related list Catalogs, adicionar os três catálogos acadêmicos.
+- Validar se os catálogos, categorias e RPs estão ativos.
+- Validar se os Record Producers estão vinculados às categorias corretas.
+- Testar pelo portal com usuário aluno.
+
+**Critérios de aceite**:
+
+- Aluno visualiza os catálogos acadêmicos no portal.
+- Categoria Documentos e Declarações aparece no catálogo da Secretaria.
+- RPs da Secretaria aparecem dentro da categoria correta.
+- O mesmo vale para Financeiro e Suporte.
+- Busca do portal encontra os RPs acadêmicos.
+
+---
+
+## STRY0029 - Incluir Meta Tags nos Record Producers Core
+
+**Prioridade**: Baixa  
+**Update Set**: EDTECH_05_PORTAL_STRY0029_META_TAGS_RECORD_PRODUCERS  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno/professor que busca serviços no portal por termos comuns e precisa encontrar o formulário correto sem conhecer nome técnico.
+
+**O que precisa**:  
+Preencher e padronizar o campo **Meta** nos Record Producers core publicados no portal, com termos de negócio e sinônimos.
+
+**Record Producers que devem receber Meta**:
+
+1. Relatar Problema com AVA/Moodle
+2. Solicitar 2ª Via de Boleto
+3. Enviar Comprovante de Pagamento
+4. Contestar Multa por Atraso de Boleto
+5. Emitir Comprovante de Matrícula
+6. Solicitar Declaração Acadêmica
+7. Solicitar Histórico Escolar
+8. Solicitar Diploma

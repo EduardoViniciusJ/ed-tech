@@ -1,0 +1,47 @@
+## STRY0021 - Criar Record Producers Financeiros Core
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0019_RP_FINANCEIRO_CORE  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Persona**:  
+Aluno que precisa resolver problemas financeiros recorrentes pelo portal, evitando atraso por e-mail, perda de prazo, multa indevida ou falta de retorno do setor financeiro.
+
+**O que precisa**:  
+
+**Critérios de aceite**:
+
+- Record Producer **Solicitar 2ª Via de Boleto** revisado para usar o Variable Set Financeiro.
+- Record Producer **Enviar Comprovante de Pagamento** criado.
+- Record Producer **Contestar Multa por Atraso de Boleto** criado.
+- Todos os itens apontam para Solicitação Financeira [x_edu_financeiro].
+- Todos os itens ficam no **Catálogo Financeiro**.
+- Todos os itens ficam na categoria **Boletos e Pagamentos**.
+- Todos os itens usam linguagem clara e não técnica.
+- Ao enviar, uma solicitação financeira é criada e enviada ao grupo **Financeira**.
+
+---
+
+## STRY0022 - Criar Record Producers Da Secretaria Core
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0020_RP_SECRETARIA_CORE  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:  
+Aluno que precisa solicitar documentos acadêmicos pelo portal, sem comparecer presencialmente à secretaria e sem depender de prazos informais.
+
+**O que precisa**:  
+Complementar os serviços da Secretaria Acadêmica, mantendo o Record Producer de comprovante de matrícula e criando os serviços acadêmicos mais comuns para documentos e solicitações administrativas.
+
+**Critérios de aceite**:
+
+- Record Producer **Emitir Comprovante de Matrícula** revisado para usar o Variable Set da Secretaria.
+- Record Producer **Solicitar Declaração Acadêmica** criado.
+- Record Producer **Solicitar Histórico Escolar** criado.
+- Record Producer **Solicitar Diploma** criado.
+- Todos os itens apontam para Solicitação Secretaria [x_edu_secretaria].
+- Todos os itens ficam no **Catálogo da Secretaria Acadêmica**.
+- Todos os itens ficam na categoria **Documentos e Declarações**.
+- Ao enviar, uma solicitação da Secretaria é criada e enviada ao grupo **Secretaria**.
+- A linguagem do formulário evita termos técnicos e explica claramente o serviço ao aluno.

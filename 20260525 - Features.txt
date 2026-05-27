@@ -1,0 +1,484 @@
+## STRY0030 - Definir UI Policies nos Record Producers Financeiros
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0030_UI_POLICY_RPS_FINANCEIROS  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Persona**:  
+Aluno que precisa abrir solicitações financeiras pelo portal preenchendo apenas os dados necessários.
+
+**O que precisa**:  
+Criar **Catalog UI Policies** para controlar campos visíveis, obrigatórios e somente leitura nos Record Producers financeiros.
+
+**Record Producers impactados**:
+
+- Solicitar 2ª Via de Boleto
+- Enviar Comprovante de Pagamento
+- Contestar Multa por Atraso de Boleto
+
+**Campos somente leitura**:
+
+- Solicitante
+- RA/Matrícula
+- Curso
+- Campus
+- E-mail de contato
+- Telefone, se vier do cadastro
+
+**Regras por formulário**:
+
+**Solicitar 2ª Via de Boleto**
+
+- Mostrar: Mês/competência, data de vencimento, número do boleto, observações, assunto curto e descrição detalhada.
+- Obrigatório: Mês/competência, data de vencimento e assunto curto.
+- Ocultar: Comprovante de pagamento e campos de contestação de multa.
+
+**Enviar Comprovante de Pagamento**
+
+- Mostrar: Mês/competência, valor aproximado, número do boleto, comprovante, observações, assunto curto e descrição detalhada.
+- Obrigatório: Mês/competência, comprovante de pagamento e assunto curto.
+- Ocultar: Campos de contestação de multa.
+
+**Contestar Multa por Atraso de Boleto**
+
+- Mostrar: Mês/competência, data de vencimento, valor aproximado, número do boleto, justificativa/descrição, anexo/evidência, assunto curto e descrição detalhada.
+- Obrigatório: Mês/competência, data de vencimento, valor aproximado, justificativa/descrição e assunto curto.
+
+**O que fazer no ServiceNow**:
+
+- Criar uma **Catalog UI Policy** para cada RP financeiro.
+- Nomes sugeridos:
+    - UP - RP Financeiro - 2 Via de Boleto
+    - UP - RP Financeiro - Enviar Comprovante
+    - UP - RP Financeiro - Contestar Multa
+- Configurar Visible, Mandatory e Read only nas UI Policy Actions.
+- Testar os três formulários no Portal/Employee Center com usuário aluno.
+
+**Critérios de aceite**:
+
+- Cada RP mostra apenas os campos necessários para seu tipo de solicitação.
+- Dados do aluno ficam somente leitura quando vierem do cadastro.
+- Comprovante é obrigatório no RP de envio de pagamento.
+- Contestação de multa exige dados suficientes para análise.
+- Nenhum campo local duplica campo já existente em Variable Set.
+
+---
+
+## STRY0031 - Ajustar Campos RA e Período no Perfil Acadêmico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0031_AJUSTES_RA_PERIODO_PERFIL  
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Administrador acadêmico que precisa manter o cadastro do aluno padronizado para uso nos formulários e processos internos.
+
+**O que precisa**:  
+Ajustar campos da tabela u_edu_perfil_academico, padronizando a identificação do aluno como RA e classificando o período/tipo de formação como lista controlada.
+
+**Onde aplicar**:
+
+- Tabela u_edu_perfil_academico
+
+**Alterações necessárias**:
+
+- Alterar a label do campo Matrícula para RA.
+- Alterar o campo Período para Choice.
+- Criar opções no campo Período:
+    - Tecnólogo
+    - Licenciatura
+    - Bacharelado
+
+**O que fazer no ServiceNow**:
+
+- Abrir System Definition > Tables.
+- Acessar a tabela u_edu_perfil_academico.
+- Localizar o campo atual de Matrícula.
+- Alterar apenas a label para RA, mantendo o nome técnico atual se já estiver em uso.
+- Localizar o campo Período.
+- Alterar/validar o tipo como Choice.
+- Adicionar as opções Tecnólogo, Licenciatura e Bacharelado.
+- Salvar e testar criando/editando um perfil acadêmico de aluno.
+
+**Critérios de aceite**:
+
+- O campo Matrícula aparece como RA.
+- O nome técnico do campo não foi alterado indevidamente.
+- O campo Período permite selecionar Tecnólogo, Licenciatura ou Bacharelado.
+- A tabela u_edu_perfil_academico continua salvando os dados normalmente.
+
+---
+
+## STRY0032 - Atualizar Variável Período nos Variable Sets Acadêmicos
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0032_AJUSTAR_VARIAVEL_PERIODO  
+**Parent**: EDTECH_05_PORTAL
+
+**Precisa da STRY0031 para o campo Período já estar padronizado como Choice no Perfil Acadêmico.**
+
+**Persona**:  
+Aluno que acessa o portal e deve visualizar seus dados acadêmicos preenchidos de forma padronizada.
+
+**O que precisa**:  
+Atualizar a variável periodo usada nos Record Producers para seguir as mesmas opções da tabela u_edu_perfil_academico.
+
+**Onde aplicar**:
+
+- Variable Set Dados Acadêmicos do Solicitante
+- Record Producers que usam esse Variable Set
+
+**Alterações necessárias**:
+
+- Alterar/validar a variável periodo como Select Box.
+- Adicionar opções:
+    - Tecnólogo
+    - Licenciatura
+    - Bacharelado
+- Manter o campo preenchido automaticamente pelo Catalog Client Script.
+- Deixar o campo Read only quando vier do perfil do aluno.
+
+**Critérios de aceite**:
+
+- A variável periodo aparece como lista controlada no portal.
+- As opções são as mesmas da tabela u_edu_perfil_academico.
+- O autopreenchimento continua funcionando.
+- O aluno não consegue alterar o período quando ele vem do cadastro acadêmico.
+
+
+---
+## STRY0033 - Adicionar Dados Acadêmicos ao RP Emitir Comprovante de Matrícula
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0033_VS_DADOS_ACADEMICOS_COMPROVANTE  
+**Parent**: EDTECH_04_SECRETARIA
+
+**O que precisa**:  
+Adicionar o Variable Set Dados Acadêmicos do Solicitante ao Record Producer Emitir Comprovante de Matrícula.
+
+**Por quê**:  
+O comprovante de matrícula precisa exibir dados acadêmicos do aluno, como RA, Curso, Campus e Período, preenchidos automaticamente e usados pela Secretaria.
+
+**O que fazer no ServiceNow**:
+
+- Abrir o RP Emitir Comprovante de Matrícula.
+- Adicionar o Variable Set Dados Acadêmicos do Solicitante.
+- Garantir que ele apareça no portal.
+- Validar se os campos são preenchidos automaticamente pela STRY0025.
+- Deixar os campos acadêmicos somente leitura via UI Policy, quando aplicável.
+
+---
+## STRY0034 - Atualizar Tabela da Secretaria com Campos da Solicitação Acadêmica
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0034_CAMPOS_SOLICITACAO_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**O que precisa**:  
+Criar/validar campos na tabela Solicitação Secretaria [u_edu_secretaria] para que a equipe da Secretaria visualize no registro os principais dados enviados pelo aluno, e padronizar a variável finalidade_documento nos Record Producers da Secretaria.
+
+**Campos a criar/validar**:
+
+- u_solicitante -> Reference para sys_user
+- u_ra -> String
+- u_curso -> Reference para tabela de Curso
+- u_campus -> Reference para tabela de Campus
+- u_periodo -> Choice
+- u_tipo_documento -> Choice
+- u_forma_entrega -> Choice
+- u_finalidade_documento -> Choice
+- u_observacoes_adicionais -> Multi Line Text
+- u_email_contato -> Email/String
+- u_telefone -> Phone/String
+
+**Choices do campo u_finalidade_documento e da variável finalidade_documento**:
+
+- Comprovação acadêmica geral
+- Estágio
+- Emprego / Processo seletivo
+- Bolsa / Financiamento
+- Transferência
+- Órgão público
+- Consulado / Visto
+- Outro
+
+**Campos nativos reaproveitados**
+
+- short_description -> Assunto curto
+- description -> Descrição detalhada
+- state -> Estado da solicitação
+- assignment_group -> Grupo responsável
+- priority -> Prioridade
+
+**O que fazer no ServiceNow**:
+
+- Abrir a tabela u_edu_secretaria.
+- Criar os campos acima se ainda não existirem.
+- Configurar u_finalidade_documento como Choice.
+- Adicionar as opções listadas em Choices do campo u_finalidade_documento e da variável finalidade_documento.
+- Abrir a variável finalidade_documento usada nos RPs da Secretaria.
+- Alterar a variável finalidade_documento de texto para Select Box.
+- Adicionar na variável as mesmas opções usadas em u_finalidade_documento.
+- Garantir que Curso e Campus sejam referências para as tabelas mestres corretas.
+- Ajustar o form da Secretaria com seções:
+    - Dados do aluno
+    - Dados acadêmicos
+    - Detalhes da solicitação
+    - Atendimento interno
+
+**Critérios de aceite**:
+
+- A Secretaria visualiza os dados principais direto no registro.
+- u_finalidade_documento é Choice e possui todas as opções definidas.
+- A variável finalidade_documento nos RPs da Secretaria é Select Box.
+- A variável finalidade_documento possui as mesmas opções do campo da tabela.
+- Campos nativos continuam sendo usados para assunto, descrição, estado e grupo.
+
+---
+
+##  STRY0036 - Mapear Variáveis da Secretaria para Campos da Tabela por Record Producer
+
+**Precisa da STRY0034 para os campos da tabela u_edu_secretaria existirem.**
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0035_MAPEAMENTO_VARIAVEIS_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**O que precisa**:  
+Atualizar o campo Script dos Record Producers da Secretaria para copiar as variáveis dos Variable Sets para os campos reais da tabela u_edu_secretaria.
+
+**Record Producers impactados**:
+
+- Emitir Comprovante de Matrícula
+- Solicitar Declaração Acadêmica
+- Solicitar Histórico Escolar
+- Solicitar Diploma
+
+**Variable Sets que devem estar nos 4 Record Producers**:
+
+- Dados do Solicitante
+- Dados Acadêmicos do Solicitante
+- Contato e Retorno
+- Descrição da Solicitação
+- Detalhes da Solicitação Acadêmica
+
+**Mapeamento por Variable Set**
+
+Dados do Solicitante
+
+`current.u_solicitante = producer.solicitante;`
+
+Dados Acadêmicos do Solicitante
+
+`current.u_ra = producer.ra; current.u_curso = producer.curso; current.u_campus = producer.campus; current.u_periodo = producer.periodo;`
+
+Contato e Retorno
+
+`current.u_email_contato = producer.email_contato; current.u_telefone = producer.telefone;`
+
+Descrição da Solicitação
+
+`current.short_description = producer.assunto_curto; current.description = producer.descricao_detalhada;`
+
+Detalhes da Solicitação Acadêmica
+
+`current.u_tipo_documento = producer.tipo_documento; current.u_forma_entrega = producer.forma_entrega; current.u_finalidade_documento = producer.finalidade_documento; current.u_observacoes_adicionais = producer.observacoes_adicionais;`
+
+**O que fazer no ServiceNow**:
+
+- Abrir cada Record Producer da Secretaria.
+- Garantir que os 5 Variable Sets listados estejam vinculados aos 4 RPs.
+- Atualizar o campo Script de cada RP com o script base. **Verificar seu os names batem tanto do as variables e dos campos das tabelas** 
+- Testar submit pelo portal com usuário aluno.
+
+---
+
+## STRY0037 - Criar Assignment Rule para Solicitações da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0037_ASSIGNMENT_RULE_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**O que precisa**:  
+Criar uma **Assignment Rule** para atribuir automaticamente as solicitações da tabela u_edu_secretaria ao grupo Secretaria.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Grupo Secretaria
+
+**O que fazer no ServiceNow**:
+
+- Abrir System Policy > Rules > Assignment.
+- Criar Assignment Rule AR - Secretaria - Atribuir Solicitações ao Grupo Secretaria.
+- Table: Solicitação Secretaria [u_edu_secretaria].
+- Active: true.
+- Condições:
+    - Assignment group is empty
+    - Active is true
+- Aba Assign To:
+    - Grupo: Secretaria
+- Não definir assignment_group no script dos Record Producers.
+
+**Critérios de aceite**:
+
+- Toda solicitação criada em u_edu_secretaria cai no grupo Secretaria.
+- A regra não altera registros que já tenham assignment_group preenchido.
+- A Secretaria visualiza as solicitações na fila do grupo.
+- O script dos RPs não possui grupo hardcoded.
+
+---
+
+## STRY0038 - Criar Assignment Rule para Solicitações Financeiras
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0038_ASSIGNMENT_RULE_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**O que precisa**:  
+Criar uma **Assignment Rule** para atribuir automaticamente as solicitações da tabela u_edu_financeiro ao grupo Financeira.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Grupo Financeira
+
+**O que fazer no ServiceNow**:
+
+- Abrir System Policy > Rules > Assignment.
+- Criar Assignment Rule AR - Financeiro - Atribuir Solicitações ao Grupo Financeira.
+- Table: Solicitação Financeira [u_edu_financeiro].
+- Active: true.
+- Condições:
+    - Assignment group is empty
+    - Active is true
+- Aba Assign To:
+    - Grupo: Financeira
+- Não definir assignment_group no script dos Record Producers financeiros.
+
+**Critérios de aceite**:
+
+- Toda solicitação criada em u_edu_financeiro cai no grupo Financeira.
+- A regra não altera registros que já tenham assignment_group preenchido.
+- A equipe Financeira visualiza as solicitações na fila do grupo.
+- O script dos RPs financeiros não possui grupo hardcoded.
+
+**Sobre Suporte**  
+Você está certo em desconfiar: Suporte usa Incident [incident], então não precisa seguir exatamente a mesma lógica das tabelas custom u_edu_secretaria e u_edu_financeiro.
+
+Mas isso não significa que não precisa de roteamento. O Incident também precisa cair no grupo Suporte.
+
+Para Suporte, eu faria assim:
+
+- Se o RP Relatar Problema com AVA/Moodle já define Assignment group = Suporte e funciona, pode deixar por enquanto.
+- Melhor prática depois: criar Assignment Rule específica para Incident, com condição clara para incidentes vindos do RP de AVA/Moodle.
+- Não criar uma regra genérica em Incident sem condição, porque pode afetar incidentes nativos/outros testes.
+
+---
+
+## STRY0039 - Criar Notificações da Secretaria Acadêmica
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0039_NOTIFICACOES_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Precisa da STRY0037 para as solicitações da Secretaria caírem corretamente no grupo Secretaria.**
+
+**O que precisa**:  
+Criar notificações automáticas para manter o aluno informado sobre abertura, andamento, pendência e conclusão das solicitações da Secretaria.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Record Producers:
+    - Emitir Comprovante de Matrícula
+    - Solicitar Declaração Acadêmica
+    - Solicitar Histórico Escolar
+    - Solicitar Diploma
+
+**Notificações necessárias**:
+
+- Solicitação aberta
+- Solicitação em atendimento
+- Solicitação aguardando informação do aluno
+- Solicitação concluída
+- Solicitação cancelada ou não concluída
+
+**O que fazer no ServiceNow**:
+
+- Criar notificações para a tabela u_edu_secretaria.
+- Disparar notificação na criação do registro.
+- Disparar notificação quando state mudar para Work in Progress.
+- Disparar notificação quando state mudar para Pending.
+- Disparar notificação quando state mudar para Closed Complete.
+- Disparar notificação quando state mudar para Closed Incomplete ou Closed Skipped.
+- Enviar para o solicitante (u_solicitante) ou usuário que abriu a solicitação.
+- Incluir número da solicitação, tipo de documento e link para acompanhamento no portal.
+- Usar linguagem simples, sem termos técnicos.
+
+**Critérios de aceite**:
+
+- Aluno recebe notificação ao abrir solicitação da Secretaria.
+- Aluno recebe notificação quando a solicitação entra em atendimento.
+- Aluno recebe notificação quando fica aguardando informação.
+- Aluno recebe notificação quando é concluída.
+- Aluno recebe notificação quando é cancelada/não concluída.
+- Notificações usam dados da própria solicitação.
+
+---
+
+## STRY0040 - Criar SLA de 3 Dias Úteis para Solicitações da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0040_SLA_SECRETARIA_3_DIAS  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Precisa da STRY0037 para as solicitações da Secretaria caírem no grupo Secretaria e da STRY0039 para o aluno ser notificado sobre o andamento.**
+
+**O que precisa**:  
+Criar controle de prazo/SLA para garantir que solicitações da Secretaria sejam atendidas em até **3 dias úteis**, conforme o problema apresentado no TCC.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Grupo Secretaria
+- Record Producers:
+    - Emitir Comprovante de Matrícula
+    - Solicitar Declaração Acadêmica
+    - Solicitar Histórico Escolar
+    - Solicitar Diploma
+
+**Regra do SLA**:
+
+- Iniciar quando a solicitação for criada em u_edu_secretaria.
+- Prazo alvo: 3 dias úteis.
+- Pausar quando state = Pending, pois depende de resposta do aluno.
+- Retomar quando sair de Pending.
+- Encerrar quando state = Closed Complete, Closed Incomplete ou Closed Skipped.
+
+**O que fazer no ServiceNow**:
+
+- Abrir Service Level Management > SLA Definitions.
+- Criar SLA SLA - Secretaria - Documentos Acadêmicos - 3 Dias Úteis.
+- Table: u_edu_secretaria.
+- Duration: 3 business days.
+- Start condition:
+    - Active is true
+    - Assignment group is Secretaria ou tabela u_edu_secretaria, conforme configuração disponível.
+- Pause condition:
+    - State is Pending
+- Stop condition:
+    - State is Closed Complete
+    - State is Closed Incomplete
+    - State is Closed Skipped
+- Validar calendário/horário comercial usado pelo SLA.
+- Testar com solicitação criada pelo portal.
+
+**Critérios de aceite**:
+
+- Solicitações da Secretaria possuem SLA de 3 dias úteis.
+- SLA inicia automaticamente após criação/atribuição da solicitação.
+- SLA pausa quando a solicitação fica aguardando aluno.
+- SLA encerra quando a solicitação é fechada.
+- Solicitações próximas do vencimento ou vencidas ficam identificáveis para a equipe/gestor.
+- O comportamento funciona para os 4 Record Producers da Secretaria.

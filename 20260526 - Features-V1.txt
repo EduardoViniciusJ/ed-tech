@@ -1,0 +1,244 @@
+## REFACTOR002 - Padronizar Formulários Internos de Financeiro e Secretaria
+
+**Prioridade**: Média  
+**Update Set**: EDTECH_01_CORE_REFACTOR002_PADRONIZAR_TABELAS
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Equipe interna de Financeiro e Secretaria que precisa atender solicitações em telas padronizadas, com os mesmos blocos de informação, mesma ordem visual e reaproveitamento dos campos nativos de Task.
+
+**O que precisa**:  
+Padronizar o formulário interno das tabelas u_edu_financeiro e u_edu_secretaria, usando o formulário do Financeiro como referência visual e funcional. O foco principal é ajustar a u_edu_secretaria para seguir o mesmo padrão já aplicado na u_edu_financeiro.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Form Layout / Form Design
+- Form Sections
+- Campos herdados de Task
+
+**Escopo desta task**:
+
+- Validar o padrão atual da u_edu_financeiro.
+- Atualizar o form da u_edu_secretaria para seguir o mesmo modelo.
+- Padronizar seções/abas:
+    - Dados do Aluno
+    - Dados Acadêmicos
+    - Detalhes da Solicitação
+    - Atendimento interno
+- Manter campos nativos para atendimento:
+    - number
+    - assignment_group
+    - work_notes
+    - state
+    - priority
+    - short_description
+    - description
+    - comments
+    - close_notes
+    - active
+
+**Padrão esperado para u_edu_secretaria**:
+
+**Dados do Aluno**:
+
+- Solicitante
+- E-mail de Contato
+- Telefone
+
+**Dados Acadêmicos**:
+
+- RA
+- Curso
+- Período
+- Campus
+
+**Detalhes da Solicitação**:
+
+- Tipo de Documento
+- Finalidade do Documento
+- Forma de Entrega
+- Observações Adicionais
+
+**Atendimento interno**:
+
+- Number
+- Assignment group
+- Work notes
+- State
+- Priority
+- Short description
+- Description
+- Additional comments
+- Close notes
+- Active
+
+
+**Critérios de aceite**:
+
+- O formulário da u_edu_secretaria fica visualmente padronizado com o da u_edu_financeiro.
+- A equipe da Secretaria consegue visualizar dados do aluno, dados acadêmicos, detalhes da solicitação e atendimento interno em abas/seções claras.
+- Os campos nativos de atendimento aparecem na aba Atendimento interno.
+- Não há campos duplicados no formulário.
+- Nenhum nome técnico usado em scripts foi alterado.
+- Um registro criado via Record Producer da Secretaria continua salvando corretamente.
+- O update set captura apenas ajustes de layout/form/dicionário necessários para a padronização.
+
+---
+
+## REFACTOR003 - Padronizar Mapeamento de Solicitante e Telefone nos Record Producers
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_REFACTOR003_MAPEAMENTO_SOLICITANTE_TELEFONE  
+**Parent**: EDTECH_05_PORTAL
+
+**OBS: Use como referencia o record producer Solicitar 2ª Via de Boleto que tem o script pronto. ** 
+
+**O que precisa**:  
+Adicionar o mapeamento padrão de **solicitante** e **telefone** em todos os Record Producers que usam os Variable Sets Dados do Solicitante e Contato e Retorno.
+
+**Record Producers impactados**:
+
+- RPs Financeiros
+- RPs da Secretaria
+- **Qualquer outro RP que use solicitante e telefone_contato, sem ser o Solicitar 2 Via de Boleto que ja esta pronto**
+-
+
+**Adicionar no script dos Record Producers**:
+
+`var solicitante = producer.solicitante ? producer.solicitante.toString() : gs.getUserID(); current.u_solicitante = solicitante; current.opened_by = solicitante;`
+
+E também:
+
+current.u_telefone = producer.telefone_contato;
+
+**Critérios de aceite**:
+
+- Campo u_solicitante é preenchido na task criada.
+- Campo opened_by é preenchido para funcionar no My Requests.
+- Campo u_telefone recebe o valor da variável telefone_contato.
+- Todos os RPs que usam esses Variable Sets seguem o mesmo padrão.
+
+---
+
+## REFACTOR004 - Padronizar Localização dos Campos nos Record Producers
+
+**Prioridade**: Média  
+**Update Set**: EDTECH_05_PORTAL_REFACTOR004_PADRONIZAR_LAYOUT_RP  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**:  
+Padronizar a posição dos campos nos formulários dos **Record Producers**, garantindo que os formulários financeiros e da Secretaria sigam a mesma organização visual no portal.
+
+**Onde aplicar**:
+
+- Record Producers Financeiros
+- Record Producers da Secretaria
+
+**Padrão das seções/abas**:
+
+1. Dados do Aluno
+    - Solicitante
+    - E-mail de Contato
+    - Telefone
+2. Dados Acadêmicos
+    - RA
+    - Curso
+    - Campus
+    - Período
+3. Detalhes da Solicitação
+    - Tipo da solicitação/documento
+    - Descrição/observações
+    - Campos específicos do Financeiro ou Secretaria
+
+**O que fazer no ServiceNow**:
+
+- Ajustar apenas a posição dos campos nos Record Producers.
+- Manter os nomes técnicos atuais das variáveis.
+
+**Critérios de aceite**:
+
+- Todos os Record Producers impactados seguem a mesma ordem de campos.
+- Campos do aluno ficam sempre no topo.
+- Campos acadêmicos ficam agrupados.
+
+---
+
+## STRY0056 - Criar My Request Filters para Solicitações Financeiras e Secretaria
+
+obs: Precisa do **REFACTOR002 - Padronizar Formulários Internos de Financeiro e Secretaria**
+
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0056_MY_REQUEST_FILTERS  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno que abriu solicitações pelo portal e precisa acompanhar seus pedidos financeiros e acadêmicos em **My Requests**, sem depender de e-mail ou contato manual com a equipe interna.
+
+**O que precisa**:  
+Criar filtros de **My Request Filter** para que registros das tabelas customizadas u_edu_financeiro e u_edu_secretaria apareçam corretamente na área de solicitações do aluno no Service Portal.
+
+**Escopo desta story**:
+
+- Criar filtro para Solicitação Financeira [u_edu_financeiro].
+- Criar filtro para Solicitação Secretaria [u_edu_secretaria].
+- Aplicar os filtros ao Service Portal.
+- Usar a página standard_ticket para abertura do detalhe.
+- Exibir Short description como campo principal.
+- Exibir Number como campo secundário.
+- Filtrar apenas registros abertos pelo usuário logado.
+
+**Onde aplicar**:
+
+- Service Portal > My Request Filters
+- Tabela u_edu_financeiro
+- Tabela u_edu_secretaria
+- Portal page standard_ticket
+
+**Configuração do filtro Financeiro**:
+
+- **Title**: Solicitação Financeira
+- **Table**: Solicitação Financeira [u_edu_financeiro]
+- **Active**: true
+- **Applies to**: Service Portal
+- **Filter**: Opened by is (dynamic) Me
+- **Portal page**: standard_ticket
+- **Primary field to display**: Short description
+- **Secondary fields to display**: Number
+
+**Configuração do filtro Secretaria**:
+
+- **Title**: Solicitação Secretaria
+- **Table**: Solicitação Secretaria [u_edu_secretaria]
+- **Active**: true
+- **Applies to**: Service Portal
+- **Filter**: Opened by is (dynamic) Me
+- **Portal page**: standard_ticket
+- **Primary field to display**: Short description
+- **Secondary fields to display**: Number
+
+**O que fazer no ServiceNow**:
+
+- Acessar **Service Portal > My Request Filters**.
+- Criar o filtro da tabela u_edu_financeiro conforme o padrão da imagem.
+- Criar o filtro da tabela u_edu_secretaria com a mesma estrutura.
+- Validar se os Record Producers estão preenchendo corretamente o campo Opened by.
+- Caso algum registro não apareça em **My Requests**, validar se o campo opened_by está vazio e corrigir o mapeamento no Record Producer ou Flow responsável.
+- Testar com impersonation de usuário aluno.
+
+**Critérios de aceite**:
+
+- Solicitações financeiras abertas pelo aluno aparecem em **My Requests**.
+- Solicitações da Secretaria abertas pelo aluno aparecem em **My Requests**.
+- O aluno visualiza apenas registros dele.
+- Ao clicar na solicitação, o portal abre a página standard_ticket.
+- O card/listagem mostra Short description e Number.
+- Registros de outros alunos não aparecem.
+- Os filtros ficam ativos e aplicados ao Service Portal.
+
+**Observação de modelagem**:  
+O filtro principal deve seguir o padrão da imagem: Opened by is (dynamic) Me. Se durante o teste algum registro criado por Record Producer não aparecer, conferir se opened_by está sendo preenchido automaticamente. Não substituir por filtro aberto demais.
+
+---

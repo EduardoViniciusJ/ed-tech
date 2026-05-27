@@ -1,0 +1,131 @@
+## STRY0016 - Criar Update Sets Das Novas Áreas
+
+**Prioridade**: Baixa  
+**Update Set**: EDTECH_01_CORE_STRY0010_UPDATE_SETS_AREAS  
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Administrador do sistema que precisa organizar o desenvolvimento das novas áreas da instituição antes da criação de grupos, roles, catálogos e futuras automações.
+
+**O que precisa**:  
+Criar os update sets pais das novas áreas complementares da instituição, seguindo o mesmo padrão de organização já usado no projeto.
+
+**Critérios de aceite**:
+
+- Update Set **EDTECH_08_RH** criado.
+- Update Set **EDTECH_11_INFRAESTRUTURA** criado.
+- Update Set **EDTECH_12_PESQUISA_EXTENSAO** criado.
+- Todos os update sets criados em estado **In progress**.
+- Todos os update sets possuem descrição clara da área.
+- Nenhuma alteração funcional deve ser desenvolvida diretamente nesses update sets pais sem uma story filha.
+
+## STRY0017 - Criar Grupos Das Novas Áreas
+
+**Prioridade**: Baixa  
+**Update Set**: EDTECH_01_CORE_STRY0011_GRUPOS_AREAS_COMPLEMENTARES  
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Administrador do sistema que precisa representar as novas áreas institucionais dentro do ServiceNow para organizar usuários, permissões, filas de atendimento e responsabilidades futuras.
+
+**O que precisa**:  
+Criar os grupos das áreas complementares da universidade, permitindo que futuramente essas equipes recebam solicitações, tenham permissões próprias e sejam usadas em regras de roteamento, aprovações, relatórios e dashboards.
+
+**Critérios de aceite**:
+
+- Grupo **Recursos Humanos** criado.
+- Grupo **Infraestrutura** criado.
+- Grupo **Pesquisa e Extensão** criado.
+- Todos os grupos possuem descrição clara.
+- Os grupos ficam disponíveis para vínculo com roles e usuários.
+
+
+## STRY0018 - Criar Roles Das Novas Áreas
+
+**Prioridade**: Baixa  
+**Update Set**: EDTECH_01_CORE_STRY0012_ROLES_AREAS_COMPLEMENTARES  
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Administrador do sistema que precisa controlar quais permissões cada nova área terá no ServiceNow, garantindo segurança e separação entre departamentos.
+
+**O que precisa**:  
+Criar as roles customizadas das novas áreas e vinculá-las aos grupos correspondentes. Essas roles serão usadas futuramente em ACLs, visibilidade de formulários, Employee Center, relatórios e regras de acesso.
+
+**Critérios de aceite**:
+
+- Role u_edu_rh criada e vinculada ao grupo **Recursos Humanos**.
+- Role u_edu_infraestrutura criada e vinculada ao grupo **Infraestrutura**.
+- Role u_edu_pesquisa_extensao criada e vinculada ao grupo **Pesquisa e Extensão.**
+
+## STRY0019 - Criar Tabela de Cursos
+
+**Prioridade**: Alta
+**Update Set**: EDTECH_04_SECRETARIA_STRY0015_TABELA_CURSO
+**Parent**: EDTECH_04_SECRETARIA
+**Persona**:
+Administrador do sistema que necessita de padronização nas nomenclaturas, códigos e cargas horárias dos cursos ofertados pela instituição, garantindo a integridade dos dados dos alunos.
+
+**O que precisa**:
+
+Criar uma tabela mestre para centralizar o cadastro de Cursos  e realizar a carga inicial dos dados principais. Essa tabela substituirá campos de texto livre, permitindo o relacionamento por referência no Perfil Acadêmico.
+
+**Critérios de aceite**:
+- Tabela **Curso**.
+- Campo **Nome do Curso** .
+- Campo **Código do Curso**. 
+- Campo **Carga Horária** .
+- Campo **Ativo** .
+- Popular essa tabela com cursos, exemplo:
+    - _Nome:_ Análise e Desenvolvimento de Sistemas | _Código:_ ADS-01 | _Carga Horária:_ 2400
+    - _Nome:_ Engenharia de Software | _Código:_ ES-01 | _Carga Horária:_ 3200
+    - _Nome:_ Sistemas de Informação | _Código:_ SI-01 | _Carga Horária:_ 3000
+
+## STRY0020 - Criar Tabela de Campus 
+
+**Prioridade**: Alta
+
+**Update Set**: EDTECH_04_SECRETARIA_STRY0016_TABELA_CAMPUS
+
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:
+Administrador do sistema que precisa mapear e gerenciar corretamente as unidades físicas (polos/filiais) onde as aulas são ministradas, evitando duplicidade de registros.
+
+**O que precisa**:
+Criar uma tabela mestre para centralizar o cadastro de Campus e realizar a carga inicial das unidades. Essa tabela servirá de referência para o Perfil Acadêmicos.
+
+**Critérios de aceite**:
+- Tabela **Campus** criada no banco de dados.
+- Campo **Nome do Campus**.
+- Campo **Código da Unidade**.
+- Campo **Cidade** .
+- Campo **Ativo**
+- Popular essa tabela com campus, exemplo:
+    - _Nome:_ Campus Curitiba - Centro | _Código:_ CT-01 | _Cidade:_ Curitiba
+    - _Nome:_ Campus Curitiba - Ecoville | _Código:_ CT-02 | _Cidade:_ Curitiba
+    - _Nome:_ Campus São Paulo - Paulista | _Código:_ SP-01 | _Cidade:_ São Paulo
+
+## REFACTOR-001 - Padronização
+
+**Prioridade**: Média
+**Update Set**:  EDTECH_01_CORE_REFACTOR0015_ESTRUTURA_CADASTROS`
+**Parent**: EDTECH_01_CORE
+
+**O que precisa**:
+
+Executar a refatorações e padronização dos Record Producers, Variáveis e Variable Sets.
+
+**Critérios de aceite**:
+
+Todos os Record Producers da Secretaria devem possuir **Short Description** clara e concisa orientando o usuário.
+
+O campo **Description** deve ser preenchido detalhando as regras, prazos de entrega do documento e orientações do serviço.    
+
+Todos os nomes técnicos (`Name`) das variáveis devem seguir estritamente o padrão _snake_case_ (letras minúsculas, sem acentos, sem espaços, separados por `_`).
+
+Todas as perguntas ao usuário (`Question/Label`) devem iniciar com letra maiúscula e estar semanticamente corretas.
+
+Validar e garantir que os Variable Sets estejam corretamente associados e visíveis dentro do respectivo catálogo e categoria no portal, sem duplicidade de campos locais.
+
+

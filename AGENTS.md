@@ -19,9 +19,17 @@ Este arquivo serve como documentacao viva para o grupo de desenvolvedores e para
 - `TCC Rocket - Ed Tech.pdf`: enunciado do problema, areas impactadas e expectativas do TCC.
 - `20260520 - Features.txt`: backlog inicial com as historias STRY0001 a STRY0009.
 - `20260521 - Features.txt`: backlog complementar com as historias STRY0010 a STRY0015.
+- `20260521 - Features-V1.txt`: backlog complementar com STRY0016 a STRY0020 e REFACTOR-001 de padronizacao.
+- `20260521 - Features-V2.txt`: backlog complementar com STRY0021 e STRY0022 para Record Producers core de Financeiro e Secretaria.
+- `20260522 - Features.txt`: backlog complementar com STRY0023 a STRY0029 para usuarios de teste, referencias, autopreenchimento, User Criteria, UI Policy, vinculacao ao portal e Meta Tags.
+- `20260522 - FIX.txt`: correcoes pontuais de Variable Sets, autopreenchimento de contato e categorias duplicadas.
+- `20260525 - Features.txt`: backlog complementar com STRY0030 a STRY0040 para UI Policies financeiras, ajustes do perfil academico, mapeamento de Secretaria, Assignment Rules, notificacoes e SLA.
+- `20260525 - Feature-V1.txt`: backlog complementar com STRY0041 a STRY0047 para ACL/GlideAjax, autopreenchimento e processo financeiro (campos, mapeamento, assignment, notificacoes e SLA).
+- `20260526 - Features.txt`: backlog complementar com STRY0048, STRY0049, STRY0051, STRY0052, STRY0053, STRY0054 e STRY0055 para flows internos, validacoes de fechamento, assignment, notificacoes e SLA de Suporte.
+- `20260526 - Features-V1.txt`: backlog complementar com REFACTOR002, REFACTOR003, REFACTOR004 e STRY0056 para padronizacao de formularios e filtros de My Requests.
+- `20260527 - Features.txt`: backlog complementar com STRY0057 a STRY0061 para ajustes de UX dos formularios (Select Box e Catalog UI Policies de Suporte e Secretaria).
 - `padrao update sets.pdf`: padrao documentado de nomeacao de update sets por story e parent por modulo.
-- `RELATORIO_REQUISITOS_CADASTROS.md`: requisitos de cadastro e campos complementares.
-- Informacoes atualizadas pelo time em 2026-05-21 sobre as features ja implementadas.
+- Informacoes atualizadas pelo time em 2026-05-27 sobre as features ja implementadas, planejadas e em refinamento.
 
 Quando houver conflito entre documentos, priorize:
 
@@ -34,9 +42,11 @@ Quando houver conflito entre documentos, priorize:
 
 O sistema e um **portal academico de servicos** em ServiceNow. Ele permite que alunos e professores abram solicitacoes de forma digital, acompanhem o andamento e recebam atendimento das areas corretas.
 
+A entrega funcional atual sera centrada em um **portal unico customizado**, desenvolvido do zero em ServiceNow (Service Portal), para solicitantes e equipes internas.
+
 Na pratica, o sistema deve oferecer:
 
-- Portal de servicos para abertura e acompanhamento de chamados.
+- Portal unico customizado (Service Portal) para abertura, acompanhamento e atendimento de chamados (My Requests).
 - Catalogos separados por departamento.
 - Categorias para organizar os servicos.
 - Record Producers para criar registros nas tabelas corretas.
@@ -130,7 +140,7 @@ O sistema deve:
 
 ## 7. Estado Atual Do Sistema
 
-Status baseado nas features informadas como implementadas pelo time ate 2026-05-21.
+Status baseado nas features informadas pelo time ate 2026-05-27.
 
 ### 7.1 Features Implementadas
 
@@ -167,7 +177,109 @@ O arquivo `20260521 - Features.txt` e a fonte mais recente para as features STRY
 
 Observacao importante: o arquivo de 2026-05-21 possui divergencias entre o numero da story e o numero escrito dentro do nome de alguns update sets. Para documentacao e apresentacao, use a **story** como sequencia funcional do backlog. Para auditoria na instancia, respeite o **nome real do update set implementado**, caso ele ja exista na PDI.
 
-### 7.3 O Que Esta Pronto Na Pratica
+### 7.3 Backlog Complementar Documentado
+
+O arquivo `20260521 - Features-V1.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0016 | Criar Update Sets Das Novas Areas | Expansao futura/organizacao |
+| STRY0017 | Criar Grupos Das Novas Areas | Expansao futura |
+| STRY0018 | Criar Roles Das Novas Areas | Expansao futura |
+| STRY0019 | Criar Tabela de Cursos | Base para referencias e perfil academico |
+| STRY0020 | Criar Tabela de Campus | Base para referencias e perfil academico |
+| REFACTOR-001 | Padronizacao | Padrao de qualidade para RPs, variaveis e Variable Sets |
+
+O arquivo `20260521 - Features-V2.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0021 | Criar Record Producers Financeiros Core | Complementa servicos financeiros core |
+| STRY0022 | Criar Record Producers Da Secretaria Core | Complementa documentos academicos core |
+
+O arquivo `20260522 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0023 | Criar Usuarios nos Grupos | Base para testes por perfil |
+| STRY0024 | Atualizar Reference de Curso e Campus nos Record Producers | Padronizacao de dados academicos |
+| STRY0025 | Preencher Automaticamente Dados do Aluno | Catalog Client Script + Script Include |
+| STRY0026 | Restringir Acesso aos Record Producers por User Criteria | Visibilidade por perfil no portal |
+| STRY0027 | Definir Read Only, Hidden e Mandatory no RP Emitir Comprovante de Matricula | Catalog UI Policy |
+| STRY0028 | Vincular Catalogos Academicos ao Portal Unico | Publicacao no portal unico customizado (Service Portal) |
+| STRY0029 | Incluir Meta Tags nos Record Producers Core | Busca e descoberta no portal |
+
+O arquivo `20260522 - FIX.txt` documenta:
+
+| Fix | Nome | Observacao |
+|---|---|---|
+| FIX001 | Aplicar Variable Sets no RP Solicitar Declaracao Academica | Corre o RP para usar os Variable Sets corretos da Secretaria |
+| FIX002 | Corrigir Auto Preenchimento Contato e Retorno | Corrige preenchimento automatico de e-mail e telefone nos RPs |
+| FIX003 | Consolidar Categorias Duplicadas | Mantem categorias oficiais de Financeiro e Secretaria |
+
+O arquivo `20260525 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0030 | Definir UI Policies nos Record Producers Financeiros | Controla campos por tipo de solicitacao financeira |
+| STRY0031 | Ajustar Campos RA e Periodo no Perfil Academico | Ajusta label Matricula para RA e Periodo como Choice |
+| STRY0032 | Atualizar Variavel Periodo nos Variable Sets Academicos | Alinha variavel `periodo` ao campo Choice do perfil academico |
+| STRY0033 | Adicionar Dados Academicos ao RP Emitir Comprovante de Matricula | Garante dados academicos no comprovante |
+| STRY0034 | Atualizar Tabela da Secretaria com Campos da Solicitacao Academica | Cria campos reais para atendimento interno da Secretaria |
+| STRY0036 | Mapear Variaveis da Secretaria para Campos da Tabela por Record Producer | Copia variables dos RPs para campos de `u_edu_secretaria` |
+| STRY0037 | Criar Assignment Rule para Solicitacoes da Secretaria | Roteia `u_edu_secretaria` para grupo Secretaria |
+| STRY0038 | Criar Assignment Rule para Solicitacoes Financeiras | Roteia `u_edu_financeiro` para grupo Financeira |
+| STRY0039 | Criar Notificacoes da Secretaria Academica | Notifica aluno sobre abertura, andamento, pendencia e conclusao |
+| STRY0040 | Criar SLA de 3 Dias Uteis para Solicitacoes da Secretaria | Controla prazo de documentos da Secretaria |
+
+O arquivo `20260525 - Feature-V1.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0041 | Ajustar ACL do Script Include GetDadosAlunoAjax e Definir Roles para Aluno e Professor | Libera execucao segura do GlideAjax para perfis funcionais |
+| STRY0042 | Atualizar Autopreenchimento de Dados do Aluno no GetDadosAlunoAjax | Corrige retorno de dados academicos para formularios |
+| STRY0043 | Atualizar Tabela Financeira com Campos da Solicitacao | Cria/valida campos reais para atendimento financeiro |
+| STRY0044 | Mapear Variaveis Financeiras para Campos da Tabela | Copia variaveis dos RPs para `u_edu_financeiro` |
+| STRY0045 | Criar Assignment Rule para Solicitacoes Financeiras | Roteia `u_edu_financeiro` para grupo Financeira |
+| STRY0046 | Criar Notificacoes Financeiras | Notifica aluno no ciclo de atendimento financeiro |
+| STRY0047 | Criar SLA de 1 Dia Util para Solicitacoes Financeiras | Controla prazo financeiro conforme regra de negocio |
+
+O arquivo `20260526 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0048 | Criar Flow do Processo Interno da Secretaria | Inicia solicitacoes da Secretaria em estado Open via Flow Designer |
+| STRY0049 | Validar Fechamento da Secretaria com Anexo ou Close Notes | Impede fechamento sem anexo ou justificativa em close notes |
+| STRY0051 | Criar Flow do Processo Interno Financeiro | Inicia solicitacoes financeiras em estado Open via Flow Designer |
+| STRY0052 | Validar Fechamento Financeiro com Anexo ou Close Notes | Exige anexo no envio de comprovante e close notes em fechamentos sem conclusao |
+| STRY0053 | Criar Assignment Rule para Incidentes de Suporte AVA/Moodle | Roteia incidentes do RP AVA/Moodle para grupo Suporte |
+| STRY0054 | Criar Notificacoes do Suporte Tecnico | Notifica abertura, andamento, pendencia e resolucao de incidentes de suporte |
+| STRY0055 | Criar SLA para Atendimento de Suporte Tecnico | Cria SLA para incidentes AVA/Moodle, com pausa quando aguarda solicitante |
+
+O arquivo `20260526 - Features-V1.txt` documenta:
+
+| Story/Fix | Nome | Observacao |
+|---|---|---|
+| REFACTOR002 | Padronizar Formularios Internos de Financeiro e Secretaria | Padroniza layout interno das tabelas `u_edu_financeiro` e `u_edu_secretaria` |
+| REFACTOR003 | Padronizar Mapeamento de Solicitante e Telefone nos Record Producers | Garante padrao de `u_solicitante`, `opened_by` e `u_telefone` |
+| REFACTOR004 | Padronizar Localizacao dos Campos nos Record Producers | Organiza sequencia visual de campos no portal |
+| STRY0056 | Criar My Request Filters para Solicitacoes Financeiras e Secretaria | Exibe solicitacoes customizadas em My Requests |
+
+O arquivo `20260527 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0057 | Ajustar Campos de Dispositivo e Navegador no Variable Set de Suporte | Troca campos para Select Box e reduz erro de digitacao |
+| STRY0058 | Criar Catalog UI Policy para Campos Obrigatorios e Somente Leitura no Suporte | Define mandatory e read-only no RP de suporte |
+| STRY0059 | Criar Catalog UI Policy para Simplificar RP Solicitar Historico Escolar | Oculta campos redundantes e trava dados academicos |
+| STRY0060 | Criar Catalog UI Policy para Simplificar RP Solicitar Diploma | Simplifica formulario e remove campos desnecessarios |
+| STRY0061 | Criar Catalog UI Policy para Simplificar RP Solicitar Declaracao Academica | Simplifica formulario e ajusta visibilidade de campos |
+
+Observacao: no arquivo do dia 26 ha salto de numeracao (nao existe STRY0050). Manter exatamente a numeracao usada no backlog oficial do time.
+
+Antes de afirmar que uma dessas stories esta pronta, conferir a instancia ServiceNow e o update set correspondente.
+
+### 7.4 O Que Esta Pronto Na Pratica
 
 O sistema ja possui:
 
@@ -189,8 +301,20 @@ Ainda nao considerar como pronto:
 - Pesquisa de satisfacao.
 - Dashboards finais.
 - Automacao completa de roteamento, se ainda nao validada na instancia.
-- Record Producers financeiros adicionais.
-- Record Producers adicionais da Secretaria.
+- Record Producers financeiros adicionais, se ainda nao validados na instancia.
+- Record Producers adicionais da Secretaria, se ainda nao validados na instancia.
+- Vinculacao final dos catalogos academicos ao portal do aluno, se ainda nao validada.
+- User Criteria final por perfil, se ainda nao validado.
+- Mapeamento final das variaveis para campos reais nas tabelas departamentais, se ainda nao validado.
+- Assignment Rules de Secretaria e Financeiro, se ainda nao validadas.
+- SLA e notificacoes da Secretaria, se ainda nao validados.
+- Flows internos de Secretaria e Financeiro (STRY0048 e STRY0051), se ainda nao validados.
+- Validacoes de fechamento com anexo/close notes (STRY0049 e STRY0052), se ainda nao validadas.
+- Assignment Rule, notificacoes e SLA de Suporte (STRY0053, STRY0054 e STRY0055), se ainda nao validados.
+- My Request Filters de Financeiro e Secretaria (STRY0056), se ainda nao validados no portal.
+- Ajustes de UX do suporte (STRY0057 e STRY0058), se ainda nao validados com aluno/professor.
+- UI Policies de simplificacao da Secretaria (STRY0059, STRY0060 e STRY0061), se ainda nao validadas ponta a ponta.
+- Publicacao final do portal unico customizado com navegacao/homologacao completa, se ainda nao validada.
 
 ## 8. Grupos E Roles
 
@@ -213,7 +337,7 @@ Ainda nao considerar como pronto:
 Regras importantes:
 
 - `Alunos` e `Professores` nao devem receber roles administrativas customizadas.
-- Gestores Academicos podem receber `admin` apenas na PDI/apresentacao, se necessario para demonstrar Employee Center e fluxos internos.
+- Gestores Academicos podem receber `admin` apenas na PDI/apresentacao, se necessario para demonstrar o portal unico e fluxos internos.
 - Em um ambiente produtivo, o acesso de Gestores deve ser resolvido com ACLs e roles especificas, nao com `admin`.
 
 ## 9. Modelo De Dados
@@ -238,11 +362,11 @@ Campos base:
 
 - `Usuario`: referencia para `sys_user`.
 - `Tipo de Perfil`.
-- `RA/Matricula`.
+- `RA/Matricula`: label esperada `RA` apos STRY0031, mantendo o nome tecnico se ja estiver em uso.
 - `Registro Funcional`.
 - `Curso`.
 - `Campus`.
-- `Periodo`.
+- `Periodo`: deve ser Choice apos STRY0031, com opcoes `Tecnologo`, `Licenciatura` e `Bacharelado`.
 - `Turno`.
 - `Status Academico`.
 - `Telefone Celular`.
@@ -271,8 +395,11 @@ Financeiro:
 Secretaria:
 
 - Tabela funcional: `Solicitacao Secretaria`.
-- Nome tecnico: `x_edu_secretaria`.
+- Nome tecnico citado nos documentos iniciais: `x_edu_secretaria`.
+- Nome tecnico usado nas stories mais recentes: `u_edu_secretaria`.
 - Estende `Task [task]`.
+
+Observacao: quando houver divergencia entre `x_edu_secretaria` e `u_edu_secretaria`, conferir a instancia antes de criar scripts, ACLs, Assignment Rules ou SLAs. Nas stories de 2026-05-25, usar `u_edu_secretaria` como referencia operacional.
 
 ## 10. Catalogos, Categorias E Record Producers
 
@@ -304,6 +431,7 @@ Financeiro:
 - Cria registro em `Solicitacao Financeira [x_edu_financeiro]`.
 - Fica no `Catalogo Financeiro`.
 - Fica na categoria `Boletos e Pagamentos`.
+- Backlog core tambem considera `Enviar Comprovante de Pagamento` e `Contestar Multa por Atraso de Boleto`.
 
 Secretaria:
 
@@ -311,6 +439,7 @@ Secretaria:
 - Cria registro em `Solicitacao Secretaria [x_edu_secretaria]`.
 - Fica no `Catalogo da Secretaria Academica`.
 - Fica na categoria `Documentos e Declaracoes`.
+- Backlog core tambem considera `Solicitar Declaracao Academica`, `Solicitar Historico Escolar` e `Solicitar Diploma`.
 
 ## 11. Variable Sets Atuais
 
@@ -364,7 +493,7 @@ Campos:
 
 Opcoes importantes:
 
-- Sistema afetado: AVA/Moodle, Portal do Aluno, Video/Aula, Envio de Atividade, Outro.
+- Sistema afetado: AVA/Moodle, Portal Academico, Video/Aula, Envio de Atividade, Outro.
 - Tipo de problema: Aula nao abre, Video nao carrega, Erro no envio da atividade, Problema de acesso, Outro.
 
 ### 11.3 Variable Set Financeiro
@@ -401,8 +530,6 @@ Campos:
 
 - Tipo de documento.
 - Finalidade do documento.
-- Curso.
-- RA/Matricula.
 - Forma de entrega.
 - Observacoes adicionais.
 
@@ -412,6 +539,19 @@ Opcoes importantes:
 - Declaracao academica.
 - Historico escolar.
 - Diploma.
+- Outro.
+
+Regra de modelagem atual: `RA`, `Curso`, `Campus` e `Periodo` pertencem ao Variable Set `Dados Academicos do Solicitante`, nao ao `Detalhes da Solicitacao Academica`, para evitar duplicidade.
+
+Choices de `finalidade_documento` apos STRY0034:
+
+- Comprovacao academica geral.
+- Estagio.
+- Emprego / Processo seletivo.
+- Bolsa / Financiamento.
+- Transferencia.
+- Orgao publico.
+- Consulado / Visto.
 - Outro.
 
 ## 12. O Que Cada Area Ja Consegue Fazer
@@ -463,6 +603,8 @@ Ainda falta para ficar completo:
 - Criar Record Producer `Contestar Multa por Atraso de Boleto`.
 - Criar opcao ou servico para `Duvida Financeira`.
 - Direcionamento validado para o grupo `Financeira`.
+- UI Policies financeiras por tipo de solicitacao, conforme STRY0030.
+- Assignment Rule financeira, conforme STRY0038.
 - SLA de 1 dia util para demandas financeiras.
 - Notificacoes.
 - Dashboard financeiro.
@@ -489,8 +631,10 @@ Ainda falta para ficar completo:
 - Criar Record Producer `Solicitar Historico Escolar`.
 - Criar Record Producer `Solicitar Diploma`.
 - Direcionamento validado para o grupo `Secretaria`.
+- Campos reais em `u_edu_secretaria` e mapeamento dos RPs para a tabela, conforme STRY0034 e STRY0036.
+- Assignment Rule da Secretaria, conforme STRY0037.
+- Notificacoes da Secretaria, conforme STRY0039.
 - SLA de ate 3 dias uteis.
-- Notificacoes.
 - Dashboard de documentos e prazos.
 - Pesquisa de satisfacao.
 
@@ -502,7 +646,62 @@ As features STRY0001 a STRY0015 sao consideradas implementadas conforme informac
 
 ## 14. Proximas Entregas Dos Problemas Core
 
-### 14.1 Financeiro
+### 14.1 Ordem Recomendada Do Backlog Atual
+
+Considerando as dependencias das stories mais recentes, a ordem recomendada e:
+
+1. `STRY0023 - Criar Usuarios nos Grupos`.
+2. `STRY0024 - Atualizar Reference de Curso e Campus nos Record Producers`.
+3. `STRY0025 - Preencher Automaticamente Dados do Aluno com Catalog Client Script e Script Include`.
+4. `STRY0026 - Restringir Acesso aos Record Producers por User Criteria`.
+5. `STRY0027 - Definir Read Only, Hidden e Mandatory no RP Emitir Comprovante de Matricula`.
+6. `STRY0028 - Vincular Catalogos Academicos ao Portal Unico`.
+7. `STRY0029 - Incluir Meta Tags nos Record Producers Core`.
+8. `STRY0030 - Definir UI Policies nos Record Producers Financeiros`.
+9. `STRY0031 - Ajustar Campos RA e Periodo no Perfil Academico`.
+10. `STRY0032 - Atualizar Variavel Periodo nos Variable Sets Academicos`.
+11. `STRY0033 - Adicionar Dados Academicos ao RP Emitir Comprovante de Matricula`.
+12. `STRY0034 - Atualizar Tabela da Secretaria com Campos da Solicitacao Academica`.
+13. `STRY0036 - Mapear Variaveis da Secretaria para Campos da Tabela por Record Producer`.
+14. `STRY0037 - Criar Assignment Rule para Solicitacoes da Secretaria`.
+15. `STRY0038 - Criar Assignment Rule para Solicitacoes Financeiras`.
+16. `STRY0039 - Criar Notificacoes da Secretaria Academica`.
+17. `STRY0040 - Criar SLA de 3 Dias Uteis para Solicitacoes da Secretaria`.
+18. `STRY0041 - Ajustar ACL do Script Include GetDadosAlunoAjax e Definir Roles para Aluno e Professor`.
+19. `STRY0042 - Atualizar Autopreenchimento de Dados do Aluno no GetDadosAlunoAjax`.
+20. `STRY0043 - Atualizar Tabela Financeira com Campos da Solicitacao`.
+21. `STRY0044 - Mapear Variaveis Financeiras para Campos da Tabela`.
+22. `STRY0045 - Criar Assignment Rule para Solicitacoes Financeiras`.
+23. `STRY0046 - Criar Notificacoes Financeiras`.
+24. `STRY0047 - Criar SLA de 1 Dia Util para Solicitacoes Financeiras`.
+25. `STRY0048 - Criar Flow do Processo Interno da Secretaria`.
+26. `STRY0049 - Validar Fechamento da Secretaria com Anexo ou Close Notes`.
+27. `STRY0051 - Criar Flow do Processo Interno Financeiro`.
+28. `STRY0052 - Validar Fechamento Financeiro com Anexo ou Close Notes`.
+29. `STRY0053 - Criar Assignment Rule para Incidentes de Suporte AVA/Moodle`.
+30. `STRY0054 - Criar Notificacoes do Suporte Tecnico`.
+31. `STRY0055 - Criar SLA para Atendimento de Suporte Tecnico`.
+32. `STRY0056 - Criar My Request Filters para Solicitacoes Financeiras e Secretaria`.
+33. `STRY0057 - Ajustar Campos de Dispositivo e Navegador no Variable Set de Suporte`.
+34. `STRY0058 - Criar Catalog UI Policy para Campos Obrigatorios e Somente Leitura no Suporte`.
+35. `STRY0059 - Criar Catalog UI Policy para Simplificar RP Solicitar Historico Escolar`.
+36. `STRY0060 - Criar Catalog UI Policy para Simplificar RP Solicitar Diploma`.
+37. `STRY0061 - Criar Catalog UI Policy para Simplificar RP Solicitar Declaracao Academica`.
+
+Motivo da ordem:
+
+- Primeiro criar usuarios/grupos de teste para validar perfis reais.
+- Depois corrigir referencias de Curso/Campus, porque o autopreenchimento depende de dados padronizados.
+- Depois preencher dados automaticamente.
+- Depois restringir visibilidade por perfil.
+- Depois travar/ocultar campos nos formularios.
+- Depois publicar os catalogos no portal.
+- Por fim melhorar busca com Meta Tags.
+- Em seguida, amadurecer os processos internos: campos nas tabelas, mapeamentos, Assignment Rules, notificacoes, SLA e dashboards.
+- Fase do dia 2026-05-26: consolidar flows internos, validacoes de fechamento e ciclo completo de suporte (assignment + notificacoes + SLA).
+- Fase do dia 2026-05-27: fortalecer a experiencia do portal (My Requests + UI Policies de simplificacao em Suporte e Secretaria).
+
+### 14.2 Financeiro
 
 Criar ou revisar Record Producers:
 
@@ -517,7 +716,7 @@ Resultado esperado:
 - O Financeiro recebe dados estruturados.
 - O sistema fica pronto para SLA, notificacao e relatorio.
 
-### 14.2 Secretaria Academica
+### 14.3 Secretaria Academica
 
 Criar ou revisar Record Producers:
 
@@ -532,7 +731,7 @@ Resultado esperado:
 - A Secretaria recebe solicitacoes organizadas.
 - O sistema fica pronto para SLA, notificacao e relatorio.
 
-### 14.3 Suporte Tecnico
+### 14.4 Suporte Tecnico
 
 Suporte ja possui a principal revisao do Record Producer, mas ainda deve ser validado:
 
@@ -577,7 +776,7 @@ Update sets pais atuais:
 - `EDTECH_02_SUPORTE`: recursos especificos de Suporte Tecnico.
 - `EDTECH_03_FINANCEIRO`: recursos especificos do Financeiro.
 - `EDTECH_04_SECRETARIA`: recursos especificos da Secretaria Academica.
-- `EDTECH_05_PORTAL`: catalogos, categorias, portal, Employee Center, UX e Variable Sets comuns.
+- `EDTECH_05_PORTAL`: catalogos, categorias, portal unico customizado, UX e Variable Sets comuns.
 - `EDTECH_06_RELATORIOS`: relatorios e dashboards.
 - `EDTECH_07_AUTOMACOES`: flows, assignment, notificacoes, SLA e pesquisas.
 
@@ -588,6 +787,10 @@ Regras:
 - A story filha deve ficar como **Current** durante o desenvolvimento.
 - O campo **Parent** deve apontar para o update set pai do modulo.
 - No final, os pais podem ser agrupados em uma release/batch.
+- Em desenvolvimento paralelo, cada dev deve trabalhar em sua propria story/update set.
+- Evitar que dois devs alterem o mesmo Record Producer, Variable Set, Catalog Client Script, UI Policy ou User Criteria ao mesmo tempo.
+- Um update set de refatoracao final pode existir para ajustes pequenos de padrao, labels, ordem de campos, descricoes, Meta Tags e limpeza visual.
+- Nao usar um update set de refatoracao para corrigir trabalho grande feito no update set errado ou conflitos de modelagem.
 
 Para novas features, preferir manter o numero da story dentro do nome do update set. Exemplo:
 
@@ -605,13 +808,14 @@ Parent: EDTECH_03_FINANCEIRO
 | Dev 2 | Suporte Tecnico | Incident, RP de AVA/Moodle, Variable Set tecnico, SLA e notificacoes de suporte |
 | Dev 3 | Financeiro | `x_edu_financeiro`, RPs financeiros, Variable Set financeiro, SLA e notificacoes financeiras |
 | Dev 4 | Secretaria | `x_edu_secretaria`, RPs de documentos, Variable Set secretaria, SLA e notificacoes da secretaria |
-| Dev 5 | Portal / Qualidade | Portal, Employee Center, UX, pesquisas, relatorios, dashboards e apoio a apresentacao |
+| Dev 5 | Portal / Qualidade | Portal unico customizado, UX, pesquisas, relatorios, dashboards e apoio a apresentacao |
 
-Cada desenvolvedor deve testar sua entrega pelo portal/Employee Center e depois validar o fluxo integrado.
+Cada desenvolvedor deve testar sua entrega no portal unico e depois validar o fluxo integrado.
 
 ## 17. Boas Praticas ServiceNow Para Este Projeto
 
 - Preferir **Flow Designer** para automacoes de processo.
+- Preferir **Assignment Rules** para roteamento simples de grupo em tabelas Task/custom, como `u_edu_secretaria` e `u_edu_financeiro`.
 - Usar **Business Rules** apenas quando a logica server-side exigir.
 - Evitar queries sincronas no client-side.
 - Usar **GlideAjax** para buscar dados server-side em Client Scripts.
@@ -620,8 +824,28 @@ Cada desenvolvedor deve testar sua entrega pelo portal/Employee Center e depois 
 - Usar `sys_user` para acesso/identidade.
 - Usar `u_edu_perfil_academico` para dados academicos/profissionais complementares.
 - Manter catalogos, categorias e fluxos separados por departamento.
-- Testar sempre pelo Portal ou Employee Center, nao apenas pelo backend.
+- Testar sempre pelo portal unico, nao apenas pelo backend.
 - Usar linguagem clara para aluno/professor.
+- Em Record Producer Script, mapear variables para campos reais da tabela quando a equipe interna precisar filtrar, reportar, aplicar SLA ou atender diretamente pelo registro.
+- Nao definir `assignment_group` hardcoded no script do Record Producer quando houver Assignment Rule responsavel pelo roteamento.
+- Para notificacoes, usar apenas informacoes publicas e nunca incluir `work_notes` no template enviado ao aluno.
+
+### 17.1 Padronizacao REFACTOR-001
+
+Estas regras devem ser consideradas padrao de desenvolvimento para Record Producers, variaveis e Variable Sets, principalmente na Secretaria Academica:
+
+- Todos os Record Producers da Secretaria devem possuir **Short Description** clara e concisa orientando o usuario.
+- O campo **Description** deve ser preenchido detalhando regras, prazos de entrega do documento e orientacoes do servico.
+- Todos os nomes tecnicos (`Name`) das variaveis devem seguir estritamente o padrao `snake_case`, com letras minusculas, sem acentos, sem espacos e separados por `_`.
+- Todas as perguntas ao usuario (`Question/Label`) devem iniciar com letra maiuscula e estar semanticamente corretas.
+- Validar e garantir que os Variable Sets estejam corretamente associados e visiveis dentro do respectivo catalogo e categoria no portal.
+- Evitar duplicidade de campos locais quando o campo ja existir em um Variable Set reutilizavel.
+- Para campos de cadastro e dados academicos, preferir tabelas e referencias padronizadas em vez de texto livre quando existir tabela mestre.
+- Dados conhecidos do usuario logado, como solicitante, RA, curso, periodo, e-mail e telefone, devem ser preenchidos automaticamente quando possivel.
+- Campos preenchidos automaticamente e sensiveis para integridade do processo devem ficar somente leitura para o aluno, quando fizer sentido para o fluxo.
+- Variable Sets reutilizaveis devem ser aplicados aos Record Producers corretos. Evitar campos locais duplicados fora dos Variable Sets.
+- `Dados Academicos do Solicitante` deve concentrar `RA`, `Curso`, `Campus` e `Periodo`.
+- `Detalhes da Solicitacao Academica` deve concentrar dados do pedido, como `tipo_documento`, `forma_entrega`, `finalidade_documento` e `observacoes_adicionais`.
 
 ## 18. Regras Para Outras IAs
 
@@ -667,8 +891,8 @@ Uma entrega minima deve ser considerada completa quando:
 
 ## 21. Resumo Para Apresentacao
 
-O projeto entrega uma plataforma ServiceNow para atendimento academico, com foco inicial em Suporte Tecnico, Financeiro e Secretaria Academica.
+O projeto entrega uma plataforma ServiceNow para atendimento academico, com foco inicial em Suporte Tecnico, Financeiro e Secretaria Academica, com frente principal de entrega em um **portal unico customizado**, desenvolvido do zero.
 
-O aluno passa a abrir solicitacoes pelo portal, usando formularios padronizados e separados por area. O Suporte ja recebe incidentes tecnicos estruturados. O Financeiro ja possui base para 2a via de boleto e dados financeiros. A Secretaria ja possui base para comprovante de matricula e documentos academicos.
+O aluno passa a abrir solicitacoes pelo portal, usando formularios padronizados e separados por area. O Suporte registra incidentes tecnicos estruturados em `Incident [incident]`. O Financeiro possui Record Producers para boleto, comprovante de pagamento e contestacao de multa, com ajustes de UI Policy e roteamento previstos para o grupo `Financeira`. A Secretaria possui Record Producers para documentos academicos, com dados do aluno preenchidos automaticamente, campos reais em `u_edu_secretaria`, mapeamento das variaveis para a tabela, Assignment Rule para o grupo `Secretaria`, notificacoes e SLA de 3 dias uteis em evolucao.
 
-O estado atual do sistema cobre a estrutura principal: grupos, roles, tabelas, catalogos, categorias, Record Producers e Variable Sets. As proximas entregas devem completar os Record Producers financeiros e da Secretaria, depois adicionar roteamento, SLAs, notificacoes, pesquisas e dashboards.
+O estado atual do sistema cobre a base principal do MVP: grupos, roles, tabelas, catalogos, categorias, Record Producers, Variable Sets, autopreenchimento, controle de visibilidade por perfil e padronizacao de dados academicos. O backlog consolidado no `Features.txt` agora inclui stories ate `STRY0061`, com evolucoes de fluxo interno, validacoes de fechamento, assignment, notificacoes, SLA e refinamentos de UX no portal para Suporte, Financeiro e Secretaria. As proximas entregas devem concluir validacao ponta a ponta na instancia, publicacao final do portal unico customizado, dashboards gerenciais, pesquisa de satisfacao e homologacao com usuarios reais.

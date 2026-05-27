@@ -1,0 +1,260 @@
+Melhorias
+
+--> Ajustar novamente os scripts para enviar os dados para tabela nos variables sets, o assunto curto caso estejam vazios colocar um um valor padronizado do record producer
+
+
+Mes de competencia
+- select box somente para mes
+- select box somente para ano
+
+--> Ver sobre o Tipo de Documento e SLA etc.. 
+
+--> Se escolher Outro, futuramente pode existir um campo complementar “Descreva o navegador/dispositivo”
+
+--- 
+
+--> Mostrar somente os campos necessarios nas tabelas
+Financeiro 
+==Solicitar 2 via de boleto==
+**RA - Read/only, autopreenchido.**
+**Curso - Read/only, autopreenchido.**
+**Campus - Read/only, autopreenchido.**
+**Período - Read/only, autopreenchido.**
+**Email de contato, autopreenchido e mandatory.** - Adicionar Validation Regex. 
+**Telefone opcional, autopreenchido.**
+**Data de vencimento, mandatory**
+**Numero de boleto, opcional.**
+**Valor aproximado, opcional**. - Adicionar Validation Regex.
+
+--> Mostrar somente os campos necessarios nas tabelas
+Record Producer Solicitar Historico Escolar
+RA ReadOnly
+Curso ReadOnly
+Campus ReadOnly
+Período ReadOnly
+Descrição detalhada - Esconder
+Tipo de documento - Esconder
+observações adicionais - Esconder
+
+
+--> Mostrar somente os campos necessarios 
+Record Producer Solicitar Diploma
+RA  Read only
+Curso Read only
+Campus Read only
+Período Read only
+Tipo de documento - ESCONDER
+Observacoes adicionais - ESCONDER
+
+---
+
+
+
+## STRY0057 - Ajustar Campos De Dispositivo E Navegador No Variable Set De Suporte
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0057_VS_SUPORTE_SELECTS  
+**Parent**: EDTECH_02_SUPORTE
+
+**Persona**:  
+Como aluno ou professor, quero selecionar meu navegador e dispositivo em listas prontas para evitar erros de digitação e facilitar o atendimento do suporte.
+
+**O que precisa**:  
+Atualizar o Variable Set Detalhes do Problema Técnico, alterando os campos Navegador utilizado e Dispositivo utilizado para **Select Box**.
+
+**Onde aplicar**:
+
+- Variable Set: Detalhes do Problema Técnico
+
+**O que fazer no ServiceNow**:
+
+- Alterar Navegador utilizado para tipo Select Box.
+- Adicionar opções:
+    - Google Chrome
+    - Microsoft Edge
+    - Mozilla Firefox
+    - Safari
+    - Outro
+- Alterar Dispositivo utilizado para tipo Select Box.
+- Adicionar opções:
+    - Computador 
+    - Celular 
+    - Outro
+
+**Critérios de aceite**:
+
+- O usuário não consegue mais digitar texto livre em Navegador utilizado.
+- O usuário não consegue mais digitar texto livre em Dispositivo utilizado.
+- As opções aparecem corretamente no portal.
+
+**Observação de modelagem**:  
+Se escolher Outro, futuramente pode existir um campo complementar “Descreva o navegador/dispositivo”, mas isso pode ficar fora desta story.
+
+---
+
+## STRY0058 - Criar Catalog UI Policy Para Campos Obrigatórios E Somente Leitura No Suporte
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0058_UI_POLICY_RP_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE
+
+**Persona**:  
+Como aluno ou professor, quero preencher apenas os dados necessários para relatar um problema técnico, sem editar informações acadêmicas que o sistema já conhece.
+
+**O que precisa**:  
+Criar uma Catalog UI Policy para organizar o formulário do Record Producer de suporte técnico.
+
+**Onde aplicar**:
+
+- Record Producer: Relatar Problema com o AVA / Moodle 
+
+**O que fazer no ServiceNow**:
+
+- Criar Catalog UI Policy:
+    - Nome: SUP - Formulário suporte técnico
+    - Aplicar somente ao Record Producer de suporte.
+- Definir como **Read Only**:
+    - RA
+    - Curso
+    - Campus
+    - Período
+- Definir como **Mandatory**:
+    - Tipo de problema
+    - Navegador utilizado
+    - Dispositivo utilizado
+    - Descrição detalhada
+
+**Critérios de aceite**:
+
+- O aluno visualiza RA, Curso, Campus e Período, mas não consegue editar.
+- O aluno não consegue enviar o formulário sem preencher Sistema Afetado.
+- O aluno não consegue enviar o formulário sem preencher Tipo de problema.
+- O aluno não consegue enviar o formulário sem preencher Navegador utilizado.
+- O aluno não consegue enviar o formulário sem preencher Dispositivo utilizado.
+- O aluno não consegue enviar o formulário sem preencher Descrição detalhada.
+- O formulário mantém URL, Mensagem de erro, Data/hora e Anexo como opcionais.
+
+---
+
+## STRY0059 - Criar Catalog UI Policy Para Simplificar RP Solicitar Histórico Escolar
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0059_UI_POLICY_HISTORICO_ESCOLAR  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:  
+Como aluno, quero solicitar meu histórico escolar preenchendo apenas os campos necessários, sem visualizar campos internos ou redundantes.
+
+**O que precisa**:  
+Criar uma Catalog UI Policy para simplificar o formulário do Record Producer **Solicitar Histórico Escolar**, deixando dados acadêmicos somente leitura e escondendo campos que não agregam para esse serviço específico.
+
+**Onde aplicar**:
+
+- Record Producer: Solicitar Histórico Escolar
+
+**O que fazer no ServiceNow**:
+
+- Criar Catalog UI Policy:
+    - Nome: SEC - Histórico Escolar - simplificar formulário
+    - Aplicar no Record Producer Solicitar Histórico Escolar.
+    - Marcar Reverse if false conforme padrão do time.
+- Criar UI Policy Actions para **Read Only = true**:
+    - RA
+    - Curso
+    - Campus
+    - Período
+- Criar UI Policy Actions para **Visible = false**:
+    - Descrição detalhada
+    - Tipo de documento
+    - Observações adicionais
+
+**Critérios de aceite**:
+
+- Ao abrir Solicitar Histórico Escolar, o aluno visualiza RA, Curso, Campus e Período, mas não consegue editar.
+- O campo Descrição detalhada não aparece no formulário.
+- O campo Tipo de documento não aparece no formulário.
+- O campo Observações adicionais não aparece no formulário.
+- O formulário continua exibindo os campos necessários para contato, forma de entrega e finalidade do documento.
+- A solicitação continua sendo criada corretamente na tabela da Secretaria.
+
+## STRY0060 - Criar Catalog UI Policy Para Simplificar RP Solicitar Diploma
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0060_UI_POLICY_DIPLOMA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:  
+Como aluno, quero solicitar meu diploma preenchendo apenas os campos necessários, sem visualizar campos internos ou duplicados.
+
+**O que precisa**:  
+Criar uma Catalog UI Policy para simplificar o formulário do Record Producer Solicitar Diploma, deixando os dados acadêmicos somente leitura e escondendo campos que não fazem sentido para o aluno.
+
+**Onde aplicar**:
+
+- Record Producer: Solicitar Diploma
+
+**O que fazer no ServiceNow**:
+
+- Criar Catalog UI Policy:
+    - Nome: SEC - Diploma - simplificar formulário
+    - Aplicar no Record Producer Solicitar Diploma.
+    - Marcar Reverse if false conforme padrão do time.
+- Criar UI Policy Actions para **Read Only = true**:
+    - RA
+    - Curso
+    - Campus
+    - Período
+- Criar UI Policy Actions para **Visible = false**:
+    - Tipo de documento
+    - Observações adicionais
+
+**Critérios de aceite**:
+
+- Ao abrir Solicitar Diploma, o aluno visualiza RA, Curso, Campus e Período, mas não consegue editar.
+- O campo Tipo de documento não aparece no formulário.
+- O campo Observações adicionais não aparece no formulário.
+- O formulário continua exibindo E-mail de contato, Telefone, Forma de entrega, Finalidade do documento e Descrição detalhada, se estiverem vinculados ao RP.
+- A solicitação continua sendo criada corretamente na tabela da Secretaria.
+
+
+## STRY0061 - Criar Catalog UI Policy Para Simplificar RP Solicitar Declaração Acadêmica
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0061_UI_POLICY_DECLARACAO  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Persona**:  
+Como aluno, quero solicitar uma declaração acadêmica preenchendo apenas os campos necessários, sem visualizar campos internos, duplicados ou que o próprio serviço já define.
+
+**O que precisa**:  
+Criar uma Catalog UI Policy para simplificar o formulário do Record Producer Solicitar Declaração Acadêmica, deixando os dados acadêmicos somente leitura e escondendo campos que não fazem sentido para o aluno.
+
+
+**Onde aplicar**:
+
+- Record Producer: Solicitar Declaração Acadêmica
+
+**O que fazer no ServiceNow**:
+
+- Criar Catalog UI Policy:
+    - Nome: SEC - Declaração Acadêmica - simplificar formulário
+    - Aplicar no Record Producer Solicitar Declaração Acadêmica.
+    - Marcar Reverse if false conforme padrão do time.
+- Criar UI Policy Actions para **Read Only = true**:
+    - RA
+    - Curso
+    - Campus
+    - Período
+- Criar UI Policy Actions para **Visible = false**:
+    - Tipo de documento
+    - Observações adicionais
+
+**Critérios de aceite**:
+
+- Ao abrir Solicitar Declaração Acadêmica, o aluno visualiza RA, Curso, Campus e Período, mas não consegue editar.
+- O campo Solicitante não aparece no formulário.
+- O campo Tipo de documento não aparece no formulário.
+- O campo Observações adicionais não aparece no formulário.
+- O campo Assunto Curto não aparece no formulário.
+- O formulário continua exibindo E-mail de contato, Telefone, Forma de entrega, Finalidade do documento e Descrição detalhada, se estiverem vinculados ao RP.
+- A solicitação continua sendo criada corretamente na tabela da Secretaria.

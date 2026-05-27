@@ -1,0 +1,322 @@
+## STRY0041 - Ajustar ACL do Script Include GetDadosAlunoAjax e Definir Roles para Aluno e Professor
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0041_ACL_PERFIL_ACADEMICO
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Aluno e Professor que abrem solicitações financeiras no portal e precisam ter os dados acadêmicos carregados automaticamente.
+
+**O que precisa**:  
+Corrigir as regras de acesso (ACL/roles) para que o Script Include client-callable GetDadosAlunoAjax execute para perfis funcionais autorizados, sem depender de admin, e definir as roles curso, campus e perfil academico.  
+
+**Escopo desta story**:
+
+- Ajustar regras de role nos grupos de acesso Aluno e Professor
+- Corrigir ACL de execução do Script Include que estava bloqueando usuário comum (RC = false).
+
+**Onde aplicar**:
+
+- System Security > Access Control (ACL)
+- System Definition > Script Includes (GetDadosAlunoAjax)
+- User Administration > Groups (Alunos e Professores)
+
+**O que fazer no ServiceNow**:
+
+- Garantir roles funcionais nos grupos:
+    - Aluno com role acadêmica do projeto.
+    - Professor com role acadêmica equivalente.
+- Criar/ajustar ACL:
+    - Type = client_callable_script_include
+    - Operation = execute
+    - Name = GetDadosAlunoAjax
+    - Requires role com role de Perfil Academica. 
+- Validar se o Script Include está Client callable = true e Active = true.
+- Testar com impersonation:
+    - Usuário Aluno
+    - Usuário Professor
+    - Usuário sem role (deve negar)
+
+**Critérios de aceite**:
+
+- GetDadosAlunoAjax executa com RC = true para Aluno e Professor autorizados.
+- RA/Período/Curso/Campus carregam no formulário para ambos os perfis.
+- Usuário sem role funcional recebe bloqueio de execução do script.
+- Funcionalidade não depende de admin ou security_admin para uso no portal.
+
+
+## STRY0042 - Atualizar Autopreenchimento de Dados do Aluno no GetDadosAlunoAjax
+
+**Prioridade**: Media  
+**Update Set**: EDTECH_05_PORTAL_STRY0042_AUTOPREENCHIMENTO_DADOS_ALUNO  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno que acessa o portal e precisa abrir solicitações sem preencher manualmente dados que já existem no cadastro acadêmico.
+
+**O que precisa**:  
+Atualizar o Script Include GetDadosAlunoAjax para retornar corretamente os dados do aluno logado a partir de sys_user e u_edu_perfil_academico, garantindo autopreenchimento de Campus. Depois atualizar o Auto Preenchimento Dados Acadêmicos.
+
+**Onde aplicar**:
+
+- Script Include GetDadosAlunoAjax
+- Catalog Client Script Auto Preenchimento Dados do Solicitante. 
+
+## STRY0043 - Atualizar Tabela Financeira com Campos da Solicitação
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0043_CAMPOS_SOLICITACAO_FINANCEIRA  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**O que precisa**:  
+Criar/validar campos na tabela Solicitação Financeira [u_edu_financeiro] para que a equipe Financeira visualize no registro os principais dados enviados pelo aluno.
+
+**Campos a criar/validar**:
+
+- u_solicitante -> Reference para sys_user
+- u_ra -> String
+- u_curso -> Reference para tabela de Curso
+- u_campus -> Reference para tabela de Campus
+- u_periodo -> Choice
+- u_email_contato -> Email/String
+- u_telefone -> Phone/String
+- u_tipo_solicitacao_financeira -> Choice
+- u_mes_competencia -> String
+- u_data_vencimento -> Date
+- u_numero_boleto -> String
+- u_valor_aproximado -> Decimal/Currency
+- u_descricao_situacao -> Multi Line Text
+
+**Campos nativos reaproveitados**:
+
+- short_description -> Assunto curto
+- description -> Descrição detalhada
+- state -> Estado da solicitação
+- assignment_group -> Grupo responsável
+- priority -> Prioridade
+
+**O que fazer no ServiceNow**:
+
+- Abrir a tabela u_edu_financeiro.
+- Criar os campos acima se ainda não existirem.
+- Garantir que Curso e Campus sejam referências para as tabelas mestres corretas.
+- Configurar u_tipo_solicitacao_financeira como Choice.
+- Ajustar o form do Financeiro com seções:
+    - Dados do aluno
+    - Dados acadêmicos
+    - Detalhes financeiros
+    - Atendimento interno
+
+**Critérios de aceite**:
+
+- Financeiro visualiza os dados principais direto no registro.
+- Curso e Campus não são texto livre.
+- u_tipo_solicitacao_financeira é Choice.
+- Campos nativos continuam sendo usados para assunto, descrição, estado e grupo.
+
+---
+
+## STRY0044 - Mapear Variáveis Financeiras para Campos da Tabela
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0044_MAPEAMENTO_VARIAVEIS_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Precisa da STRY0043 para os campos da tabela u_edu_financeiro existirem.**
+
+**O que precisa**:  
+Atualizar o campo Script dos Record Producers financeiros para copiar as variáveis dos Variable Sets para os campos reais da tabela u_edu_financeiro.
+
+**Record Producers impactados**:
+
+- Solicitar 2ª Via de Boleto
+- Enviar Comprovante de Pagamento
+- Contestar Multa por Atraso de Boleto
+
+**Variable Sets que devem estar nos 3 Record Producers**:
+
+- Dados do Solicitante
+- Dados Acadêmicos do Solicitante
+- Contato e Retorno
+- Descrição da Solicitação
+- Detalhes da Solicitação Financeira
+
+**Mapeamento por Variable Set**
+
+Dados do Solicitante
+
+`current.u_solicitante = producer.solicitante;`
+
+Dados Acadêmicos do Solicitante
+
+`current.u_ra = producer.ra; current.u_curso = producer.curso; current.u_campus = producer.campus; current.u_periodo = producer.periodo;`
+
+Contato e Retorno
+
+`current.u_email_contato = producer.email_contato; current.u_telefone = producer.telefone;`
+
+Descrição da Solicitação
+
+`current.short_description = producer.assunto_curto; current.description = producer.descricao_detalhada;`
+
+Detalhes da Solicitação Financeira
+
+`current.u_tipo_solicitacao_financeira = producer.tipo_solicitacao_financeira; current.u_mes_competencia = producer.mes_competencia; current.u_data_vencimento = producer.data_vencimento; current.u_numero_boleto = producer.numero_boleto; current.u_valor_aproximado = producer.valor_aproximado; current.u_descricao_situacao = producer.descricao_situacao;`
+
+**O que fazer no ServiceNow**:
+
+- Abrir cada Record Producer financeiro.
+- Garantir que os Variable Sets listados estejam vinculados aos 3 RPs.
+- Atualizar o campo Script de cada RP.
+- Verificar se os Name das variables batem com o script.
+- Não definir assignment_group no script.
+- Testar submit pelo portal com usuário aluno.
+
+**Critérios de aceite**:
+
+- Ao enviar qualquer RP financeiro, os campos da tabela u_edu_financeiro são preenchidos.
+- Financeiro visualiza os dados direto no registro criado.
+- short_description e description são preenchidos corretamente.
+- Curso e Campus gravam como referência válida.
+- O script não possui assignment_group hardcoded.
+
+---
+
+## STRY0045 - Criar Assignment Rule para Solicitações Financeiras
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0045_ASSIGNMENT_RULE_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Precisa da STRY0044 para os RPs financeiros criarem registros com dados principais preenchidos em u_edu_financeiro.**
+
+**O que precisa**:  
+Criar uma **Assignment Rule** para atribuir automaticamente as solicitações financeiras ao grupo Financeira.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Grupo Financeira
+
+**O que fazer no ServiceNow**:
+
+- Abrir System Policy > Rules > Assignment.
+- Criar Assignment Rule AR - Financeiro - Atribuir Solicitações ao Grupo Financeira.
+- Table: u_edu_financeiro.
+- Active: true.
+- Condições:
+    - Assignment group is empty
+    - Active is true
+- Aba Assign To:
+    - Grupo: Financeira
+- Não definir assignment_group no script dos RPs financeiros.
+
+**Critérios de aceite**:
+
+- Toda solicitação criada em u_edu_financeiro cai no grupo Financeira.
+- A regra não altera registros que já tenham assignment_group preenchido.
+- A equipe Financeira visualiza as solicitações na fila do grupo.
+
+---
+
+## STRY0046 - Criar Notificações Financeiras
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0046_NOTIFICACOES_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Precisa da STRY0045 para as solicitações financeiras caírem corretamente no grupo Financeira.**
+
+**O que precisa**:  
+Criar notificações automáticas para manter o aluno informado sobre abertura, andamento, pendência e conclusão das solicitações financeiras.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Record Producers:
+    - Solicitar 2ª Via de Boleto
+    - Enviar Comprovante de Pagamento
+    - Contestar Multa por Atraso de Boleto
+
+**Notificações necessárias**:
+
+- Solicitação financeira aberta
+- Solicitação em atendimento
+- Solicitação aguardando informação do aluno
+- Solicitação concluída
+- Solicitação cancelada ou não concluída
+
+**O que fazer no ServiceNow**:
+
+- Criar notificações para a tabela u_edu_financeiro.
+- Disparar notificação na criação do registro.
+- Disparar notificação quando state mudar para Work in Progress.
+- Disparar notificação quando state mudar para Pending.
+- Disparar notificação quando state mudar para Closed Complete.
+- Disparar notificação quando state mudar para Closed Incomplete ou Closed Skipped.
+- Enviar para u_solicitante ou usuário que abriu a solicitação.
+- Incluir número da solicitação, tipo financeiro e link para acompanhamento no portal.
+- Não incluir work_notes no template.
+
+**Critérios de aceite**:
+
+- Aluno recebe notificação ao abrir solicitação financeira.
+- Aluno recebe notificação quando entra em atendimento.
+- Aluno recebe notificação quando fica aguardando informação.
+- Aluno recebe notificação quando é concluída.
+- Notificações não expõem informações internas.
+
+---
+
+## STRY0047 - Criar SLA de 1 Dia Útil para Solicitações Financeiras
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0047_SLA_FINANCEIRO_1_DIA  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Precisa da STRY0045 para as solicitações financeiras caírem no grupo Financeira.**
+
+**O que precisa**:  
+Criar controle de prazo/SLA para garantir que solicitações financeiras sejam tratadas em até **1 dia útil**, conforme o problema apresentado no TCC.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Grupo Financeira
+- Record Producers:
+    - Solicitar 2ª Via de Boleto
+    - Enviar Comprovante de Pagamento
+    - Contestar Multa por Atraso de Boleto
+
+**Regra do SLA**:
+
+- Iniciar quando a solicitação for criada em u_edu_financeiro.
+- Prazo alvo: 1 dia útil.
+- Pausar quando state = Pending, pois depende de resposta do aluno.
+- Retomar quando sair de Pending.
+- Encerrar quando state = Closed Complete, Closed Incomplete ou Closed Skipped.
+
+**O que fazer no ServiceNow**:
+
+- Abrir Service Level Management > SLA Definitions.
+- Criar SLA SLA - Financeiro - Solicitações - 1 Dia Útil.
+- Table: u_edu_financeiro.
+- Duration: 1 business day.
+- Start condition:
+    - Active is true
+    - Assignment group is Financeira
+- Pause condition:
+    - State is Pending
+- Stop condition:
+    - State is Closed Complete
+    - State is Closed Incomplete
+    - State is Closed Skipped
+- Validar calendário/horário comercial usado pelo SLA.
+
+**Critérios de aceite**:
+
+- Solicitações financeiras possuem SLA de 1 dia útil.
+- SLA inicia automaticamente após criação/atribuição.
+- SLA pausa quando a solicitação fica aguardando aluno.
+- SLA encerra quando a solicitação é fechada.
+- Solicitações vencidas ficam identificáveis para equipe/gestor.

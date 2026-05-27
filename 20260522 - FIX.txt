@@ -1,0 +1,76 @@
+## FIX001: Aplicar Variable Sets no RP Solicitar Declaração Acadêmica
+
+**Dev**: Arthur Marinho
+**Update Set: EDTECH_04_SECRETARIA_STRY0020_RP_SECRETARIA_CORE
+
+**O que precisa**:
+Atualizar o Record Producer **Solicitar Declaração Acadêmica** para usar os Variable Sets corretos. Esse RP pertence à **STRY0022 - Criar Record Producers Da Secretaria Core**, então a correção deve ser feita no update set da story: **EDTECH_04_SECRETARIA_STRY0020_RP_SECRETARIA_CORE**.
+
+**Onde aplicar**:
+- Record Producer: **Solicitar Declaração Acadêmica**
+- Tabela: **Solicitação Secretaria [x_edu_secretaria]**
+- Catálogo: **Catálogo da Secretaria Acadêmica**
+- Categoria: **Documentos e Declarações**
+
+**Variable Sets que devem estar no RP**:
+- **Dados do Solicitante**
+- **Dados Acadêmicos do Solicitante**
+- **Contato e Retorno**
+- **Descrição da Solicitação**
+- **Anexos/Evidências**
+- **Detalhes da Solicitação Acadêmica**
+
+**Critérios de aceite**:
+- O RP exibe os Variable Sets corretamente no portal.
+- Não existem campos duplicados fora dos Variable Sets.
+- A solicitação cria registro em **x_edu_secretaria**.
+- O item fica apenas na categoria **Documentos e Declarações**.
+
+
+## FIX002: Corrigir Auto Preenchimento Contato e Retorno
+
+**Dev**: Arthur Andrade
+**Update Set**: EDTECH_05_PORTAL_STRY0025_AUTOPREENCHIMENTO
+
+**O que precisa**:
+Corrigir o Catalog Client Script **Auto Preenchimento Contato e Retorno**, pois os campos de contato não estão sendo preenchidos automaticamente.
+
+**Variable Set principal**:
+- **Contato e Retorno**
+
+**Record Producers para teste**:
+- **Relatar Problema com AVA/Moodle**
+- **Solicitar 2ª Via de Boleto**
+- **Enviar Comprovante de Pagamento**
+- **Contestar Multa por Atraso de Boleto**
+- **Emitir Comprovante de Matrícula**
+- **Solicitar Declaração Acadêmica**
+- **Solicitar Histórico Escolar**
+- **Solicitar Diploma**
+
+**Para testar se está funcionando:**
+Criar seu perfil como aluno em **u_edu_perfil_academico.do**, vinculando o campo **Usuário**, preenchendo **Tipo de Perfil = Aluno**, **Matrícula**, **Curso**, **Campus**, **Período**, **Turno**, **Status Acadêmico** e **Telefone Celular**.
+
+**Critérios de aceite**:
+- Ao abrir os RPs com usuário aluno, o bloco **Contato e Retorno** preenche e-mail e telefone.
+- O preenchimento funciona nos RPs de Secretaria, Financeiro e Suporte que usam o Variable Set.
+- Se não houver perfil acadêmico, o formulário não quebra.
+- O comportamento funciona no Portal.
+
+## FIX003: Consolidar Categorias Duplicadas
+
+**Prioridade**: Baixa
+**Update Set**: EDTECH_01_CORE_REFACTOR001_ESTRUTURAR_DADOS
+
+**O que precisa**:
+Corrigir categorias duplicadas criadas nos catálogos. No Financeiro, deixar somente **Boletos e Pagamentos**. Na Secretaria, deixar somente **Documentos e Declarações**.
+
+**Categorias oficiais que devem permanecer**:
+- **Boletos e Pagamentos**, no **Catálogo Financeiro**
+- **Documentos e Declarações**, no **Catálogo da Secretaria Acadêmica**
+
+**Critérios de aceite**:
+- Todos os RPs financeiros ficam em **Boletos e Pagamentos**.
+- Todos os RPs da Secretaria ficam em **Documentos e Declarações**.
+- Nenhum Record Producer core fica sem categoria.
+

@@ -1,0 +1,474 @@
+## STRY0048 - Criar Flow do Processo Interno da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0048_FLOW_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Precisa da STRY0036 e STRY0037.**
+
+**Persona**:  
+Equipe da Secretaria Acadêmica que precisa receber solicitações dos alunos com um processo interno padronizado, sem depender de ajustes manuais em cada registro.
+
+**O que precisa**:  
+Criar um **Flow Designer** para padronizar o início do atendimento das solicitações da Secretaria depois que o aluno envia um Record Producer.
+
+**Por que essa story existe**:  
+Quando o aluno envia uma solicitação, o sistema cria um registro em u_edu_secretaria. O Flow garante que todo registro novo comece corretamente como uma solicitação ativa e em estado inicial Open, deixando o processo pronto para atendimento, SLA, notificações e acompanhamento no portal.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Grupo Secretaria
+- Record Producers:
+    - Emitir Comprovante de Matrícula
+    - Solicitar Declaração Acadêmica
+    - Solicitar Histórico Escolar
+    - Solicitar Diploma
+
+**O que fazer no ServiceNow**:
+
+- Acessar **Flow Designer**.
+- Criar Flow chamado FL - Secretaria - Processo Interno da Solicitação.
+- Configurar trigger:
+    - Tipo: Record created
+    - Tabela: u_edu_secretaria
+    - Condição: Active is true
+- Adicionar ação Update Record.
+- Atualizar o registro criado para:
+    - state = Open
+- Usar o campo nativo state, sem criar campo novo de status.
+- Considerar os estados do processo assim:
+    - Open = Novo
+    - Work in Progress = Em atendimento
+    - Pending = Aguardando aluno
+    - Closed Complete = Concluído
+    - Closed Incomplete / Closed Skipped = Cancelado ou não concluído
+- Não definir assignment_group no Flow, pois isso fica na STRY0037 via Assignment Rule.
+- Não criar notificações nesta story, pois isso fica na STRY0039.
+- Não criar SLA nesta story, pois isso fica na STRY0040.
+
+**Como verificar**:
+
+- Entrar no portal como usuário aluno.
+- Abrir um dos Record Producers da Secretaria.
+- Enviar a solicitação.
+- Abrir o registro criado em u_edu_secretaria.
+- Confirmar que:
+    - O registro foi criado corretamente.
+    - Active = true.
+    - State = Open.
+    - Assignment group = Secretaria, vindo da Assignment Rule.
+- Acessar **Flow Designer > Executions** e confirmar que o Flow executou sem erro.
+
+**Critérios de aceite**:
+
+- Toda solicitação nova da Secretaria inicia com state = Open.
+- O processo usa o campo nativo state.
+- O Flow executa para os 4 Record Producers da Secretaria.
+- O Flow não define grupo responsável.
+- A solicitação continua sendo roteada pela Assignment Rule.
+- A Secretaria consegue dar andamento usando os estados nativos da tarefa.
+
+---
+
+## STRY0049 - Validar Fechamento da Secretaria com Anexo ou Close Notes
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0049_VALIDACAO_FECHAMENTO_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Precisa da STRY0034 e STRY0048.**
+
+**Persona**:  
+Equipe da Secretaria Acadêmica que precisa finalizar solicitações com entrega registrada ou justificativa formal, evitando fechamento sem retorno ao aluno.
+
+**O que precisa**:  
+Criar uma validação para impedir que solicitações da Secretaria sejam fechadas incorretamente.
+
+**Por que essa story existe**:  
+Depois que a solicitação entra no processo interno, a Secretaria precisa finalizar com rastreabilidade. Se foi concluída, deve ter documento final anexado pelo recurso nativo de anexos do ServiceNow. Se não foi concluída, deve ter justificativa em close_notes.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Campo nativo state
+- Campo nativo close_notes
+- Anexos nativos do registro, salvos em sys_attachment
+- Ícone de clipe/anexo no form da solicitação
+
+**Regras de fechamento**:
+
+- Se state = Closed Complete:
+    - exigir pelo menos um anexo no registro.
+- Se state = Closed Incomplete:
+    - exigir close_notes preenchido.
+- Se state = Closed Skipped:
+    - exigir close_notes preenchido.
+
+**O que fazer no ServiceNow**:
+
+- Validar que a tabela u_edu_secretaria permite anexos pelo ícone de clipe.
+- Validar se o campo close_notes está disponível no form da tabela u_edu_secretaria.
+- Se close_notes não estiver visível, adicionar ao form interno da Secretaria.
+- Criar Business Rule:
+    - Nome: BR - Secretaria - Validar Fechamento
+    - Tabela: u_edu_secretaria
+    - Quando: Before Update
+    - Active: true
+    - Advanced: true
+- Na Business Rule, validar mudança do campo state.
+- Consultar sys_attachment quando o estado mudar para Closed Complete.
+- Bloquear Closed Complete se não houver anexo nativo no registro.
+- Bloquear Closed Incomplete e Closed Skipped se close_notes estiver vazio.
+- Não criar campo customizado para PDF.
+- Não criar campo customizado de justificativa.
+
+**Exemplo de script**:
+
+`(function executeRule(current, previous) { var closedComplete = '3'; var closedIncomplete = '4'; var closedSkipped = '7'; if (!current.state.changes()) { return; } if (current.state == closedComplete) { var attachment = new GlideRecord('sys_attachment'); attachment.addQuery('table_name', 'u_edu_secretaria'); attachment.addQuery('table_sys_id', current.sys_id); attachment.setLimit(1); attachment.query(); if (!attachment.hasNext()) { gs.addErrorMessage('Para concluir a solicitação, anexe o documento final pelo clipe de anexos do registro.'); current.setAbortAction(true); return; } } if (current.state == closedIncomplete || current.state == closedSkipped) { if (gs.nil(current.close_notes)) { gs.addErrorMessage('Para fechar sem conclusão, preencha o campo Close notes.'); current.setAbortAction(true); } } })(current, previous);`
+
+**Atenção**: validar os valores técnicos do campo state no seu ambiente. Em muitas tabelas Task, os valores são:
+
+- 3 = Closed Complete
+- 4 = Closed Incomplete
+- 7 = Closed Skipped
+
+**Como verificar**:
+
+- Criar uma solicitação da Secretaria pelo portal.
+- Abrir o registro criado em u_edu_secretaria.
+- Clicar no ícone de clipe/anexo e confirmar que aparece a janela de upload.
+- Tentar alterar state para Closed Complete sem anexo.
+- Confirmar que o sistema bloqueia.
+- Anexar um PDF/documento pelo clipe do registro.
+- Alterar state para Closed Complete.
+- Confirmar que o sistema permite.
+- Criar ou abrir outra solicitação.
+- Tentar alterar state para Closed Incomplete sem close_notes.
+- Confirmar que o sistema bloqueia.
+- Preencher close_notes.
+- Alterar para Closed Incomplete.
+- Confirmar que o sistema permite.
+- Repetir o teste para Closed Skipped.
+
+**Critérios de aceite**:
+
+- Solicitação não pode ser concluída sem anexo nativo no registro.
+- Documento final é anexado pelo clipe/anexo padrão do ServiceNow.
+- Solicitação não pode ser fechada como incompleta sem close_notes.
+- Solicitação não pode ser fechada como ignorada/cancelada sem close_notes.
+- A validação usa sys_attachment e campos nativos do ServiceNow.
+- Nenhum campo customizado de PDF é criado.
+- Nenhum campo customizado de justificativa é criado.
+- Estados Open, Work in Progress e Pending não são bloqueados.
+
+---
+  
+## STRY0051 - Criar Flow do Processo Interno Financeiro
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0051_FLOW__FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Precisa da STRY0044 e STRY0045.**
+
+**Persona**:  
+Equipe Financeira que precisa receber solicitações dos alunos com processo interno padronizado, sem depender de ajustes manuais em cada registro.
+
+**O que precisa**:  
+Criar um **Flow Designer** para padronizar o início do atendimento das solicitações financeiras depois que o aluno envia um Record Producer.
+
+**Por que essa story existe**:  
+Quando o aluno envia uma solicitação financeira, o sistema cria um registro em u_edu_financeiro. O Flow garante que toda solicitação nova comece ativa e com estado inicial Open, deixando o processo pronto para atendimento, SLA, notificações e acompanhamento no portal.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Grupo Financeira
+- Record Producers:
+    - Solicitar 2ª Via de Boleto
+    - Enviar Comprovante de Pagamento
+    - Contestar Multa por Atraso de Boleto
+
+**O que fazer no ServiceNow**:
+
+- Acessar **Flow Designer**.
+- Criar Flow chamado FL - Financeiro - Processo Interno da Solicitação.
+- Configurar trigger:
+    - Tipo: Record created
+    - Tabela: u_edu_financeiro
+    - Condição: Active is true
+- Adicionar ação Update Record.
+- Atualizar o registro criado para:
+    - state = Open
+- Usar o campo nativo state, sem criar campo novo de status.
+- Considerar os estados do processo assim:
+    - Open = Novo
+    - Work in Progress = Em atendimento
+    - Pending = Aguardando aluno
+    - Closed Complete = Concluído
+    - Closed Incomplete / Closed Skipped = Cancelado ou não concluído
+- Não definir assignment_group no Flow, pois isso fica na STRY0045 via Assignment Rule.
+- Não criar notificações nesta story, pois isso fica na STRY0046.
+- Não criar SLA nesta story, pois isso fica na STRY0047.
+
+**Como verificar**:
+
+- Entrar no portal como usuário aluno.
+- Abrir um dos Record Producers financeiros.
+- Enviar a solicitação.
+- Abrir o registro criado em u_edu_financeiro.
+- Confirmar que:
+    - O registro foi criado corretamente.
+    - Active = true.
+    - State = Open.
+    - Assignment group = Financeira, vindo da Assignment Rule.
+- Acessar **Flow Designer > Executions** e confirmar que o Flow executou sem erro.
+
+**Critérios de aceite**:
+
+- Toda solicitação financeira nova inicia com state = Open.
+- O processo usa o campo nativo state.
+- O Flow executa para os 3 Record Producers financeiros.
+- O Flow não define grupo responsável.
+- A solicitação continua sendo roteada pela Assignment Rule.
+- A equipe Financeira consegue dar andamento usando os estados nativos da tarefa.
+
+---
+
+## STRY0052 - Validar Fechamento Financeiro com Anexo ou Close Notes
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_STRY0052_VALIDACAO__FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO
+
+**Precisa da STRY0043, STRY0044 e STRY0051.**
+
+**Persona**:  
+Equipe Financeira que precisa finalizar solicitações com retorno claro ao aluno, evitando fechamento sem análise, sem comprovante quando necessário ou sem justificativa formal.
+
+**O que precisa**:  
+Criar uma validação para impedir que solicitações financeiras sejam fechadas incorretamente.
+
+**Por que essa story existe**:  
+O Financeiro lida com solicitações sensíveis, como segunda via de boleto, comprovante de pagamento e contestação de multa. Ao fechar uma solicitação, precisa haver evidência mínima de tratamento. Para envio de comprovante, o anexo é essencial. Para fechamento sem conclusão, a justificativa deve ficar registrada em close_notes.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Campo nativo state
+- Campo nativo close_notes
+- Campo u_tipo_solicitacao_financeira
+- Anexos nativos do registro, salvos em sys_attachment
+- Record Producers:
+    - Solicitar 2ª Via de Boleto
+    - Enviar Comprovante de Pagamento
+    - Contestar Multa por Atraso de Boleto
+
+**Regras de fechamento**:
+
+- Se state = Closed Complete e u_tipo_solicitacao_financeira = Enviar comprovante:
+    - exigir pelo menos um anexo no registro.
+- Se state = Closed Complete para os demais tipos financeiros:
+    - permitir fechamento quando o atendimento estiver registrado em comments ou description.
+- Se state = Closed Incomplete:
+    - exigir close_notes preenchido.
+- Se state = Closed Skipped:
+    - exigir close_notes preenchido.
+
+**O que fazer no ServiceNow**:
+
+- Validar que a tabela u_edu_financeiro permite anexos pelo ícone de clipe.
+- Validar se o campo close_notes está disponível no form da tabela u_edu_financeiro.
+- Se close_notes não estiver visível, adicionar ao form interno do Financeiro.
+- Criar Business Rule:
+    - Nome: BR - Financeiro - Validar Fechamento
+    - Tabela: u_edu_financeiro
+    - Quando: Before Update
+    - Active: true
+    - Advanced: true
+- Na Business Rule, validar mudança do campo state.
+- Consultar sys_attachment quando o fechamento for Closed Complete e o tipo for envio de comprovante.
+- Bloquear Closed Complete do tipo Enviar comprovante se não houver anexo.
+- Bloquear Closed Incomplete e Closed Skipped se close_notes estiver vazio.
+- Não criar campo customizado para comprovante de pagamento.
+- Não criar campo customizado de justificativa.
+
+**Exemplo de script**:
+
+`(function executeRule(current, previous) { var closedComplete = '3'; var closedIncomplete = '4'; var closedSkipped = '7'; var tipoEnviarComprovante = 'envio_comprovante'; if (!current.state.changes()) { return; } if (current.state == closedComplete && current.u_tipo_solicitacao_financeira == tipoEnviarComprovante) { var attachment = new GlideRecord('sys_attachment'); attachment.addQuery('table_name', 'u_edu_financeiro'); attachment.addQuery('table_sys_id', current.sys_id); attachment.setLimit(1); attachment.query(); if (!attachment.hasNext()) { gs.addErrorMessage('Para concluir envio de comprovante, anexe o comprovante de pagamento ao registro.'); current.setAbortAction(true); return; } } if (current.state == closedIncomplete || current.state == closedSkipped) { if (gs.nil(current.close_notes)) { gs.addErrorMessage('Para fechar sem conclusão, preencha o campo Close notes.'); current.setAbortAction(true); } } })(current, previous);`
+
+**Atenção**:
+
+- Validar os valores técnicos do campo state.
+- Validar o valor técnico da choice u_tipo_solicitacao_financeira.
+- Se o valor real da choice for diferente de envio_comprovante, ajustar o script.
+
+**Como verificar**:
+
+- Criar uma solicitação pelo RP Enviar Comprovante de Pagamento.
+- Abrir o registro criado em u_edu_financeiro.
+- Tentar alterar state para Closed Complete sem anexo.
+- Confirmar que o sistema bloqueia.
+- Anexar comprovante pelo clipe do registro.
+- Alterar state para Closed Complete.
+- Confirmar que o sistema permite.
+- Criar solicitação de Solicitar 2ª Via de Boleto.
+- Fechar como Closed Complete e validar que não exige anexo.
+- Criar ou abrir outra solicitação financeira.
+- Tentar alterar state para Closed Incomplete sem close_notes.
+- Confirmar que o sistema bloqueia.
+- Preencher close_notes.
+- Confirmar que o fechamento é permitido.
+- Repetir para Closed Skipped.
+
+**Critérios de aceite**:
+
+- Solicitação de envio de comprovante não pode ser concluída sem anexo.
+- Solicitações financeiras incompletas exigem close_notes.
+- Solicitações financeiras ignoradas/canceladas exigem close_notes.
+- A validação usa sys_attachment e campos nativos do ServiceNow.
+- Nenhum campo customizado de arquivo é criado.
+- Nenhum campo customizado de justificativa é criado.
+- Estados Open, Work in Progress e Pending não são bloqueados.
+
+## STRY0053 - Criar Assignment Rule para Incidentes de Suporte AVA/Moodle
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0054_ASSIGNMENT_RULE_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE
+
+**Persona**:  
+Equipe de Suporte Técnico que precisa receber automaticamente os incidentes abertos por aluno/professor sobre AVA/Moodle.
+
+**O que precisa**:  
+Criar uma **Assignment Rule** para que os incidentes gerados pelo Record Producer **Relatar Problema com AVA/Moodle** caiam automaticamente no grupo **Suporte**.
+
+**Onde aplicar**:
+
+- Tabela Incident [incident]
+- Record Producer Relatar Problema com AVA/Moodle
+- Grupo Suporte
+
+**Critérios de aceite**:
+
+- Incidente aberto pelo RP de AVA/Moodle cai no grupo Suporte.
+- Incidentes que não são do RP AVA/Moodle não são afetados indevidamente.
+- A regra não sobrescreve incidentes que já têm grupo responsável.
+- O grupo Suporte consegue visualizar o chamado na fila.
+- O comportamento funciona com aluno e professor.
+
+---
+
+## STRY0054 - Criar Notificações do Suporte Técnico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0055_NOTIFICACOES_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE
+
+**Precisa da STRY0054.**
+
+**Persona**:  
+Aluno ou professor que abriu um chamado de suporte e precisa ser informado sobre o andamento.
+
+**O que precisa**:  
+Criar notificações automáticas para incidentes de Suporte AVA/Moodle.
+
+**Onde aplicar**:
+
+- Tabela Incident [incident]
+- Record Producer Relatar Problema com AVA/Moodle
+- Grupo Suporte
+
+**Notificações necessárias**:
+
+- Chamado de suporte aberto
+- Chamado em atendimento
+- Chamado aguardando informação
+- Chamado resolvido
+- Chamado cancelado/fechado sem solução
+
+**O que fazer no ServiceNow**:
+
+- Abrir **System Notification > Email > Notifications**.
+- Criar notificações para a tabela Incident.
+- Enviar para:
+    - Caller
+    - ou Opened by, conforme o RP estiver preenchendo.
+- Criar disparos por evento/condição:
+    - Quando o incidente for criado.
+    - Quando state mudar para In Progress.
+    - Quando state mudar para On Hold.
+    - Quando state mudar para Resolved.
+    - Quando state mudar para Closed ou Canceled.
+- Incluir no e-mail:
+    - Número do chamado
+    - Assunto
+    - Estado atual
+    - Link para acompanhamento no portal
+- Não incluir work_notes.
+- Usar somente comentários públicos quando necessário.
+
+**Critérios de aceite**:
+
+- Aluno/professor recebe notificação ao abrir chamado.
+- Aluno/professor recebe aviso quando o suporte inicia atendimento.
+- Aluno/professor recebe aviso quando faltar informação.
+- Aluno/professor recebe aviso quando o chamado for resolvido.
+- Notificações não expõem informações internas.
+
+---
+
+## STRY0055 - Criar SLA para Atendimento de Suporte Técnico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_STRY0056_SLA_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE
+
+**Precisa da STRY0054.**
+
+**Persona**:  
+Equipe de Suporte e gestor acadêmico que precisam controlar o prazo de atendimento dos problemas técnicos.
+
+**O que precisa**:  
+Criar SLA para medir o prazo de atendimento dos incidentes de Suporte AVA/Moodle.
+
+**Onde aplicar**:
+
+- Tabela Incident [incident]
+- Grupo Suporte
+- Record Producer Relatar Problema com AVA/Moodle
+
+**Regra do SLA**:
+
+- Iniciar quando o incidente for criado e atribuído ao grupo Suporte.
+- Prazo sugerido: 2 dias úteis.
+- Pausar quando o chamado estiver aguardando informação do solicitante.
+- Encerrar quando o chamado for resolvido ou fechado.
+
+**O que fazer no ServiceNow**:
+
+- Abrir **Service Level Management > SLA Definitions**.
+- Criar SLA:
+    - Nome: SLA - Suporte - AVA Moodle - 2 Dias Úteis
+    - Table: Incident [incident]
+    - Duration: 2 business days
+- Start condition:
+    - Active is true
+    - Assignment group is Suporte
+    - Condição que identifique AVA/Moodle
+- Pause condition:
+    - State is On Hold
+- Stop condition:
+    - State is Resolved
+    - ou State is Closed
+    - ou State is Canceled
+- Validar calendário de horário comercial.
+- Testar criando chamado pelo portal.
+
+**Critérios de aceite**:
+
+- Incidentes de AVA/Moodle possuem SLA.
+- SLA inicia automaticamente.
+- SLA pausa quando depende do aluno/professor.
+- SLA encerra quando o chamado é resolvido/fechado.
