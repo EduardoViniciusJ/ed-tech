@@ -1,0 +1,722 @@
+## STRY0079 - Ajustar Modelo Acadêmico do Professor
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0079_MODELO_PROFESSOR_AULAS_TURMAS  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Professor
+
+**O que precisa**:  
+Permitir que um professor tenha vínculo com mais de uma disciplina, curso, turma, aula e atividade, sem concentrar essas informações em campos fixos dentro do perfil acadêmico.
+
+**Escopo desta story**:
+
+- Manter u_edu_perfil_academico como cadastro principal do usuário.
+- Criar estrutura própria para vínculos acadêmicos do professor.
+- Preparar os dados que serão exibidos na Home do Professor.
+- Não criar Catalog Item ou Record Producer novo.
+- Não criar portal interno para professor.
+
+**O que fazer no ServiceNow**:
+
+- Validar/criar tabela u_edu_disciplina.
+- Validar/criar tabela u_edu_turma.
+- Criar tabela u_edu_professor_turma.
+- Criar tabela u_edu_aula.
+- Criar tabela u_edu_atividade.
+
+**Campos em u_edu_disciplina**:
+
+- Nome da disciplina
+- Código
+- Curso → referência para u_edu_curso
+- Carga horária
+- Status
+
+**Campos em u_edu_turma**:
+
+- Nome da turma
+- Curso → referência para u_edu_curso
+- Disciplina → referência para u_edu_disciplina
+- Campus → referência para u_edu_campus
+- Turno
+- Período letivo
+- Quantidade de alunos
+- Status
+
+**Campos em u_edu_professor_turma**:
+
+- Professor → referência para sys_user
+- Turma → referência para u_edu_turma
+- Curso → referência para u_edu_curso
+- Disciplina → referência para u_edu_disciplina
+- Campus → referência para u_edu_campus
+- Turno
+- Período letivo
+- Status
+
+**Campos em u_edu_aula**:
+
+- Vínculo professor/turma → referência para u_edu_professor_turma
+- Professor → referência para sys_user
+- Turma → referência para u_edu_turma
+- Disciplina → referência para u_edu_disciplina
+- Data da aula
+- Horário de início
+- Horário de término
+- Local ou link da aula
+- Conteúdo da aula
+- Status da aula
+
+**Campos em u_edu_atividade**:
+
+- Vínculo professor/turma → referência para u_edu_professor_turma
+- Professor → referência para sys_user
+- Turma → referência para u_edu_turma
+- Disciplina → referência para u_edu_disciplina
+- Título da atividade
+- Tipo da atividade
+- Prazo
+- Quantidade para corrigir
+- Status
+- Observações
+
+**Choices**:
+
+- Para Status em u_edu_disciplina, u_edu_turma e u_edu_professor_turma: Ativo, Inativo, Concluído, Cancelado.
+- Para Status da aula em u_edu_aula: Agendada, Confirmada, Realizada, Cancelada.
+- Para Status em u_edu_atividade: Pendente, Em correção, Corrigida, Encerrada.
+
+**Ajustar u_edu_perfil_academico para professor**:
+
+- Tipo de Perfil = Professor
+- Registro Funcional
+- Telefone
+- Campus principal, se fizer sentido
+- Não usar RA, Curso e Período como campos principais do professor.
+
+**Critérios de aceite**:
+
+- Um professor consegue ter mais de uma turma vinculada.
+- Um professor consegue estar associado a mais de uma disciplina.
+- Um professor consegue ter aulas cadastradas para datas diferentes.
+- Um professor consegue ter atividades pendentes associadas às suas turmas.
+- A Home do Professor consegue consultar turmas, aulas e atividades.
+- O cadastro de aluno continua funcionando sem impacto.
+
+---
+
+## STRY0083 - Permitir Cadastro Acadêmico pela Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0083_CADASTRO_ACADEMICO_SECRETARIA  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Secretaria Acadêmica
+
+**O que precisa**:  
+Permitir que a Secretaria Acadêmica cadastre e mantenha os dados acadêmicos usados na Home do Professor, como disciplinas, turmas, vínculos professor/turma, aulas e atividades.
+
+**Escopo desta story**:
+
+- Criar acesso interno para a Secretaria cadastrar dados acadêmicos.
+- Criar módulos no menu da aplicação EdTech.
+- Permitir que os widgets da Home do Professor consultem esses dados.
+- Não criar página no portal para Secretaria.
+- Não criar Catalog Item ou Record Producer.
+- Não permitir que professor altere esses cadastros pelo portal.
+
+**Onde aplicar**:
+
+- System Definition > Application Menus
+- System Definition > Modules
+- System Definition > Tables
+- System UI > Forms
+- User Administration > Roles
+- User Administration > Groups
+
+**O que fazer no ServiceNow**:
+
+- Criar ou validar a role u_edu_cadastro_academico.
+- Vincular a role ao grupo Secretaria.
+- Manter separação de responsabilidade:
+    - u_edu_secretaria → atendimento de solicitações.
+    - u_edu_cadastro_academico → manutenção de cadastros acadêmicos.
+- Criar seção/módulo agrupador: Cadastros Acadêmicos.
+- Criar módulos:
+    - Cursos → tabela u_edu_curso, se já existir.
+    - Campus → tabela u_edu_campus, se já existir.
+    - Disciplinas → tabela u_edu_disciplina.
+    - Turmas → tabela u_edu_turma.
+    - Vínculos Professor/Turma → tabela u_edu_professor_turma.
+    - Aulas → tabela u_edu_aula.
+    - Atividades → tabela u_edu_atividade.
+- Ajustar formulários internos dessas tabelas para mostrar apenas campos necessários.
+
+**Regras de qualidade dos dados**:
+
+- Professor deve referenciar um usuário ativo.
+- Preferencialmente, o professor deve pertencer ao grupo Professores.
+- Turma, Disciplina, Curso e Campus devem estar ativos.
+- Status deve ser usado para inativar registros em vez de excluir.
+- Aulas canceladas não devem aparecer como confirmadas na Home do Professor.
+- Atividades corrigidas ou encerradas não devem contar como pendentes.
+
+**Critérios de aceite**:
+
+- Usuário da Secretaria consegue acessar módulos de cadastro acadêmico.
+- Secretaria consegue cadastrar disciplinas.
+- Secretaria consegue cadastrar turmas.
+- Secretaria consegue vincular professor a uma ou mais turmas.
+- Secretaria consegue cadastrar aulas vinculadas ao professor/turma.
+- Secretaria consegue cadastrar atividades vinculadas ao professor/turma.
+- Professor não consegue alterar esses cadastros pelo portal.
+- Widgets da Home do Professor conseguem consultar os dados cadastrados.
+- Aluno não visualiza dados internos de professor.
+- O portal continua único para aluno e professor.
+
+---
+
+## STRY0084 - Criar ACLs para Cadastro Acadêmico da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0084_ACLS_CADASTRO_ACADEMICO_SECRETARIA  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Secretaria Acadêmica
+
+**O que precisa**:  
+Permitir que usuários da Secretaria Acadêmica possam consultar, criar e editar os cadastros acadêmicos usados na Home do Professor, sem depender de perfil admin.
+
+**Escopo desta story**:
+
+- Criar ACLs para manutenção dos dados acadêmicos.
+- Usar a role u_edu_cadastro_academico.
+- Permitir read, create e write.
+- Bloquear delete para usuários comuns.
+- Não criar página no portal.
+- Não criar Catalog Item ou Record Producer.
+
+**Onde aplicar**:
+
+- System Security > Access Control (ACL)
+- User Administration > Roles
+- User Administration > Groups
+
+**O que fazer no ServiceNow**:
+
+- Criar ou validar a role u_edu_cadastro_academico.
+- Validar vínculo da role com o grupo Secretaria.
+- Criar ACLs de read, create e write para:
+    - u_edu_disciplina
+    - u_edu_turma
+    - u_edu_professor_turma
+    - u_edu_aula
+    - u_edu_atividade
+- Criar ACLs de read para:
+    - u_edu_curso
+    - u_edu_campus
+- Permitir create/write em u_edu_curso e u_edu_campus somente se esses cadastros também forem responsabilidade da Secretaria no MVP.
+- Garantir que delete continue restrito a admin.
+
+**Critérios de aceite**:
+
+- Usuário da Secretaria consegue acessar os módulos de cadastro acadêmico.
+- Usuário da Secretaria consegue criar e editar disciplinas.
+- Usuário da Secretaria consegue criar e editar turmas.
+- Usuário da Secretaria consegue criar e editar vínculos professor/turma.
+- Usuário da Secretaria consegue criar e editar aulas.
+- Usuário da Secretaria consegue criar e editar atividades.
+- Usuário da Secretaria consegue consultar cursos e campus.
+- Usuário da Secretaria não consegue excluir registros acadêmicos.
+- Professor não consegue alterar esses cadastros pelo portal.
+- Widgets da Home do Professor continuam conseguindo consultar os dados
+
+---
+
+## STRY0085 - Criar ACLs de Consulta Gerencial para Gestor Acadêmico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0085_ACLS_GESTOR_ACADEMICO  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Gestor Acadêmico
+
+**O que precisa**:  
+Permitir que o Gestor Acadêmico consulte dados acadêmicos e solicitações das áreas core para acompanhamento gerencial, sem precisar de perfil admin.
+
+**Escopo desta story**:
+
+- Criar ACLs para a role u_edu_gestor.
+- Permitir acesso de leitura aos dados necessários para relatórios, dashboards e acompanhamento.
+- Não permitir edição operacional.
+- Não permitir exclusão.
+- Não criar portal ou página específica para gestor nesta story.
+
+**Onde aplicar**:
+
+- System Security > Access Control (ACL)
+- User Administration > Roles
+- User Administration > Groups
+- Tabelas acadêmicas e operacionais do projeto
+
+**O que fazer no ServiceNow**:
+
+- Validar se a role u_edu_gestor existe.
+- Validar se o grupo Gestores Academicos possui a role u_edu_gestor.
+- Criar ACLs de read para u_edu_gestor nas tabelas:
+    - u_edu_perfil_academico
+    - u_edu_curso
+    - u_edu_campus
+    - u_edu_disciplina
+    - u_edu_turma
+    - u_edu_professor_turma
+    - u_edu_aula
+    - u_edu_atividade
+    - u_edu_financeiro
+    - u_edu_secretaria ou x_edu_secretaria, conforme nome validado na instância
+    - incident
+- Não conceder create, write ou delete para u_edu_gestor, salvo necessidade específica aprovada.
+- Garantir que o gestor consiga visualizar dados usados em dashboards e relatórios.
+- Garantir que o gestor não consiga alterar atendimento, status operacional ou cadastros acadêmicos.
+
+**Critérios de aceite**:
+
+- Usuário do grupo Gestores Academicos consegue consultar dados acadêmicos.
+- Gestor consegue visualizar informações de alunos, professores, turmas, aulas e atividades.
+- Gestor consegue consultar solicitações de Secretaria.
+- Gestor consegue consultar solicitações Financeiras.
+- Gestor consegue consultar incidentes de Suporte.
+- Gestor consegue usar relatórios e dashboards com base nessas tabelas.
+- Gestor não consegue criar, editar ou excluir registros dessas tabelas.
+- Gestor não precisa receber admin para acompanhar os dados do MVP.
+
+
+---
+
+## STRY0081 - Criar Home do Professor no Portal EdTech
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0081_HOME_PROFESSOR  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**: Professor
+
+**O que precisa**:  
+Criar uma home específica para professor dentro do portal único EdTech, exibindo perfil, turmas, aulas do dia, atividades pendentes, chamados recentes e atalhos úteis.
+
+**Escopo desta story**:
+
+- Criar página Home do Professor.
+- Usar o mesmo portal EdTech.
+- Consultar dados criados na STRY0079.
+- Exibir informações por widgets.
+- Não criar portal separado.
+- Não criar Catalog Item novo.
+- Não permitir cadastro de aulas, turmas ou atividades pelo portal nesta story.
+- Os dados acadêmicos serão apenas consultados e exibidos na tela.
+
+**Onde aplicar**:
+
+- Service Portal > Pages
+- Service Portal > Widgets
+- Service Portal > Portals
+- Tabelas:
+    - u_edu_professor_turma
+    - u_edu_aula
+    - u_edu_atividade
+    - incident
+    - u_edu_perfil_academico
+
+**O que fazer no ServiceNow**:
+
+- Criar página no Service Portal:
+    - ID: edtech_professor_home
+    - Título: Home do Professor
+- Vincular a página ao portal EdTech.
+- Usar ou ajustar o widget EDTech - Perfil Acadêmico.
+- Criar widget EDTech - Resumo do Professor.
+- Criar widget EDTech - Minhas Turmas.
+- Criar widget EDTech - Aulas de Hoje.
+- Criar widget EDTech - Atividades Pendentes.
+- Criar ou reutilizar widget EDTech - Chamados Recentes.
+- Reutilizar o widget de quick links, se já existir.
+
+**Fonte dos dados dos widgets**:
+
+- EDTech - Perfil Acadêmico: consulta u_edu_perfil_academico.
+- EDTech - Resumo do Professor: consulta totais em u_edu_professor_turma, u_edu_aula, u_edu_atividade e incident.
+- EDTech - Minhas Turmas: consulta u_edu_professor_turma filtrando pelo professor logado.
+- EDTech - Aulas de Hoje: consulta u_edu_aula filtrando pelo professor logado e pela data atual.
+- EDTech - Atividades Pendentes: consulta u_edu_atividade filtrando pelo professor logado e status Pendente ou Em correção.
+- EDTech - Chamados Recentes: consulta incident filtrando chamados abertos pelo professor ou relacionados ao professor logado.
+
+**Exibir na Home do Professor**:
+
+- Nome do professor.
+- Registro funcional.
+- Campus principal.
+- Quantidade de turmas ativas.
+- Quantidade de aulas de hoje.
+- Quantidade de atividades pendentes.
+- Quantidade de chamados abertos.
+- Lista de aulas do dia.
+- Lista de atividades pendentes.
+- Chamados recentes.
+
+**Quick links sugeridos**:
+
+- Relatar problema no AVA → Record Producer já existente de suporte.
+- Minhas solicitações → página de acompanhamento/My Requests.
+- Minhas turmas → seção/widget de turmas.
+- Materiais → área visual/futura para materiais, sem criar Catalog Item nesta story.
+
+**Critérios de aceite**:
+
+- Professor acessa o portal e vê a home própria.
+- Professor vê turmas vindas de u_edu_professor_turma.
+- Professor vê aulas do dia vindas de u_edu_aula.
+- Professor vê atividades pendentes vindas de u_edu_atividade.
+- Professor vê chamados recentes vindos de incident.
+- Professor consegue acessar o Record Producer de suporte pelo atalho.
+- A home não permite cadastrar turmas, aulas ou atividades.
+- Aluno continua vendo a home de aluno.
+- A experiência continua sendo um portal único para aluno/professor.
+
+---
+
+## STRY0082 - Redirecionar Home do Portal por Perfil do Usuário
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0082_REDIRECIONAMENTO_HOME_PERFIL  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**: Aluno e Professor
+
+**O que precisa**:  
+Criar uma regra de direcionamento na home do Portal EdTech para que o usuário logado seja enviado automaticamente para a página correta conforme seu perfil.
+
+**Escopo desta story**:
+
+- Criar uma página inicial roteadora para o portal.
+- Identificar se o usuário logado é professor ou aluno.
+- Direcionar professor para edtech_professor_home.
+- Direcionar aluno para edtech_aluno_home.
+- Manter portal único.
+- Não criar portal separado.
+- Não criar Catalog Item ou Record Producer novo.
+- Não criar páginas internas para Secretaria, Financeiro, Suporte ou Gestor.
+
+**Onde aplicar**:
+
+- Service Portal > Pages
+- Service Portal > Widgets
+- Service Portal > Portals
+- Grupo Professores
+- Grupo Alunos
+
+**O que fazer no ServiceNow**:
+
+- Criar página roteadora:
+    - ID: edtech_home
+    - Título: Home EdTech
+- Criar widget:
+    - Nome: EDTech - Redirecionar Home por Perfil
+    - ID: edtech_redirect_home_perfil
+- Inserir o widget na página edtech_home.
+- Definir edtech_home como homepage do Portal EdTech.
+- No widget, identificar o usuário logado.
+- Se o usuário estiver no grupo Professores, redirecionar para ?id=edtech_professor_home.
+- Se o usuário estiver no grupo Alunos, redirecionar para ?id=edtech_aluno_home.
+- Se o usuário não estiver em nenhum dos grupos, exibir mensagem simples de acesso não configurado.
+
+**Server Script sugerido**:
+
+`(function() { data.redirectUrl = ''; data.message = ''; if (gs.getUser().isMemberOf('Professores')) { data.redirectUrl = '?id=edtech_professor_home'; return; } if (gs.getUser().isMemberOf('Alunos')) { data.redirectUrl = '?id=edtech_aluno_home'; return; } data.message = 'Seu perfil ainda não está configurado para acessar este portal.'; })();`
+
+**Client Controller sugerido**:
+
+`api.controller = function($window) { var c = this; if (c.data.redirectUrl) { $window.location.href = c.data.redirectUrl; } };`
+
+**HTML Template sugerido**:
+
+`<div class="edtech-redirect-message text-center"> <p>{{c.data.message || 'Carregando seu portal...'}}</p> </div>`
+
+**Critérios de aceite**:
+
+- Usuário do grupo Professores acessa o portal e é direcionado para edtech_professor_home.
+- Usuário do grupo Alunos acessa o portal e é direcionado para edtech_aluno_home.
+- O portal continua sendo único.
+- Não é criado portal separado para professor.
+- O redirecionamento não afeta os Record Producers existentes.
+- Usuário sem grupo configurado não cai em tela quebrada.
+
+---
+
+## STRY0086 - Atualizar Usuários de Teste com Nomes e Dados Realistas por Grupo
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0086_USUARIOS_TESTE_REALISTAS  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Administrador ServiceNow
+
+**O que precisa**:  
+Atualizar os usuários de teste da instância com nomes, e-mails, grupos e perfis mais realistas para melhorar a demonstração do MVP, cobrindo Alunos, Professores, Gestores Acadêmicos, Financeiro, Secretaria e Suporte.
+
+**Escopo desta story**:
+
+- Criar ou atualizar usuários em sys_user.
+- Vincular usuários aos grupos corretos.
+- Preencher u_edu_perfil_academico para alunos e professores.
+- Usar dados fictícios, porém realistas.
+- Não usar dados pessoais reais sensíveis.
+- Não conceder admin para usuários de negócio, exceto se for usuário técnico de demonstração.
+
+**Onde aplicar**:
+
+- User Administration > Users
+- User Administration > Groups
+- User Administration > Roles
+- u_edu_perfil_academico
+
+**O que fazer no ServiceNow**:
+
+- Atualizar/criar usuários para os grupos:
+    - Alunos
+    - Professores
+    - Financeira
+    - Secretaria
+    - Suporte
+    - Gestores Academicos
+- Garantir associação correta em sys_user_grmember.
+- Garantir roles por grupo, não diretamente no usuário:
+    - Suporte → u_edu_suporte
+    - Financeira → u_edu_financeiro
+    - Secretaria → u_edu_secretaria
+    - Gestores Academicos → u_edu_gestor
+    - Secretaria → u_edu_cadastro_academico, se a STRY0083/0084 estiver aplicada.
+- Para Alunos e Professores, não conceder roles administrativas customizadas.
+
+**Exemplos de usuários para demonstração**:
+
+- Alunos:
+    - Ana Clara Souza - ana.souza@edtech.edu.br
+    - Bruno Henrique Lima - bruno.lima@edtech.edu.br
+    - Camila Torres Almeida - camila.almeida@edtech.edu.br
+- Professores:
+    - Mateus Andrade - mateus.andrade@edtech.edu.br
+    - Laura Mendes - laura.mendes@edtech.edu.br
+- Financeiro:
+    - Mariana Costa - mariana.costa@edtech.edu.br
+    - Rafael Nunes - rafael.nunes@edtech.edu.br
+- Secretaria:
+    - Fernanda Alves - fernanda.alves@edtech.edu.br
+    - Carla Martins - carla.martins@edtech.edu.br
+- Suporte:
+    - Lucas Ribeiro - lucas.ribeiro@edtech.edu.br
+    - Diego Santos - diego.santos@edtech.edu.br
+- Gestores Acadêmicos:
+    - Helena Rocha - helena.rocha@edtech.edu.br
+    - Caio Sampaio - eduardo.sampaio@edtech.edu.br
+
+
+**Critérios de aceite**:
+
+- Existem usuários realistas para todos os grupos principais do MVP.
+- Cada usuário está no grupo correto.
+- Roles são herdadas pelos grupos, não atribuídas diretamente sem necessidade.
+- Alunos possuem perfil acadêmico completo.
+- Professores possuem perfil acadêmico/profissional coerente.
+- Nenhum usuário fictício de aluno/professor possui admin.
+
+---
+
+## STRY0087 - Criar Pesquisa de Satisfação Após Encerramento da Solicitação
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_07_AUTOMACOES_STRY0087_PESQUISA_SATISFACAO  
+**Parent**: EDTECH_07_AUTOMACOES
+
+**Persona**: Aluno e Gestor Acadêmico
+
+**O que precisa**:  
+Permitir que o aluno avalie o atendimento recebido após a solicitação ser resolvida ou encerrada, gerando dados de satisfação para acompanhamento da gestão acadêmica.
+
+**Escopo desta story**:
+
+- Criar pesquisa de satisfação para solicitações encerradas.
+- Enviar pesquisa após conclusão de chamados de Suporte, Financeiro e Secretaria.
+- Registrar nota e comentário do aluno.
+- Permitir uso dos dados no Dashboard do Gestor.
+- Não substituir SLA, notificações ou My Requests.
+- Não criar pesquisa para solicitações ainda abertas.
+
+**Onde aplicar**:
+
+- Survey Management / Assessment
+- Flow Designer.
+- Notifications.
+- Service Portal.
+- Tabelas:
+    - incident
+    - u_edu_financeiro
+    - u_edu_secretaria ou x_edu_secretaria, conforme instância.
+    - Tabela nativa de respostas de survey, se o Survey estiver ativo.
+
+**Como fazer no ServiceNow**:
+
+- Criar survey: Pesquisa de Satisfação EdTech.
+- Perguntas sugeridas:
+    - Nota do atendimento de 1 a 5.
+    - O problema foi resolvido?
+    - O prazo foi adequado?
+    - Comentário opcional.
+- Criar Flow para disparar a pesquisa quando:
+    - Incidente de Suporte for resolvido/fechado.
+    - Solicitação Financeira for encerrada.
+    - Solicitação da Secretaria for encerrada.
+- Enviar notificação para o aluno com link da pesquisa.
+- Disponibilizar a pesquisa também no portal, se o widget de Survey estiver disponível.
+- Garantir que cada solicitação gere no máximo uma pesquisa.
+- Relacionar a resposta com:
+    - solicitante;
+    - área;
+    - número da solicitação;
+    - data de encerramento;
+    - nota;
+    - comentário.
+
+**Critérios de aceite**:
+
+- Ao encerrar uma solicitação, o aluno recebe uma pesquisa de satisfação.
+- A pesquisa possui nota de 1 a 5 e comentário opcional.
+- A resposta fica vinculada à solicitação atendida.
+- Suporte, Financeiro e Secretaria geram pesquisa após encerramento.
+- Solicitações abertas não geram pesquisa.
+- O gestor consegue visualizar dados de satisfação em relatório/dashboard.
+- A pesquisa não é enviada mais de uma vez para a mesma solicitação.
+
+---
+
+## STRY0088 - Criar Widget de Pesquisa de Satisfação no Portal
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0088_WIDGET_PESQUISA_SATISFACAO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**: Aluno e Professor
+
+**O que precisa**:  
+Exibir no Portal EdTech as pesquisas de satisfação pendentes para que aluno ou professor avaliem o atendimento após o encerramento da solicitação.
+
+**Escopo desta story**:
+
+- Criar widget de pesquisas pendentes.
+- Exibir o widget apenas para aluno e professor.
+- Exibir somente pesquisas ainda não respondidas.
+- Permitir acesso à pesquisa vinculada à solicitação encerrada.
+- Não exibir pesquisa para Secretaria, Financeiro, Suporte ou Gestor no portal.
+- Não criar nova pesquisa nesta story; a criação/disparo da pesquisa pertence à STRY0087.
+
+**O que fazer no ServiceNow**:
+
+- Criar ou copiar um que exista widget:
+    - Nome: EDTech - Pesquisas Pendentes
+    - ID: edtech_pesquisas_pendentes
+- O widget deve identificar o usuário logado.
+- O widget deve buscar pesquisas pendentes relacionadas ao usuário logado.
+- O widget deve exibir:
+    - Número da solicitação.
+    - Área de atendimento.
+    - Título/resumo da solicitação.
+    - Data de encerramento.
+    - Botão Responder pesquisa.
+- O botão deve abrir a pesquisa correspondente.
+- Após resposta, a pesquisa não deve aparecer mais como pendente.
+- Inserir o widget na Home do Aluno.
+- Inserir o widget na Home do Professor.
+- Opcionalmente inserir no My Requests ou na página do ticket encerrado.
+
+**Comportamento esperado**:
+
+- Se não houver pesquisa pendente, o widget não aparece ou exibe estado vazio discreto.
+- Se houver uma pesquisa pendente, exibe um card de avaliação.
+- Se houver várias pesquisas pendentes, lista as mais recentes primeiro.
+- Professor vê pesquisas de chamados que ele abriu.
+- Aluno vê pesquisas das solicitações que ele abriu.
+
+**Critérios de aceite**:
+
+- Aluno visualiza pesquisas pendentes no portal.
+- Professor visualiza pesquisas pendentes no portal.
+- Usuário consegue abrir a pesquisa pelo botão do widget.
+- Pesquisa respondida deixa de aparecer como pendente.
+- Secretaria, Financeiro, Suporte e Gestor não visualizam esse widget no portal.
+- O widget não exibe pesquisas de outro usuário.
+- O widget não cria pesquisas duplicadas.
+---
+
+## STRY0089 - Criar Relatórios de Satisfação por Área e para o Gestor
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0089_RELATORIOS_SATISFACAO  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Secretaria, Financeiro, Suporte e Gestor Acadêmico
+
+**O que precisa**:  
+Permitir que as áreas internas e o Gestor Acadêmico acompanhem os resultados das pesquisas de satisfação por área, serviço, nota média e comentários dos usuários.
+
+**Escopo desta story**:
+
+- Criar relatórios de satisfação por área.
+- Permitir visão específica para Secretaria, Financeiro e Suporte.
+- Permitir visão consolidada para Gestor Acadêmico.
+- Não criar widget de resposta no portal.
+- Não criar nova pesquisa nesta story; a pesquisa pertence à STRY0087.
+
+**Onde aplicar**:
+
+- Reports > Create New
+- Self-Service > Dashboards
+- Dashboard da Secretaria
+- Dashboard do Financeiro
+- Dashboard do Suporte
+- Dashboard do Gestor Acadêmico
+
+
+**O que fazer no ServiceNow**:
+
+- Criar relatório Satisfação - Secretaria.
+- Criar relatório Satisfação - Financeiro.
+- Criar relatório Satisfação - Suporte.
+- Criar relatório Satisfação - Geral EdTech.
+- Exibir indicadores:
+    - Nota média.
+    - Quantidade de respostas.
+    - Percentual de avaliações positivas.
+    - Solicitações sem resposta de pesquisa.
+    - Comentários recentes.
+    - Satisfação por área.
+    - Satisfação por tipo de serviço.
+- Adicionar os relatórios nos dashboards correspondentes:
+    - Dashboard - Secretaria Acadêmica
+    - Dashboard - Financeiro Acadêmico
+    - Dashboard - Suporte Técnico AVA
+    - Dashboard - Gestor Acadêmico
+- Garantir filtro por área:
+    - Secretaria vê pesquisas da Secretaria.
+    - Financeiro vê pesquisas do Financeiro.
+    - Suporte vê pesquisas do Suporte.
+    - Gestor vê visão consolidada.
+
+**Critérios de aceite**:
+
+- Secretaria consegue visualizar satisfação das solicitações acadêmicas.
+- Financeiro consegue visualizar satisfação das solicitações financeiras.
+- Suporte consegue visualizar satisfação dos chamados técnicos.
+- Gestor consegue visualizar satisfação consolidada das áreas core.
+- Os dashboards exibem nota média e quantidade de respostas.
+- Comentários dos usuários podem ser consultados pelas áreas responsáveis.
+- Usuários sem permissão não acessam dados de satisfação de outras áreas.

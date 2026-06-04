@@ -1,0 +1,756 @@
+## STRY0070 - Clonar Theme do Service Portal para o Portal EdTech
+
+**Tipo**: Portal  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0070_THEME_EDTECH
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno que acessa o portal EdTech e precisa visualizar a navegação e identidade visual do projeto sem que isso altere o portal padrão `/sp` do ServiceNow.
+
+**O que precisa**:  
+Clonar o theme usado pelo Service Portal padrão e aplicar a cópia no portal EdTech, garantindo que customizações de header, menu e footer não impactem o `/sp`.
+
+**Escopo desta story**:
+- Identificar o theme usado pelo portal padrão `/sp`.
+- Clonar o theme padrão, atualmente `Coral`.
+- Criar theme próprio chamado `EdTech Theme`.
+- Aplicar `EdTech Theme` no portal `EdTech`.
+- Configurar o header customizado do EdTech no theme clonado.
+- Garantir que o `/sp` continue usando o theme original.
+
+**Onde aplicar**:
+- `Service Portal > Portals`
+- `Service Portal > Themes`
+- Portal padrão `/sp`
+- Portal `EdTech`
+- Widget `EdTech - SP Header Menu`
+
+**O que fazer no ServiceNow**:
+- Abrir `Service Portal > Portals`.
+- Abrir o portal padrão `/sp`.
+- Identificar o valor atual do campo `Theme`.
+- Abrir `Service Portal > Themes`.
+- Clonar o theme `Coral`.
+- Renomear a cópia para `EdTech Theme`.
+- No theme `EdTech Theme`, configurar o header/menu customizado `EdTech - SP Header Menu`.
+- Abrir o portal `EdTech`.
+- Definir o campo `Theme` como `EdTech Theme`.
+- Validar que o portal `/sp` continua usando o theme original.
+- Validar que o portal `/edtech` usa o theme clonado.
+
+**Critérios de aceite**:
+- Theme `EdTech Theme` criado como cópia do theme original.
+- Portal `EdTech` usa `EdTech Theme`.
+- Portal `/sp` continua usando o theme original.
+- Header customizado aparece apenas no portal EdTech.
+- Links `Solicitações`, `Minhas Solicitações` e `Aulas` não aparecem indevidamente no `/sp`.
+- Alterações futuras no `EdTech Theme` não impactam o portal padrão.
+- O portal EdTech continua acessível por `/edtech`.
+
+**Observação de modelagem**:  
+Nenhuma alteração deve ser feita diretamente no theme original usado pelo `/sp`; qualquer customização do projeto deve ocorrer apenas no `EdTech Theme`. 
+
+---
+
+## STRY0071 - Copiar e Ajustar Widget Quick Links Reutilizável do Portal EdTech
+
+**Tipo**: Portal  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0071_QUICK_LINKS_REUTILIZAVEL
+**Parent**: `EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno que acessa o portal EdTech e precisa encontrar rapidamente atalhos para abrir solicitações, acompanhar pedidos e acessar áreas acadêmicas, conforme o contexto da página em que está navegando.
+
+**O que precisa**:  
+Copiar o widget OOB `Quick links` e criar uma versão própria e reutilizável do EdTech, permitindo configurar os cards por instância do widget.
+
+**Escopo desta story**:
+- Copiar/clonar o widget OOB `Quick links`.
+- Criar widget próprio chamado `EdTech - Quick Links`.
+- Não alterar o widget nativo do ServiceNow.
+- Permitir reutilização do widget em várias páginas.
+- Configurar os links por instância usando `Widget Options`.
+- Adicionar uma instância do widget na página `edtech_home_aluno`.
+
+**Onde aplicar**:
+- `Service Portal > Widgets`
+- Widget base: `Quick links`
+- Widget novo: `EdTech - Quick Links`
+- `Option schema` do widget
+- Página `edtech_home_aluno`
+- Futuras páginas do portal EdTech
+
+**Opções configuráveis do widget**:
+- `title`: título opcional do bloco.
+- `layout`: tipo de apresentação, com valor padrão `cards`.
+- `links_json`: JSON com os cards daquela instância.
+
+**Exemplo de links_json para a Home do Aluno**:
+json
+[
+  {
+    "title": "Minhas Solicitações",
+    "description": "Acompanhe seus pedidos e status",
+    "url": "?id=requests",
+    "icon": "fa-list-alt",
+    "color": "blue"
+  },
+  {
+    "title": "Documentos Acadêmicos",
+    "description": "Solicite declarações, histórico e outros documentos",
+    "url": "?id=sc_category&sys_id=SYS_ID_SECRETARIA",
+    "icon": "fa-file-text",
+    "color": "green"
+  },
+  {
+    "title": "Financeiro",
+    "description": "Boletos, comprovantes e pagamentos",
+    "url": "?id=sc_category&sys_id=SYS_ID_FINANCEIRO",
+    "icon": "fa-credit-card",
+    "color": "orange"
+  },
+  {
+    "title": "Suporte AVA",
+    "description": "Problemas técnicos com o AVA/Moodle",
+    "url": "?id=sc_category&sys_id=SYS_ID_SUPORTE",
+    "icon": "fa-headphones",
+    "color": "purple"
+  }
+]
+
+**O que fazer no ServiceNow**:
+
+- Localizar o widget OOB Quick links.
+- Copiar/clonar o widget.
+- Renomear a cópia para EdTech - Quick Links.
+- Criar opções no Option schema: title, layout, links_json.
+- Atualizar o Server Script para ler links_json e montar data.links.
+- Atualizar o HTML para renderizar os cards com ng-repeat.
+- Atualizar CSS para aproximar o visual dos cards do wireframe.
+- Adicionar uma instância do widget na página edtech_home_aluno.
+- Configurar a instância da Home com os cards Minhas Solicitações, Documentos Acadêmicos, Financeiro e Suporte AVA.
+- Validar os sys_id reais das categorias antes de configurar os links.
+- Para obter o sys_id, abrir a categoria em Maintain Categories e usar botão direito no formulário > Copy sys_id.
+
+**Critérios de aceite**:
+
+- Widget EdTech - Quick Links criado como cópia do widget original.
+- Widget nativo Quick links não foi alterado.
+- Widget possui opções title, layout e links_json.
+- Links são configuráveis por instância do widget.
+- A Home do Aluno exibe os quatro cards principais do wireframe.
+- Card Minhas Solicitações abre ?id=requests.
+- Card Documentos Acadêmicos abre a categoria da Secretaria.
+- Card Financeiro abre a categoria Financeiro.
+- Card Suporte AVA abre a categoria de Suporte.
+- O mesmo widget pode ser reutilizado em outras páginas com outro links_json.
+- O layout funciona em desktop.
+
+---
+
+## STRY0072 - Copiar e Ajustar Widget My Requests para o Aluno
+
+**Tipo**: Portal  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0072_MY_REQUESTS_ALUNO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno que acessa a Home do portal EdTech e precisa acompanhar rapidamente suas solicitações abertas, em atendimento, pendentes ou concluídas.
+
+**O que precisa**:  
+Copiar o widget OOB de My Requests e criar uma versão própria do EdTech para exibir os pedidos recentes do aluno, reutilizando os My Request Filters já configurados.
+
+**Escopo desta story**:
+
+- Copiar/clonar o widget OOB My Requests.
+- Criar widget próprio chamado EdTech - My Requests.
+- Não alterar o widget nativo do ServiceNow.
+- Reutilizar os My Request Filters já criados para Financeiro e Secretaria.
+- Validar filtro para incidentes de Suporte, se aplicável.
+- Exibir pedidos recentes do aluno na Home.
+- Permitir abertura do detalhe no standard_ticket.
+
+**Onde aplicar**:
+
+- Service Portal > Widgets
+- Widget base: My Requests
+- Widget novo: EdTech - My Requests
+- Service Portal > My Request Filters
+- Página edtech_home_aluno
+- Página requests
+- Página standard_ticket
+- Tabelas u_edu_financeiro, u_edu_secretaria e Incident [incident]
+
+**Filtros esperados**:
+
+- Solicitações financeiras abertas pelo usuário logado.
+- Solicitações da Secretaria abertas pelo usuário logado.
+- Incidentes de Suporte abertos pelo usuário logado.
+
+**O que fazer no ServiceNow**:
+
+- Validar se já existem My Request Filters para u_edu_financeiro e u_edu_secretaria.
+- Criar ou validar filtro para Incident [incident], se o Suporte também deve aparecer em pedidos recentes.
+- Localizar o widget OOB My Requests.
+- Copiar/clonar o widget.
+- Renomear a cópia para EdTech - My Requests.
+- Manter a lógica que consome My Request Filters.
+- Ajustar texto/título para Pedidos recentes ou Minhas Solicitações.
+- Configurar limite de exibição na Home, por exemplo últimos 4 registros.
+- Garantir que o clique em cada solicitação abra standard_ticket.
+- Adicionar o widget na página edtech_home_aluno.
+- Validar com usuário aluno que abriu solicitações nas três áreas.
+
+**Critérios de aceite**:
+
+- Widget EdTech - My Requests criado como cópia do original.
+- Widget nativo My Requests não foi alterado.
+- Widget exibe solicitações do aluno logado.
+- Solicitações financeiras aparecem usando My Request Filter.
+- Solicitações da Secretaria aparecem usando My Request Filter.
+- Incidentes de Suporte aparecem para o aluno, quando abertos por ele.
+- O aluno visualiza apenas pedidos dele.
+- Clique no pedido abre a página standard_ticket.
+- Widget mostra número, assunto, status e data.
+- Widget aparece na Home do Aluno conforme o wireframe.
+- Se não houver pedidos, exibe mensagem simples sem quebrar a página.
+
+---
+
+## REFACTOR006 - Criar Campos Técnicos de Suporte na Tabela Incident
+
+**Tipo**: Refactor  
+**Módulo**: Suporte  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_V2_REFACTOR006_CAMPOS_INCIDENT_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE_V2
+
+**Persona**:  
+Equipe de Suporte Técnico que precisa visualizar no incidente os dados técnicos enviados pelo aluno/professor e usar esses dados em relatórios e dashboards.
+
+**O que precisa**:  
+Criar campos customizados na tabela Incident [incident] para armazenar as informações técnicas vindas do Record Producer Relatar Problema com AVA/Moodle.
+
+**Escopo desta story**:
+
+- Criar campos técnicos na tabela Incident.
+- Preparar os campos para relatórios do dashboard de Suporte.
+- Organizar os campos no formulário interno do incidente.
+- Não alterar o Record Producer nesta story.
+
+**Onde aplicar**:
+
+- System Definition > Tables
+- Tabela Incident [incident]
+- Form Layout / Form Design do Incident
+- Dashboard futuro de Suporte Técnico
+
+**Campos a criar/validar**:
+
+- Sistema afetado -> u_sistema_afetado -> Choice
+- Tipo de problema -> u_tipo_problema -> Choice
+- Navegador utilizado -> u_navegador_utilizado -> Choice
+- Dispositivo utilizado -> u_dispositivo_utilizado -> Choice
+- URL ou caminho da tela com erro -> u_url_erro -> String
+- Mensagem de erro apresentada -> u_mensagem_erro -> Multi Line Text
+- Data e horário aproximado do problema -> u_data_hora_problema -> Date/Time
+
+**Choices de Sistema afetado**:
+
+- AVA/Moodle
+- Portal Acadêmico
+- Vídeo/Aula
+- Envio de Atividade
+- Outro
+
+**Choices de Tipo de problema**:
+
+- Aula não abre
+- Vídeo não carrega
+- Erro no envio da atividade
+- Problema de acesso
+- Outro
+
+**Choices de Navegador utilizado**:
+
+- Google Chrome
+- Microsoft Edge
+- Mozilla Firefox
+- Safari
+- Outro
+
+**Choices de Dispositivo utilizado**:
+
+- Computador
+- Celular
+- Outro
+
+**O que fazer no ServiceNow**:
+
+- Abrir a tabela Incident [incident].
+- Criar os campos customizados listados.
+- Configurar campos Choice com as mesmas opções usadas nas variáveis do Record Producer.
+- Adicionar os campos ao formulário interno de Incident em uma seção chamada Detalhes do Problema Técnico.
+- Validar que os campos aparecem para a equipe de Suporte.
+- Validar que os campos podem ser usados em relatórios.
+
+**Critérios de aceite**:
+
+- Campos técnicos foram criados na tabela Incident.
+- Campos Sistema afetado e Tipo de problema são do tipo Choice.
+- Choices da tabela estão alinhadas com as choices do Record Producer.
+- Campos aparecem no formulário interno do incidente.
+- Equipe de Suporte consegue visualizar os dados técnicos.
+- Campos ficam disponíveis para relatórios e dashboards.
+- Nenhum dado do Record Producer foi mapeado ainda nesta story.
+
+---
+
+## REFACTOR007 - Mapear Variáveis Técnicas do Record Producer de Suporte para Incident
+
+**Tipo**: Refactor  
+**Módulo**: Suporte  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_V2_REFACTOR007_MAPEAMENTO_RP_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE_V2
+
+**Persona**:  
+Equipe de Suporte Técnico que precisa receber incidentes já preenchidos com os dados técnicos informados pelo aluno/professor no portal.
+
+**O que precisa**:  
+Atualizar o script do Record Producer Relatar Problema com AVA/Moodle para copiar as variáveis técnicas para os campos customizados criados no Incident.
+
+**Escopo desta story**:
+
+- Atualizar o script do Record Producer de Suporte.
+- Mapear variáveis técnicas para campos reais do Incident.
+- Garantir que os dados fiquem disponíveis para atendimento e dashboard.
+- Não criar novos campos nesta story.
+
+**Onde aplicar**:
+
+- Service Catalog > Record Producers
+- Record Producer Relatar Problema com AVA/Moodle
+- Tabela destino Incident [incident]
+- Campos criados no REFACTOR006
+- Variable Set Detalhes do Problema Técnico
+
+**Mapeamento esperado**:
+
+`current.u_sistema_afetado = producer.sistema_afetado; current.u_tipo_problema = producer.tipo_problema; current.u_navegador_utilizado = producer.navegador_utilizado; current.u_dispositivo_utilizado = producer.dispositivo_utilizado; current.u_url_erro = producer.url_erro; current.u_mensagem_erro = producer.mensagem_erro; current.u_data_hora_problema = producer.data_hora_problema;`
+
+**Também validar no script**:
+
+`current.short_description = producer.assunto_curto || 'Problema com AVA/Moodle'; current.description = producer.descricao_detalhada;`
+
+**O que fazer no ServiceNow**:
+
+- Abrir o Record Producer Relatar Problema com AVA/Moodle.
+- Validar os nomes técnicos reais das variáveis.
+- Atualizar o campo Script do Record Producer.
+- Mapear as variáveis do Variable Set Detalhes do Problema Técnico.
+- Validar que o script não quebra caso algum campo opcional esteja vazio.
+- Criar incidente pelo portal usando usuário aluno/professor.
+- Conferir se os campos técnicos aparecem preenchidos no incidente.
+- Validar se os campos podem ser usados no relatório SUP - Volume por sistema afetado.
+
+**Critérios de aceite**:
+
+- Record Producer de Suporte preenche u_sistema_afetado.
+- Record Producer de Suporte preenche u_tipo_problema.
+- Record Producer de Suporte preenche u_navegador_utilizado.
+- Record Producer de Suporte preenche u_dispositivo_utilizado.
+- Record Producer de Suporte preenche u_url_erro, quando informado.
+- Record Producer de Suporte preenche u_mensagem_erro, quando informado.
+- Record Producer de Suporte preenche u_data_hora_problema, quando informado.
+- Incidente criado pelo portal fica pronto para relatório por sistema afetado e tipo de problema.
+- O dashboard de Suporte consegue usar esses campos.
+- O script não altera indevidamente incidentes fora do Record Producer.
+
+---
+
+## STRY0073 - Ajustar SLA de Suporte para 3h de Resposta e 8h de Resolução
+
+**Tipo**: Suporte  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_V2_STRY0073_SLA_SUPORTE_3H_8H  
+**Parent**: EDTECH_02_SUPORTE_V2
+
+**Persona**:  
+Aluno ou professor que abriu um chamado de Suporte Técnico e precisa receber retorno rápido sobre problemas no AVA/Moodle, portal acadêmico, aulas, vídeos ou envio de atividades.
+
+**O que precisa**:  
+Ajustar o controle de SLA do Suporte Técnico para refletir o problema apresentado no TCC: primeira resposta em até 3 horas e resolução em até 8 horas.
+
+**Escopo desta story**:
+
+- Criar ou revisar SLA de primeira resposta do Suporte.
+- Criar ou revisar SLA de resolução do Suporte.
+- Aplicar somente a incidentes criados pelo Record Producer Relatar Problema com AVA/Moodle.
+- Pausar SLA quando o chamado estiver aguardando retorno do solicitante.
+- Encerrar SLA quando o atendimento for resolvido ou fechado.
+
+**Onde aplicar**:
+
+- Service Level Management > SLA Definitions
+- Tabela Incident [incident]
+- Record Producer Relatar Problema com AVA/Moodle
+- Grupo Suporte
+- Estados nativos de Incident
+
+**SLAs esperados**:
+
+- SLA - Suporte - Primeira Resposta - 3 Horas
+- SLA - Suporte - Resolução - 8 Horas
+
+**O que fazer no ServiceNow**:
+
+- Acessar Service Level Management > SLA Definitions.
+- Validar se já existe SLA anterior de Suporte criado na STRY0055.
+- Se existir, revisar se ele deve ser inativado ou mantido apenas como histórico.
+- Criar SLA de primeira resposta com duração de 3 hours.
+- Criar SLA de resolução com duração de 8 hours.
+- Aplicar calendário de horário comercial definido pelo projeto, se existir.
+- Garantir que os SLAs se apliquem apenas aos incidentes do Suporte AVA/Moodle.
+- Testar abertura de incidente pelo RP Relatar Problema com AVA/Moodle.
+- Validar criação dos registros de Task SLA no incidente.
+- Validar pausa quando o chamado estiver aguardando solicitante.
+- Validar encerramento quando houver primeira resposta e quando o chamado for resolvido.
+
+**Critérios de aceite**:
+
+- Incidentes do RP Relatar Problema com AVA/Moodle recebem SLA de primeira resposta de 3 horas.
+- Incidentes do RP Relatar Problema com AVA/Moodle recebem SLA de resolução de 8 horas.
+- SLAs não são aplicados a incidentes fora do contexto AVA/Moodle do projeto.
+- SLA de primeira resposta encerra no marco definido pelo time.
+- SLA de resolução encerra quando o incidente é resolvido, fechado ou cancelado.
+- SLAs pausam quando o chamado depende de retorno do aluno/professor.
+- Equipe de Suporte consegue visualizar os SLAs no incidente.
+- Gestor consegue identificar chamados dentro do prazo, próximos do vencimento e vencidos.
+
+---
+
+## STRY0074 - Criar Dashboard Operacional da Secretaria
+
+**Tipo**: Secretaria  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_V2_STRY0074_DASHBOARD_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA_V2
+
+**Persona**:  
+Equipe da Secretaria Acadêmica que precisa acompanhar solicitações de documentos acadêmicos, identificar pendências, controlar prazos e visualizar volume de atendimento.
+
+**O que precisa**:  
+Criar um dashboard operacional para a Secretaria, consolidando indicadores da tabela u_edu_secretaria.
+
+**Escopo desta story**:
+
+- Criar dashboard da Secretaria.
+- Criar relatórios operacionais da tabela u_edu_secretaria.
+- Exibir solicitações abertas, pendentes, concluídas e vencidas por SLA.
+- Exibir volume por tipo de documento.
+- Disponibilizar o dashboard para a equipe Secretaria e gestores autorizados.
+
+**Onde aplicar**:
+
+- Reports > Create New
+- Self-Service > Dashboards
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Grupo Secretaria
+- Role u_edu_secretaria
+- Role u_edu_gestor, se aplicável
+
+**Relatórios sugeridos**:
+
+- SEC - Solicitações abertas
+- SEC - Solicitações pendentes
+- SEC - Solicitações concluídas
+- SEC - Solicitações vencidas por SLA
+- SEC - Volume por tipo de documento
+- SEC - Solicitações por estado
+
+**O que fazer no ServiceNow**:
+
+- Criar relatórios usando a tabela u_edu_secretaria.
+- Usar state para separar abertas, em atendimento, pendentes e concluídas.
+- Usar u_tipo_documento para agrupar por tipo de documento.
+- Usar dados de Task SLA para identificar solicitações vencidas, se a SLA da Secretaria estiver ativa.
+- Criar dashboard chamado Dashboard - Secretaria Acadêmica.
+- Adicionar os relatórios ao dashboard.
+- Compartilhar com o grupo Secretaria e gestores autorizados.
+- Validar com usuário da Secretaria.
+
+**Critérios de aceite**:
+
+- Dashboard Dashboard - Secretaria Acadêmica criado.
+- Equipe da Secretaria consegue acessar o dashboard.
+- Gestores autorizados conseguem acessar o dashboard.
+- Dashboard mostra solicitações abertas, pendentes e concluídas.
+- Dashboard mostra solicitações vencidas por SLA.
+- Dashboard mostra volume por tipo de documento.
+- Indicadores usam dados reais da tabela u_edu_secretaria.
+
+---
+
+## STRY0075 - Criar Dashboard Operacional Financeiro
+
+**Tipo**: Financeiro  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_V2_STRY0075_DASHBOARD_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO_V2
+
+**Persona**:  
+Equipe Financeira que precisa acompanhar solicitações de boleto, comprovante, contestação de multa e pendências financeiras abertas pelos alunos.
+
+**O que precisa**:  
+Criar um dashboard operacional financeiro consolidando indicadores da tabela u_edu_financeiro.
+
+**Escopo desta story**:
+
+- Criar dashboard financeiro.
+- Criar relatórios da tabela u_edu_financeiro.
+- Exibir solicitações de 2ª via, envio de comprovante e contestação de multa.
+- Exibir abertas, pendentes, concluídas e vencidas por SLA.
+- Disponibilizar o dashboard para a equipe Financeira e gestores autorizados.
+
+**Onde aplicar**:
+
+- Reports > Create New
+- Self-Service > Dashboards
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Grupo Financeira
+- Role u_edu_financeiro
+- Role u_edu_gestor, se aplicável
+
+**Relatórios sugeridos**:
+
+- FIN - Solicitações abertas
+- FIN - Solicitações pendentes
+- FIN - Solicitações concluídas
+- FIN - Solicitações vencidas por SLA
+- FIN - Volume por tipo de solicitação
+- FIN - 2ª via de boleto
+- FIN - Envio de comprovantes
+- FIN - Contestação de multa
+
+**O que fazer no ServiceNow**:
+
+- Criar relatórios usando a tabela u_edu_financeiro.
+- Usar state para separar abertas, pendentes e concluídas.
+- Usar u_tipo_solicitacao_financeira para separar tipos financeiros.
+- Usar dados de Task SLA para identificar solicitações vencidas, se a SLA financeira estiver ativa.
+- Criar dashboard chamado Dashboard - Financeiro Acadêmico.
+- Adicionar os relatórios ao dashboard.
+- Compartilhar com o grupo Financeira e gestores autorizados.
+- Validar com usuário do Financeiro.
+
+**Critérios de aceite**:
+
+- Dashboard Dashboard - Financeiro Acadêmico criado.
+- Equipe Financeira consegue acessar o dashboard.
+- Gestores autorizados conseguem acessar o dashboard.
+- Dashboard mostra solicitações abertas, pendentes e concluídas.
+- Dashboard mostra solicitações vencidas por SLA.
+- Dashboard mostra volume por tipo de solicitação financeira.
+- Dashboard diferencia 2ª via, comprovante e contestação de multa.
+- Indicadores usam dados reais da tabela u_edu_financeiro.
+
+---
+
+## STRY0076 - Criar Dashboard Operacional de Suporte Técnico
+
+**Tipo**: Suporte  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_02_SUPORTE_V2_STRY0076_DASHBOARD_SUPORTE  
+**Parent**: EDTECH_02_SUPORTE_V2
+
+**Persona**:  
+Equipe de Suporte Técnico que precisa acompanhar incidentes relacionados a AVA/Moodle, portal acadêmico, aulas, vídeos e envio de atividades.
+
+**O que precisa**:  
+Criar um dashboard operacional para Suporte Técnico, consolidando indicadores dos incidentes criados pelo Record Producer Relatar Problema com AVA/Moodle.
+
+**Escopo desta story**:
+
+- Criar dashboard de Suporte Técnico.
+- Criar relatórios da tabela Incident [incident].
+- Filtrar apenas incidentes do contexto AVA/Moodle/portal acadêmico.
+- Exibir incidentes por status, tipo de problema, sistema afetado, SLA e volume.
+- Disponibilizar o dashboard para o grupo Suporte e gestores autorizados.
+
+**Onde aplicar**:
+
+- Reports > Create New
+- Self-Service > Dashboards
+- Tabela Incident [incident]
+- Record Producer Relatar Problema com AVA/Moodle
+- Grupo Suporte
+- Role u_edu_suporte
+- Role u_edu_gestor, se aplicável
+
+**Relatórios sugeridos**:
+
+- SUP - Incidentes abertos
+- SUP - Incidentes em atendimento
+- SUP - Incidentes aguardando solicitante
+- SUP - Incidentes resolvidos
+- SUP - Incidentes vencidos por SLA
+- SUP - Volume por tipo de problema
+- SUP - Volume por sistema afetado
+- SUP - Incidentes por prioridade
+
+**O que fazer no ServiceNow**:
+
+- Criar relatórios usando a tabela Incident [incident].
+- Aplicar filtro para considerar apenas incidentes do grupo Suporte.
+- Aplicar filtro de categoria/contexto, por exemplo Category = AVA/Moodle, se esse campo estiver sendo preenchido pelo RP.
+- Usar state para separar incidentes abertos, em atendimento, aguardando e resolvidos.
+- Usar os campos criados no REFACTOR006 para agrupar por tipo de problema e sistema afetado.
+- Usar dados de Task SLA para identificar incidentes vencidos.
+- Criar dashboard chamado Dashboard - Suporte Técnico AVA.
+- Adicionar os relatórios ao dashboard.
+- Compartilhar com o grupo Suporte e gestores autorizados.
+- Validar com usuário do Suporte.
+
+**Critérios de aceite**:
+
+- Dashboard Dashboard - Suporte Técnico AVA criado.
+- Equipe de Suporte consegue acessar o dashboard.
+- Gestores autorizados conseguem acessar o dashboard.
+- Dashboard mostra incidentes abertos, em atendimento, aguardando e resolvidos.
+- Dashboard mostra incidentes vencidos por SLA.
+- Dashboard mostra volume por tipo de problema e sistema afetado.
+- Indicadores não misturam incidentes fora do contexto AVA/Moodle do projeto.
+
+---
+
+## STRY0077 - Criar Base de Conhecimento Acadêmica Inicial
+
+**Tipo**: Core  
+**Prioridade**: Média  
+**Update Set**: EDTECH_01_CORE_V2_STRY0077_BASE_CONHECIMENTO  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**:  
+Aluno ou professor que acessa o portal EdTech e precisa encontrar orientações simples antes de abrir uma solicitação para Secretaria, Financeiro ou Suporte.
+
+**O que precisa**:  
+Criar uma base de conhecimento acadêmica inicial com artigos simples sobre os principais problemas do projeto.
+
+**Escopo desta story**:
+
+- Criar ou validar uma Knowledge Base acadêmica.
+- Criar artigos iniciais de autoatendimento.
+- Separar artigos por tema: Financeiro, Secretaria e Suporte.
+- Publicar artigos em linguagem simples para aluno/professor.
+- Preparar a base para uso futuro no portal EdTech.
+
+**Onde aplicar**:
+
+- Knowledge > Knowledge Bases
+- Knowledge > Articles
+- Portal EdTech
+- Perfis Alunos e Professores
+
+**Artigos iniciais sugeridos**:
+
+- Como solicitar 2ª via de boleto
+- Como enviar comprovante de pagamento
+- Como contestar multa por atraso de boleto
+- Como solicitar comprovante de matrícula
+- Como solicitar histórico escolar
+- Como solicitar diploma
+- Como relatar problema no AVA/Moodle
+- O que fazer quando a aula não abre
+- O que fazer quando o vídeo não carrega
+- O que fazer quando ocorre erro no envio de atividade
+
+**O que fazer no ServiceNow**:
+
+- Criar Knowledge Base chamada Base de Conhecimento EdTech.
+- Definir público-alvo para alunos e professores, conforme configuração disponível.
+- Criar categorias ou seções: Financeiro, Secretaria Acadêmica e Suporte Técnico.
+- Criar os artigos iniciais listados.
+- Usar linguagem simples, sem termos técnicos internos.
+- Incluir nos artigos o caminho correto para abrir solicitação pelo portal.
+- Publicar os artigos, se houver fluxo de publicação.
+- Validar acesso com usuário aluno e professor.
+
+**Critérios de aceite**:
+
+- Base Base de Conhecimento EdTech criada ou validada.
+- Artigos iniciais foram criados.
+- Artigos estão separados por Financeiro, Secretaria e Suporte.
+- Aluno consegue visualizar artigos publicados.
+- Professor consegue visualizar artigos de Suporte, quando aplicável.
+- Textos orientam o usuário antes de abrir solicitação.
+- Artigos não expõem nomes técnicos de tabelas, roles ou scripts.
+
+---
+
+## STRY0078 - Criar Relatório Gerencial Consolidado do Gestor Acadêmico
+
+**Tipo**: Core / Relatórios  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_V2_STRY0078_RELATORIO_GESTOR  
+**Parent**: EDTECH_01_CORE_V2
+
+**Dependências**: STRY0073, STRY0074, STRY0075 e STRY0076.
+
+**Persona**:  
+Gestor Acadêmico que precisa acompanhar a operação das áreas de atendimento, identificar gargalos, verificar cumprimento de SLA e avaliar a qualidade do serviço prestado aos alunos.
+
+**O que precisa**:  
+Criar uma visão gerencial consolidada com indicadores de Secretaria, Financeiro e Suporte Técnico.
+
+**Escopo desta story**:
+
+- Criar relatório ou dashboard consolidado do gestor acadêmico.
+- Reaproveitar indicadores dos dashboards operacionais das áreas.
+- Exibir volume por área.
+- Exibir status das solicitações.
+- Exibir atrasos e SLAs vencidos.
+- Compartilhar a visão com Gestores Acadêmicos.
+
+**Onde aplicar**:
+
+- Reports > Create New
+- Self-Service > Dashboards
+- Tabelas u_edu_secretaria, u_edu_financeiro, Incident [incident] e Task SLA [task_sla]
+- Grupo Gestores Acadêmicos
+- Role u_edu_gestor
+
+**Indicadores sugeridos**:
+
+- Total de solicitações por área.
+- Solicitações abertas por área.
+- Solicitações pendentes por área.
+- Solicitações concluídas por área.
+- Solicitações vencidas por SLA.
+- Tempo médio de atendimento, se disponível.
+- Volume por tipo de serviço.
+- Comparativo entre Secretaria, Financeiro e Suporte.
+
+**O que fazer no ServiceNow**:
+
+- Validar que os dashboards das áreas já existem: Dashboard - Secretaria Acadêmica, Dashboard - Financeiro Acadêmico e Dashboard - Suporte Técnico AVA.
+- Criar dashboard chamado Dashboard - Gestor Acadêmico.
+- Criar ou reutilizar relatórios consolidados por área.
+- Usar filtros por tabela/área para diferenciar Secretaria, Financeiro e Suporte.
+- Adicionar indicadores de SLA usando Task SLA, quando aplicável.
+- Compartilhar dashboard com o grupo Gestores Acadêmicos.
+- Validar acesso com usuário gestor.
+
+**Critérios de aceite**:
+
+- Dashboard Dashboard - Gestor Acadêmico criado.
+- Gestores Acadêmicos conseguem acessar a visão consolidada.
+- Dashboard mostra volume por Secretaria, Financeiro e Suporte.
+- Dashboard mostra solicitações abertas, pendentes e concluídas.
+- Dashboard mostra atrasos ou SLAs vencidos.
+- Dashboard mostra comparação entre áreas.
+- Dashboard não expõe dados internos desnecessários ao gestor.
+- Indicadores são baseados em registros reais das tabelas do projeto.

@@ -28,8 +28,16 @@ Este arquivo serve como documentacao viva para o grupo de desenvolvedores e para
 - `20260526 - Features.txt`: backlog complementar com STRY0048, STRY0049, STRY0051, STRY0052, STRY0053, STRY0054 e STRY0055 para flows internos, validacoes de fechamento, assignment, notificacoes e SLA de Suporte.
 - `20260526 - Features-V1.txt`: backlog complementar com REFACTOR002, REFACTOR003, REFACTOR004 e STRY0056 para padronizacao de formularios e filtros de My Requests.
 - `20260527 - Features.txt`: backlog complementar com STRY0057 a STRY0061 para ajustes de UX dos formularios (Select Box e Catalog UI Policies de Suporte e Secretaria).
+- `20260527 - Features-V1.txt`: backlog complementar com STRY0062, STRY0063 e STRY0064 para wireframes, ACLs e base do portal.
+- `20260528 - Features.txt`: backlog complementar com STRY0065 a STRY0069 e REFACTOR005 para home/paginas/widgets do portal e padronizacao de scripts da Secretaria.
+- `20260528 - Features-V1.txt`: backlog complementar com STRY0070 a STRY0078 e REFACTOR006/REFACTOR007 para tema, widgets, SLA final de suporte, dashboards, base de conhecimento e relatorio gerencial.
+- `20260529 - Features.txt`: backlog complementar com STRY0079 e STRY0081 a STRY0089 para modelo academico do professor, cadastro academico pela Secretaria, ACLs, home do professor, redirecionamento por perfil, usuarios de teste e pesquisa de satisfacao.
+- `20260601 - Features.txt`: backlog complementar com STRY0090 a STRY0099 para massa de dados academicos, listas administrativas, identidade visual da instancia, role operacional, formulario da Secretaria, choices/mapeamento e notificacoes.
+- `20260602 - Features.txt`: backlog complementar com STRY0100 a STRY0104 para melhoria de Catalog Items, homes operacionais da Secretaria/Financeiro/Suporte e home gerencial do Gestor Academico.
+- `Features - Pages/edtech_aulas.pdf`: backlog complementar com STRY0105 a STRY0109 para widgets base do portal, pagina de aulas, atividades pendentes, resumo academico do aluno e banner reutilizavel.
+- `Features/Features.txt`: backlog consolidado oficial do projeto, reunindo as features dos arquivos de dias e as features extraidas da pasta `Features - Pages`.
 - `padrao update sets.pdf`: padrao documentado de nomeacao de update sets por story e parent por modulo.
-- Informacoes atualizadas pelo time em 2026-05-27 sobre as features ja implementadas, planejadas e em refinamento.
+- Informacoes atualizadas pelo time em 2026-06-04 sobre as features ja implementadas, planejadas e em refinamento.
 
 Quando houver conflito entre documentos, priorize:
 
@@ -54,7 +62,55 @@ Na pratica, o sistema deve oferecer:
 - Grupos e roles para separar responsabilidades.
 - Tabelas departamentais para Financeiro e Secretaria.
 - Uso de `Incident [incident]` para Suporte Tecnico.
+- Area ADM/operacional dentro do portal para Secretaria, Financeiro, Suporte e Gestor Academico.
+- Widgets e paginas por perfil para aluno, professor, areas operacionais e gestor.
 - Base para futuras notificacoes, SLAs, pesquisas e dashboards.
+
+### 3.1 Identidade Visual Do Portal
+
+O portal unico customizado deve seguir a identidade visual definida pelo time para a fase atual.
+
+Paleta oficial, baseada no widget da Home do Aluno:
+
+- `#fdfdfd`
+- `#f2f3f4`
+- `#d4dbe9`
+- `#7c9fee`
+- `#2665f9`
+- `#0149f9`
+
+Regra de uso da paleta:
+
+- `#fdfdfd`: fundo principal das paginas e areas amplas.
+- `#f2f3f4`: fundo secundario de secoes, blocos leves e cards neutros.
+- `#d4dbe9`: bordas, divisores, estados desabilitados e fundos de apoio.
+- `#7c9fee`: destaque secundario, hover, icones de apoio e elementos informativos.
+- `#2665f9`: botoes principais, links importantes, badges de destaque e acoes do usuario.
+- `#0149f9`: azul principal da marca, cabecalhos, elementos ativos e destaques fortes.
+
+### 3.2 Skill De Design Para Portal E Widgets
+
+Quando uma IA ou desenvolvedor atuar em paginas, widgets, theme, CSS ou UX do Portal EdTech, deve seguir este skill visual:
+
+- Usar a paleta oficial `#fdfdfd`, `#f2f3f4`, `#d4dbe9`, `#7c9fee`, `#2665f9`, `#0149f9`.
+- Seguir o padrao visual do widget da Home do Aluno como referencia principal de cards, espacamento, destaque azul e hierarquia visual.
+- Manter o portal com aparencia limpa, academica e moderna, sem criar outra identidade visual paralela.
+- Reaproveitar estilos, classes e estrutura dos widgets ja criados sempre que possivel.
+- Evitar cores fora da paleta, exceto quando forem necessarias para status funcionais, como sucesso, alerta, erro ou criticidade.
+- Garantir contraste suficiente entre texto e fundo, principalmente em botoes azuis e cards informativos.
+- Manter linguagem visual consistente entre Home do Aluno, Home do Professor, pagina de Aulas, homes operacionais e dashboard do Gestor.
+- Antes de considerar um widget pronto, validar se ele segue a paleta, se fica responsivo e se nao quebra o layout quando nao houver dados.
+
+Referencia visual:
+
+- Pasta `wireframes/portal_perfis`.
+- Wireframe `wireframe_home_aluno.png`: home do aluno.
+- Wireframe `wireframe_home_professor.png`: home do professor.
+- Wireframe `wireframe_home_secretaria.png`: home operacional da Secretaria.
+- Wireframe `wireframe_home_financeiro.png`: home operacional do Financeiro.
+- Wireframe `wireframe_dashboard_gestor.png`: dashboard/home gerencial do Gestor Academico.
+
+Observacao: a home operacional do Suporte deve seguir o mesmo padrao visual das homes operacionais, mesmo que a pasta atual nao tenha um wireframe especifico de Suporte.
 
 ## 4. Escopo Core Do Projeto
 
@@ -140,7 +196,7 @@ O sistema deve:
 
 ## 7. Estado Atual Do Sistema
 
-Status baseado nas features informadas pelo time ate 2026-05-27.
+Status baseado nas features informadas pelo time ate 2026-06-04.
 
 ### 7.1 Features Implementadas
 
@@ -275,7 +331,92 @@ O arquivo `20260527 - Features.txt` documenta:
 | STRY0060 | Criar Catalog UI Policy para Simplificar RP Solicitar Diploma | Simplifica formulario e remove campos desnecessarios |
 | STRY0061 | Criar Catalog UI Policy para Simplificar RP Solicitar Declaracao Academica | Simplifica formulario e ajusta visibilidade de campos |
 
-Observacao: no arquivo do dia 26 ha salto de numeracao (nao existe STRY0050). Manter exatamente a numeracao usada no backlog oficial do time.
+O arquivo `20260527 - Features-V1.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0062 | Criar Wireframes e Templates do Portal Academico | Define estrutura visual inicial do portal unico |
+| STRY0063 | Criar ACLs para Acompanhamento no Portal | Controla acesso de visualizacao/acompanhamento por perfil |
+| STRY0064 | Criar Portal EdTech Base | Cria base estrutural do novo portal no Service Portal |
+
+O arquivo `20260528 - Features.txt` documenta:
+
+| Story/Fix | Nome | Observacao |
+|---|---|---|
+| STRY0065 | Criar Home do Aluno e Vincular ao Portal EdTech | Define homepage principal do aluno no portal |
+| STRY0066 | Criar Pagina de Aulas do Aluno no Portal EdTech | Cria pagina dedicada para experiencia academica do aluno |
+| STRY0067 | Copiar e Ajustar Widget SP Header Menu do Portal EdTech | Ajusta navegacao principal do portal customizado |
+| STRY0068 | Criar Widget Reutilizavel de Perfil Academico do Usuario | Exibe dados academicos do usuario de forma reutilizavel |
+| STRY0069 | Criar Update Sets Pais V2 por Modulo do Projeto EdTech | Estrutura governanca de update sets para fase V2 |
+| REFACTOR005 | Padronizar Scripts dos Record Producers da Secretaria | Unifica padrao de script entre RPs da Secretaria |
+
+O arquivo `20260528 - Features-V1.txt` documenta:
+
+| Story/Fix | Nome | Observacao |
+|---|---|---|
+| STRY0070 | Clonar Theme do Service Portal para o Portal EdTech | Isola identidade visual do portal sem afetar `/sp` padrao |
+| STRY0071 | Copiar e Ajustar Widget Quick Links Reutilizavel do Portal EdTech | Organiza acessos rapidos principais do aluno |
+| STRY0072 | Copiar e Ajustar Widget My Requests para o Aluno | Ajusta acompanhamento de solicitacoes no portal unico |
+| REFACTOR006 | Criar Campos Tecnicos de Suporte na Tabela Incident | Estrutura campos tecnicos para atendimento de suporte |
+| REFACTOR007 | Mapear Variaveis Tecnicas do Record Producer de Suporte para Incident | Persiste dados tecnicos no incidente para operacao/SLA |
+| STRY0073 | Ajustar SLA de Suporte para 3h de Resposta e 8h de Resolucao | Alinha SLA ao problema core do PDF |
+| STRY0074 | Criar Dashboard Operacional da Secretaria | Cria visao gerencial da fila da Secretaria |
+| STRY0075 | Criar Dashboard Operacional Financeiro | Cria visao gerencial da fila Financeira |
+| STRY0076 | Criar Dashboard Operacional de Suporte Tecnico | Cria visao gerencial da fila de Suporte |
+| STRY0077 | Criar Base de Conhecimento Academica Inicial | Estrutura artigos iniciais de autoatendimento |
+| STRY0078 | Criar Relatorio Gerencial Consolidado do Gestor Academico | Consolida indicadores das areas core em visao unica |
+
+O arquivo `20260529 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0079 | Ajustar Modelo Academico do Professor | Prepara perfil academico/profissional do professor para portal e filtros |
+| STRY0081 | Criar Home do Professor no Portal EdTech | Cria experiencia inicial especifica para professores |
+| STRY0082 | Redirecionar Home do Portal por Perfil do Usuario | Direciona aluno/professor para a home correta |
+| STRY0083 | Permitir Cadastro Academico pela Secretaria | Permite que Secretaria cadastre/atualize dados academicos |
+| STRY0084 | Criar ACLs para Cadastro Academico da Secretaria | Controla permissao de escrita da Secretaria no cadastro academico |
+| STRY0085 | Criar ACLs de Consulta Gerencial para Gestor Academico | Permite visao gerencial sem liberar edicao indevida |
+| STRY0086 | Atualizar Usuarios de Teste com Nomes e Dados Realistas por Grupo | Melhora testes e apresentacao por perfil |
+| STRY0087 | Criar Pesquisa de Satisfacao Apos Encerramento da Solicitacao | Mede qualidade apos fechamento do atendimento |
+| STRY0088 | Criar Widget de Pesquisa de Satisfacao no Portal | Exibe pesquisa de satisfacao no portal unico |
+| STRY0089 | Criar Relatorios de Satisfacao por Area e para o Gestor | Consolida indicadores de satisfacao por departamento |
+
+O arquivo `20260601 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0090 | Criar Dados das Novas Tabelas Academicas | Cria massa de dados realista para portal, professor e apresentacao |
+| STRY0091 | Criar Listas Administrativas da Secretaria | Organiza filas internas da Secretaria no backoffice |
+| STRY0092 | Criar Listas Administrativas do Financeiro | Organiza filas internas do Financeiro no backoffice |
+| STRY0093 | Criar Listas de Cadastros Academicos | Cria listas para cursos, campus, disciplinas, turmas, aulas e atividades |
+| STRY0094 | Criar Listas Gerenciais para Gestao Academica | Cria consultas gerenciais de atendimento e dados academicos |
+| STRY0095 | Personalizar Identidade Visual da Instancia ServiceNow | Ajusta nome, icone, logo e apresentacao da instancia |
+| STRY0096 | Criar Role Operacional de Atendimento para Secretaria e Financeiro | Libera atendimento operacional sem `admin` amplo |
+| STRY0097 | Padronizar Formulario Interno da Secretaria | Organiza dados da solicitacao e atendimento interno |
+| STRY0098 | Padronizar Choices e Mapeamento dos Documentos da Secretaria | Garante labels amigaveis e values corretos para documentos |
+| STRY0099 | Criar Notificacoes In-App e Revisar E-mails da Secretaria | Ajusta notificacoes da Secretaria para aluno e equipe |
+
+O arquivo `20260602 - Features.txt` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0100 | Melhorar Short Descriptions e Icones dos Catalog Items | Melhora descoberta dos servicos no portal |
+| STRY0101 | Criar Home Operacional da Secretaria no Portal EdTech | Cria area ADM/operacional da Secretaria no portal |
+| STRY0102 | Criar Home Operacional do Financeiro no Portal EdTech | Cria area ADM/operacional do Financeiro no portal |
+| STRY0103 | Criar Home Operacional do Suporte no Portal EdTech | Cria area ADM/operacional do Suporte no portal |
+| STRY0104 | Criar Home Gerencial do Gestor Academico no Portal EdTech | Cria home/dashboard gerencial do Gestor Academico no portal |
+
+O arquivo `Features - Pages/edtech_aulas.pdf` documenta:
+
+| Story | Nome | Observacao |
+|---|---|---|
+| STRY0105 | Padronizar Widgets Base do Portal EdTech | Define padrao de widgets reutilizaveis do portal, seguindo a identidade visual da Home do Aluno |
+| STRY0106 | Criar Widget EDTech - Minhas Aulas | Exibe aulas do aluno logado na pagina de aulas |
+| STRY0107 | Criar Widget EDTech - Atividades Pendentes | Exibe atividades pendentes do aluno logado |
+| STRY0108 | Criar Widget EDTech - Resumo Academico do Aluno | Exibe indicadores academicos do aluno, como aulas da semana e atividades por status |
+| STRY0109 | Criar Widget Reutilizavel de Banner de Aulas no Portal EdTech | Cria banner reutilizavel para a area de aulas com dados academicos do aluno |
+
+Observacao: o backlog possui saltos de numeracao (ex.: STRY0035, STRY0050 e STRY0080 nao aparecem nos arquivos). Manter exatamente a numeracao usada no backlog oficial do time.
 
 Antes de afirmar que uma dessas stories esta pronta, conferir a instancia ServiceNow e o update set correspondente.
 
@@ -314,6 +455,30 @@ Ainda nao considerar como pronto:
 - My Request Filters de Financeiro e Secretaria (STRY0056), se ainda nao validados no portal.
 - Ajustes de UX do suporte (STRY0057 e STRY0058), se ainda nao validados com aluno/professor.
 - UI Policies de simplificacao da Secretaria (STRY0059, STRY0060 e STRY0061), se ainda nao validadas ponta a ponta.
+- Wireframes, ACLs e portal base da fase V2 (STRY0062, STRY0063 e STRY0064), se ainda nao validados.
+- Home do aluno, pagina de aulas e widgets V2 (STRY0065, STRY0066, STRY0067 e STRY0068), se ainda nao validados.
+- Governanca V2 de update sets (STRY0069), se ainda nao validada na instancia.
+- Theme e widgets de navegacao/requests da V2 (STRY0070, STRY0071 e STRY0072), se ainda nao validados.
+- SLA de suporte 3h/8h (STRY0073), se ainda nao validado em execucao real.
+- Dashboards operacionais por area (STRY0074, STRY0075 e STRY0076), se ainda nao homologados.
+- Base de conhecimento e relatorio consolidado do gestor (STRY0077 e STRY0078), se ainda nao homologados.
+- Refactors recentes (REFACTOR005, REFACTOR006 e REFACTOR007), se ainda nao revisados ponta a ponta.
+- Modelo academico do professor e home do professor (STRY0079 e STRY0081), se ainda nao validados.
+- Redirecionamento de home por perfil (STRY0082), se ainda nao validado com aluno e professor.
+- Cadastro academico pela Secretaria e ACLs associadas (STRY0083 e STRY0084), se ainda nao validados.
+- ACLs de consulta gerencial para Gestor Academico (STRY0085), se ainda nao validadas.
+- Usuarios de teste com nomes/dados realistas (STRY0086), se ainda nao revisados para apresentacao.
+- Pesquisa de satisfacao, widget e relatorios de satisfacao (STRY0087, STRY0088 e STRY0089), se ainda nao homologados ponta a ponta.
+- Dados das novas tabelas academicas (STRY0090), se ainda nao criados/validados.
+- Listas administrativas da Secretaria, Financeiro, cadastros academicos e gestao academica (STRY0091 a STRY0094), se ainda nao validadas por perfil.
+- Personalizacao visual da instancia (STRY0095), se ainda nao aplicada.
+- Role operacional de atendimento para Secretaria e Financeiro (STRY0096), se ainda nao validada sem `admin`.
+- Formulario interno, choices/mapeamento e notificacoes da Secretaria (STRY0097, STRY0098 e STRY0099), se ainda nao homologados.
+- Melhoria de short descriptions/icones dos Catalog Items (STRY0100), se ainda nao revisada no portal.
+- Homes operacionais da Secretaria, Financeiro e Suporte (STRY0101, STRY0102 e STRY0103), se ainda nao validadas.
+- Home gerencial do Gestor Academico (STRY0104), se ainda nao validada.
+- Widgets base e widgets da pagina de Aulas (STRY0105 a STRY0109), se ainda nao validados no portal com usuario aluno.
+- Uso da paleta oficial e dos wireframes de `wireframes/portal_perfis`, se ainda nao aplicado nas paginas/widgets.
 - Publicacao final do portal unico customizado com navegacao/homologacao completa, se ainda nao validada.
 
 ## 8. Grupos E Roles
@@ -638,6 +803,76 @@ Ainda falta para ficar completo:
 - Dashboard de documentos e prazos.
 - Pesquisa de satisfacao.
 
+### 12.4 Area ADM/Operacional No Portal
+
+Objetivo:
+
+- Levar tambem a operacao interna para o portal unico, nao apenas a abertura de chamados pelo aluno.
+- Criar homes especificas para Secretaria, Financeiro, Suporte e Gestor Academico.
+- Permitir que cada area acompanhe filas, pendencias, atrasos, SLA e solicitacoes recentes em uma experiencia visual propria.
+
+Referencias de wireframe:
+
+- `wireframes/portal_perfis/wireframe_home_secretaria.png`.
+- `wireframes/portal_perfis/wireframe_home_financeiro.png`.
+- `wireframes/portal_perfis/wireframe_dashboard_gestor.png`.
+- `wireframes/portal_perfis/wireframe_home_aluno.png`.
+- `wireframes/portal_perfis/wireframe_home_professor.png`.
+
+Stories relacionadas:
+
+- `STRY0101 - Criar Home Operacional da Secretaria no Portal EdTech`.
+- `STRY0102 - Criar Home Operacional do Financeiro no Portal EdTech`.
+- `STRY0103 - Criar Home Operacional do Suporte no Portal EdTech`.
+- `STRY0104 - Criar Home Gerencial do Gestor Academico no Portal EdTech`.
+
+Regra de acesso:
+
+- Cada home operacional deve respeitar roles e ACLs.
+- Secretaria acessa somente sua home/fila.
+- Financeiro acessa somente sua home/fila.
+- Suporte acessa somente sua home/fila.
+- Gestor Academico acessa indicadores consolidados, preferencialmente em modo somente leitura.
+- Aluno e Professor nao devem acessar homes operacionais internas.
+
+### 12.5 Pagina De Aulas E Widgets Academicos Do Aluno
+
+Objetivo:
+
+- Criar uma experiencia academica dentro do portal, alem da abertura de chamados.
+- Permitir que o aluno veja aulas, atividades pendentes e resumo academico em widgets simples.
+- Reaproveitar o padrao visual da Home do Aluno, mantendo a paleta oficial do portal.
+
+Stories relacionadas:
+
+- `STRY0105 - Padronizar Widgets Base do Portal EdTech`.
+- `STRY0106 - Criar Widget EDTech - Minhas Aulas`.
+- `STRY0107 - Criar Widget EDTech - Atividades Pendentes`.
+- `STRY0108 - Criar Widget EDTech - Resumo Academico do Aluno`.
+- `STRY0109 - Criar Widget Reutilizavel de Banner de Aulas no Portal EdTech`.
+
+Widgets esperados:
+
+- `EDTech - Minhas Aulas`.
+- `EDTech - Atividades Pendentes`.
+- `EDTech - Resumo Academico Aluno`.
+- `EDTech - Banner de Area Academica`.
+
+Tabelas envolvidas:
+
+- `u_edu_perfil_academico`: identifica o aluno logado, curso, RA, campus e periodo.
+- `u_edu_aula`: base esperada para aulas exibidas na pagina de aulas, se existir na instancia.
+- `u_edu_atividade`: base esperada para atividades pendentes, em correcao e corrigidas.
+- `sys_user`: usuario logado usado como referencia para buscar o perfil academico.
+
+Regras de design:
+
+- Usar a paleta oficial do portal: `#fdfdfd`, `#f2f3f4`, `#d4dbe9`, `#7c9fee`, `#2665f9`, `#0149f9`.
+- Seguir o visual da Home do Aluno para cards, indicadores, botoes e destaque azul.
+- Exibir estado vazio quando nao houver aulas ou atividades.
+- Nao quebrar a pagina se o aluno nao tiver perfil academico cadastrado.
+- Nao pedir que o aluno digite RA, curso, campus ou periodo se esses dados ja existirem em `u_edu_perfil_academico`.
+
 ## 13. Backlog Atual Consolidado
 
 ### 13.1 Features Ja Implementadas
@@ -687,6 +922,56 @@ Considerando as dependencias das stories mais recentes, a ordem recomendada e:
 35. `STRY0059 - Criar Catalog UI Policy para Simplificar RP Solicitar Historico Escolar`.
 36. `STRY0060 - Criar Catalog UI Policy para Simplificar RP Solicitar Diploma`.
 37. `STRY0061 - Criar Catalog UI Policy para Simplificar RP Solicitar Declaracao Academica`.
+38. `STRY0062 - Criar Wireframes e Templates do Portal Academico`.
+39. `STRY0063 - Criar ACLs para Acompanhamento no Portal`.
+40. `STRY0064 - Criar Portal EdTech Base`.
+41. `STRY0065 - Criar Home do Aluno e Vincular ao Portal EdTech`.
+42. `STRY0066 - Criar Pagina de Aulas do Aluno no Portal EdTech`.
+43. `STRY0067 - Copiar e Ajustar Widget SP Header Menu do Portal EdTech`.
+44. `STRY0068 - Criar Widget Reutilizavel de Perfil Academico do Usuario`.
+45. `STRY0069 - Criar Update Sets Pais V2 por Modulo do Projeto EdTech`.
+46. `STRY0070 - Clonar Theme do Service Portal para o Portal EdTech`.
+47. `STRY0071 - Copiar e Ajustar Widget Quick Links Reutilizavel do Portal EdTech`.
+48. `STRY0072 - Copiar e Ajustar Widget My Requests para o Aluno`.
+49. `REFACTOR005 - Padronizar Scripts dos Record Producers da Secretaria`.
+50. `REFACTOR006 - Criar Campos Tecnicos de Suporte na Tabela Incident`.
+51. `REFACTOR007 - Mapear Variaveis Tecnicas do Record Producer de Suporte para Incident`.
+52. `STRY0073 - Ajustar SLA de Suporte para 3h de Resposta e 8h de Resolucao`.
+53. `STRY0074 - Criar Dashboard Operacional da Secretaria`.
+54. `STRY0075 - Criar Dashboard Operacional Financeiro`.
+55. `STRY0076 - Criar Dashboard Operacional de Suporte Tecnico`.
+56. `STRY0077 - Criar Base de Conhecimento Academica Inicial`.
+57. `STRY0078 - Criar Relatorio Gerencial Consolidado do Gestor Academico`.
+58. `STRY0079 - Ajustar Modelo Academico do Professor`.
+59. `STRY0081 - Criar Home do Professor no Portal EdTech`.
+60. `STRY0082 - Redirecionar Home do Portal por Perfil do Usuario`.
+61. `STRY0083 - Permitir Cadastro Academico pela Secretaria`.
+62. `STRY0084 - Criar ACLs para Cadastro Academico da Secretaria`.
+63. `STRY0085 - Criar ACLs de Consulta Gerencial para Gestor Academico`.
+64. `STRY0086 - Atualizar Usuarios de Teste com Nomes e Dados Realistas por Grupo`.
+65. `STRY0087 - Criar Pesquisa de Satisfacao Apos Encerramento da Solicitacao`.
+66. `STRY0088 - Criar Widget de Pesquisa de Satisfacao no Portal`.
+67. `STRY0089 - Criar Relatorios de Satisfacao por Area e para o Gestor`.
+68. `STRY0090 - Criar Dados das Novas Tabelas Academicas`.
+69. `STRY0091 - Criar Listas Administrativas da Secretaria`.
+70. `STRY0092 - Criar Listas Administrativas do Financeiro`.
+71. `STRY0093 - Criar Listas de Cadastros Academicos`.
+72. `STRY0094 - Criar Listas Gerenciais para Gestao Academica`.
+73. `STRY0095 - Personalizar Identidade Visual da Instancia ServiceNow`.
+74. `STRY0096 - Criar Role Operacional de Atendimento para Secretaria e Financeiro`.
+75. `STRY0097 - Padronizar Formulario Interno da Secretaria`.
+76. `STRY0098 - Padronizar Choices e Mapeamento dos Documentos da Secretaria`.
+77. `STRY0099 - Criar Notificacoes In-App e Revisar E-mails da Secretaria`.
+78. `STRY0100 - Melhorar Short Descriptions e Icones dos Catalog Items`.
+79. `STRY0101 - Criar Home Operacional da Secretaria no Portal EdTech`.
+80. `STRY0102 - Criar Home Operacional do Financeiro no Portal EdTech`.
+81. `STRY0103 - Criar Home Operacional do Suporte no Portal EdTech`.
+82. `STRY0104 - Criar Home Gerencial do Gestor Academico no Portal EdTech`.
+83. `STRY0105 - Padronizar Widgets Base do Portal EdTech`.
+84. `STRY0106 - Criar Widget EDTech - Minhas Aulas`.
+85. `STRY0107 - Criar Widget EDTech - Atividades Pendentes`.
+86. `STRY0108 - Criar Widget EDTech - Resumo Academico do Aluno`.
+87. `STRY0109 - Criar Widget Reutilizavel de Banner de Aulas no Portal EdTech`.
 
 Motivo da ordem:
 
@@ -700,6 +985,11 @@ Motivo da ordem:
 - Em seguida, amadurecer os processos internos: campos nas tabelas, mapeamentos, Assignment Rules, notificacoes, SLA e dashboards.
 - Fase do dia 2026-05-26: consolidar flows internos, validacoes de fechamento e ciclo completo de suporte (assignment + notificacoes + SLA).
 - Fase do dia 2026-05-27: fortalecer a experiencia do portal (My Requests + UI Policies de simplificacao em Suporte e Secretaria).
+- Fase do dia 2026-05-28: consolidar Portal V2 (paginas/widgets/theme), finalizar SLA core de suporte e estruturar visao gerencial (dashboards + relatorio + base de conhecimento).
+- Fase do dia 2026-05-29: completar experiencia por perfil (aluno/professor), cadastro academico pela Secretaria, ACLs gerenciais, usuarios realistas e pesquisa/relatorios de satisfacao.
+- Fase do dia 2026-06-01: criar dados academicos, listas administrativas/gerenciais, role operacional, formulario da Secretaria, choices/mapeamento e notificacoes.
+- Fase do dia 2026-06-02: melhorar catalog items e criar area ADM/operacional no portal para Secretaria, Financeiro, Suporte e Gestor.
+- Fase do dia 2026-06-04: padronizar widgets base do portal e criar a experiencia de Aulas do Aluno com banner, minhas aulas, atividades pendentes e resumo academico.
 
 ### 14.2 Financeiro
 
@@ -779,6 +1069,14 @@ Update sets pais atuais:
 - `EDTECH_05_PORTAL`: catalogos, categorias, portal unico customizado, UX e Variable Sets comuns.
 - `EDTECH_06_RELATORIOS`: relatorios e dashboards.
 - `EDTECH_07_AUTOMACOES`: flows, assignment, notificacoes, SLA e pesquisas.
+
+Update sets pais V2 (backlog da segunda fase do portal):
+
+- `EDTECH_01_CORE_V2`: ajustes core da fase de portal unico.
+- `EDTECH_02_SUPORTE_V2`: evolucoes de suporte para portal/dashboards/SLA final.
+- `EDTECH_03_FINANCEIRO_V2`: evolucoes financeiras da fase V2.
+- `EDTECH_04_SECRETARIA_V2`: evolucoes da secretaria na fase V2.
+- `EDTECH_05_PORTAL_V2`: paginas, widgets, tema e experiencia do portal EdTech.
 
 Regras:
 
@@ -879,6 +1177,11 @@ Uma entrega minima deve ser considerada completa quando:
 - Ha pesquisa de satisfacao apos conclusao ou proposta clara dela.
 - Ha relatorio/dashboard basico para apresentacao.
 - O fluxo foi testado pelo portal com usuario aluno.
+- Homes por perfil estao acessiveis para aluno, professor, Secretaria, Financeiro, Suporte e Gestor, conforme permissao.
+- Area ADM/operacional do portal foi validada para equipes internas.
+- Paleta oficial do portal foi aplicada nos widgets/paginas principais.
+- Pagina de Aulas do Aluno possui widgets de banner, minhas aulas, atividades pendentes e resumo academico, quando essas stories forem consideradas prontas.
+- Widgets novos seguem o padrao visual da Home do Aluno e usam a paleta oficial do portal.
 
 ## 20. Pontos De Atencao
 
@@ -887,7 +1190,7 @@ Uma entrega minima deve ser considerada completa quando:
 - Nao misturar catalogos e categorias entre departamentos.
 - Validar se `u_edu_perfil_academico` esta sendo usado como tabela complementar, nao como substituta do `sys_user`.
 - Campos permanentes ficam em tabela; campos especificos da solicitacao ficam em variaveis/registro da solicitacao.
-- O sistema atual ainda nao deve ser apresentado como completo em SLA, notificacoes ou dashboards.
+- SLA, notificacoes, dashboards e pesquisa de satisfacao devem ser apresentados como parte do MVP somente depois de validados na instancia.
 
 ## 21. Resumo Para Apresentacao
 
@@ -895,4 +1198,30 @@ O projeto entrega uma plataforma ServiceNow para atendimento academico, com foco
 
 O aluno passa a abrir solicitacoes pelo portal, usando formularios padronizados e separados por area. O Suporte registra incidentes tecnicos estruturados em `Incident [incident]`. O Financeiro possui Record Producers para boleto, comprovante de pagamento e contestacao de multa, com ajustes de UI Policy e roteamento previstos para o grupo `Financeira`. A Secretaria possui Record Producers para documentos academicos, com dados do aluno preenchidos automaticamente, campos reais em `u_edu_secretaria`, mapeamento das variaveis para a tabela, Assignment Rule para o grupo `Secretaria`, notificacoes e SLA de 3 dias uteis em evolucao.
 
-O estado atual do sistema cobre a base principal do MVP: grupos, roles, tabelas, catalogos, categorias, Record Producers, Variable Sets, autopreenchimento, controle de visibilidade por perfil e padronizacao de dados academicos. O backlog consolidado no `Features.txt` agora inclui stories ate `STRY0061`, com evolucoes de fluxo interno, validacoes de fechamento, assignment, notificacoes, SLA e refinamentos de UX no portal para Suporte, Financeiro e Secretaria. As proximas entregas devem concluir validacao ponta a ponta na instancia, publicacao final do portal unico customizado, dashboards gerenciais, pesquisa de satisfacao e homologacao com usuarios reais.
+O estado atual do sistema cobre a base principal do MVP: grupos, roles, tabelas, catalogos, categorias, Record Producers, Variable Sets, autopreenchimento, controle de visibilidade por perfil e padronizacao de dados academicos. O backlog consolidado em `Features/Features.txt` agora inclui stories ate `STRY0109`, com evolucoes de fluxo interno, validacoes de fechamento, assignment, notificacoes, SLA, portal V2 (paginas/widgets/theme), dashboards operacionais por area, base de conhecimento, relatorio gerencial consolidado, cadastro academico pela Secretaria, experiencia do professor, pesquisa de satisfacao, listas administrativas, homes operacionais por area, identidade visual do portal e pagina de Aulas do Aluno com widgets academicos.
+
+### 21.1 O Que O Sistema Faz No MVP
+
+No MVP, o sistema cobre o ciclo principal de atendimento academico da instituicao:
+
+- Aluno e professor acessam um portal unico customizado.
+- O portal direciona a experiencia conforme o perfil do usuario.
+- Aluno abre solicitacoes financeiras, academicas e de suporte tecnico.
+- Professor possui home propria e pode acessar recursos/servicos adequados ao seu perfil.
+- Aluno possui experiencia academica no portal, com pagina de aulas, atividades pendentes, resumo academico e banner com dados do curso.
+- Suporte Tecnico recebe incidentes sobre AVA/Moodle, aulas, videos, portal e envio de atividades.
+- Financeiro recebe demandas de boleto, comprovante, contestacao de multa e duvidas financeiras.
+- Secretaria recebe solicitacoes de documentos academicos e pode apoiar cadastro academico.
+- Secretaria, Financeiro e Suporte possuem area ADM/operacional no portal para acompanhar filas, pendencias, atrasos e tarefas recentes.
+- Gestor Academico possui home gerencial para acompanhar volume, SLA, atrasos, satisfacao e indicadores consolidados.
+- Cada area possui grupo responsavel, regras de roteamento e estrutura de atendimento.
+- Dados academicos do usuario podem ser reaproveitados nos formularios para reduzir digitacao.
+- O usuario acompanha suas solicitacoes pelo portal em My Requests.
+- Equipes internas usam registros estruturados para atender, atualizar estado e encerrar solicitacoes.
+- Gestores Academicos conseguem acompanhar indicadores, relatorios e satisfacao por area.
+- O sistema passa a ter base para SLA, notificacoes, dashboards, base de conhecimento e pesquisa de satisfacao.
+- O portal segue a paleta oficial `#fdfdfd`, `#f2f3f4`, `#d4dbe9`, `#7c9fee`, `#2665f9`, `#0149f9`.
+- A paleta deve ser aplicada conforme o padrao visual do widget da Home do Aluno.
+- Os wireframes de `wireframes/portal_perfis` orientam as homes/widgets por perfil.
+
+Com isso, o MVP resolve o problema central do TCC: tirar o atendimento academico do e-mail/processo manual e levar para um fluxo digital, rastreavel, separado por area e mensuravel dentro do ServiceNow.

@@ -1,0 +1,321 @@
+## STRY0062 - Criar Wireframes e Templates do Portal Acadêmico
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0061_WIREFRAMES_TEMPLATES_PORTAL  
+**Parent**: EDTECH_05_PORTAL
+
+**Persona**:  
+Aluno, professor e equipes internas que precisam acessar um portal acadêmico simples, padronizado e organizado para abrir solicitações, acompanhar chamados e encontrar serviços acadêmicos.
+
+**O que precisa**:  
+Criar os **wireframes** e **templates visuais base** do portal único EdTech, antes da implementação no ServiceNow, usando layout responsivo, padrão visual neutro e reaproveitamento dos widgets nativos do Service Portal.
+
+**Telas que devem ser desenhadas**:
+
+- Home do aluno
+- Catálogo de serviços
+- Página de categoria
+- Detalhe do serviço / Record Producer
+- My Requests / Minhas Solicitações
+- Detalhe da solicitação / ticket
+
+**Widgets ServiceNow que devem ser considerados no template**:
+
+- Header Menu
+- Typeahead Search
+- SC Categories
+- SC Category Page
+- SC Catalog Item
+- My Requests
+- Standard Ticket Header
+- Ticket Conversations
+- Data Table from Instance Definition, se necessário
+
+**O que fazer**:
+
+- Usar o AGENTS.md como base para montar os prompts da IA.
+- Gerar wireframes com IA de design, por exemplo:
+    - Google Stitch
+    - Lovable
+    - ChatGPT
+    - Gemini
+    - Figma  etc..
+- Criar uma proposta visual para o portal Rocket EdTech.
+- Usar Bootstrap 3 como referência, por compatibilidade com Service Portal.
+- Definir padrão visual:
+    - cores neutras
+    - cards simples
+    - navegação clara
+    - linguagem voltada ao aluno
+    - layout responsivo
+- Separar o que será widget nativo e o que será widget customizado (escrever no prompt usar referencia do servicenow). 
+
+**Prompt simples para gerar o wireframe**:
+
+`Crie um wireframe responsivo para um portal acadêmico chamado Rocket EdTech, feito para ServiceNow Service Portal com Bootstrap 3. O portal deve ser simples, moderno e neutro. A tela principal deve ser a Home do Aluno logado e deve conter: - Cabeçalho com logo Rocket EdTech e menu: Início, Catálogo, Minhas Solicitações, Aulas e Suporte. - Card com dados do aluno: nome, RA, curso, campus e período. - Área de matérias em andamento, com duas matérias de exemplo e botão "Assistir aula". - Atalhos para Secretaria Acadêmica, Financeiro e Suporte Técnico. - Bloco de últimas solicitações com número, assunto e status. - Campo de busca para encontrar serviços. Use visual limpo, cores neutras, cards simples e linguagem voltada para aluno. Indique quais áreas podem usar widgets nativos do ServiceNow, como Header Menu, Typeahead Search, SC Categories, My Requests e Standard Ticket.`
+
+**Diretrizes visuais**:
+
+- Portal único para todos os perfis.
+- Home muda conforme perfil do usuário.
+- Aluno deve encontrar rapidamente:
+    - Aulas
+    - Secretaria
+    - Financeiro
+    - Suporte
+    - Minhas solicitações
+- Evitar visual poluído.
+- Evitar texto técnico para o aluno.
+- Manter padrão acadêmico, limpo e profissional.
+
+
+**Critérios de aceite**:
+
+- Wireframe da Home aprovado.
+- Wireframe do Catálogo aprovado.
+- Wireframe do Detalhe do Serviço aprovado.
+- Wireframe do My Requests aprovado.
+- Layout segue padrão visual único e neutro.
+- Layout considera Bootstrap 3.
+- Wireframes indicam quais widgets nativos serão reaproveitados.
+- Aluno consegue identificar serviços de Suporte, Financeiro e Secretaria.
+- Aluno consegue visualizar caminho para acompanhar solicitações.
+- Linguagem do portal é simples e voltada ao aluno.
+
+**Observação de modelagem**:  
+Essa story é de **design e planejamento visual**, não de implementação técnica.
+
+---
+
+## STRY0063 - Criar ACLs para Acompanhamento no Portal
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0062_ACL_PORTAL_SOLICITACOES  
+**Parent**: EDTECH_01_CORE
+
+**Precisa da STRY0056**, porque os filtros de My Requests já devem estar criados para u_edu_secretaria e u_edu_financeiro.
+
+**Persona**:  
+Aluno que acessa o portal e precisa acompanhar somente as próprias solicitações acadêmicas e financeiras, sem visualizar dados internos da equipe.
+
+**O que precisa**:  
+Criar/validar ACLs para permitir que o aluno visualize no portal apenas os registros que ele mesmo abriu nas tabelas u_edu_secretaria e u_edu_financeiro, garantindo também que campos internos como work_notes não sejam expostos.
+
+**Onde aplicar**:
+
+- Tabela Solicitação Secretaria [u_edu_secretaria]
+- Tabela Solicitação Financeira [u_edu_financeiro]
+- Campo work_notes
+- Campo close_notes, se for considerado interno
+- Campos internos de atendimento, se existirem
+- Portal / My Requests / standard_ticket
+
+**ACLs necessárias**:
+
+### 1. ACL de leitura para o aluno em u_edu_secretaria
+
+Criar/validar ACL:
+
+- **Type**: record
+- **Operation**: read
+- **Name**: u_edu_secretaria
+- **Roles**: deixar sem role, ou usar role de aluno se o projeto tiver uma role própria para aluno
+- **Condition/Script**:
+
+`answer = current.opened_by == gs.getUserID() || current.u_solicitante == gs.getUserID();`
+
+**Objetivo**: aluno só lê solicitação da Secretaria aberta por ele.
+
+---
+
+### 2. ACL de leitura para o aluno em u_edu_financeiro
+
+Criar/validar ACL:
+
+- **Type**: record
+- **Operation**: read
+- **Name**: u_edu_financeiro
+- **Roles**: deixar sem role, ou usar role de aluno se o projeto tiver uma role própria para aluno
+- **Condition/Script**:
+
+`answer = current.opened_by == gs.getUserID() || current.u_solicitante == gs.getUserID();`
+
+**Objetivo**: aluno só lê solicitação financeira aberta por ele.
+
+---
+
+### 3. ACL interna para equipe da Secretaria
+
+Criar/validar ACLs para u_edu_secretaria:
+
+- **Operation**: read
+- **Operation**: write
+- **Role**: u_edu_secretaria
+
+**Objetivo**: equipe da Secretaria consegue visualizar e atualizar solicitações da sua área.
+
+---
+
+### 4. ACL interna para equipe Financeira
+
+Criar/validar ACLs para u_edu_financeiro:
+
+- **Operation**: read
+- **Operation**: write
+- **Role**: u_edu_financeiro
+
+**Objetivo**: equipe Financeira consegue visualizar e atualizar solicitações da sua área.
+
+---
+
+### 5. ACL para esconder work_notes do aluno
+
+Criar/validar ACL de campo:
+
+- **Type**: record
+- **Operation**: read
+- **Name**: u_edu_secretaria.work_notes
+- **Role**: u_edu_secretaria
+
+E também:
+
+- **Type**: record
+- **Operation**: read
+- **Name**: u_edu_financeiro.work_notes
+- **Role**: u_edu_financeiro
+
+**Objetivo**: aluno não visualiza anotações internas no portal.
+
+---
+
+### 6. ACL para comentários públicos
+
+Validar que o aluno consiga visualizar comentários públicos, quando usados:
+
+- comments
+- additional comments
+
+**Objetivo**: aluno acompanha retornos da equipe sem acessar work_notes.
+
+**O que fazer no ServiceNow**:
+
+- Acessar **System Security > Access Control (ACL)**.
+- Criar/validar ACLs de leitura para u_edu_secretaria.
+- Criar/validar ACLs de leitura para u_edu_financeiro.
+- Criar/validar ACLs de escrita para as roles internas:
+    - u_edu_secretaria
+    - u_edu_financeiro
+- Criar/validar ACLs de campo para proteger work_notes.
+- Testar com impersonation de aluno.
+- Testar com usuário da Secretaria.
+- Testar com usuário do Financeiro.
+- Validar em **My Requests** se o aluno vê apenas registros próprios.
+
+**Como verificar**:
+
+- Entrar como aluno.
+- Abrir uma solicitação da Secretaria pelo portal.
+- Abrir uma solicitação Financeira pelo portal.
+- Acessar **Requests / My Requests**.
+- Confirmar que as duas solicitações aparecem.
+- Confirmar que solicitações de outro aluno não aparecem.
+- Abrir o detalhe da solicitação.
+- Confirmar que work_notes não aparece.
+- Confirmar que comentários públicos e anexos permitidos aparecem.
+- Entrar como Secretaria e validar acesso a u_edu_secretaria.
+- Entrar como Financeiro e validar acesso a u_edu_financeiro.
+
+**Critérios de aceite**:
+
+- Aluno visualiza apenas solicitações próprias em u_edu_secretaria.
+- Aluno visualiza apenas solicitações próprias em u_edu_financeiro.
+- Aluno não visualiza solicitações de outros alunos.
+- Aluno não visualiza work_notes.
+- Secretaria consegue ler e atualizar registros de u_edu_secretaria.
+- Financeiro consegue ler e atualizar registros de u_edu_financeiro.
+- My Requests funciona com os filtros da STRY0056.
+- A página standard_ticket abre sem erro para registros permitidos.
+
+**Observação de modelagem**:  
+O filtro do portal melhora a experiência, mas a segurança real deve ficar nas ACLs. Mesmo que alguém tente acessar uma URL direta, a ACL deve impedir acesso a registros de outros alunos.
+
+
+---
+
+## STRY0064 - Criar Portal  EdTech Base
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_STRY0063_PORTAL_ROCKET_BASE  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**:  
+Criar o portal próprio EdTech e vincular os catálogos já existentes em **Maintain Catalogs** ao portal, reutilizando as páginas nativas do Service Portal.
+
+**Onde aplicar**:
+
+- Service Portal > Portals
+- Service Catalog > Catalogs / Maintain Catalogs
+- Catálogos existentes:
+    - Catálogo Financeiro
+    - Catálogo da Secretaria Acadêmica
+    - Catálogo de Suporte Técnico
+
+**O que usar**:
+
+Não criar página específica para cada catálogo nesta story.
+
+Usar páginas nativas do Service Portal:
+
+- sc_home para página geral do catálogo
+- sc_category para categorias
+- sc_cat_item para abrir Record Producers
+- requests para Minhas Solicitações
+- standard_ticket para detalhe da solicitação
+
+**O que fazer no ServiceNow**:
+
+- Acessar **Service Portal > Portals**.
+- Criar portal:
+    - **Name**: Rocket EdTech
+    - **URL suffix**: rocket
+    - **Homepage**: usar uma página base existente ou criar apenas home_rocket, se necessário para entrada do portal.
+- Acessar **Service Catalog > Catalogs** ou **Maintain Catalogs**.
+- Abrir Catálogo Financeiro.
+- Validar que o catálogo está **Active = true**.
+- Na related list **Sites** ou relacionamento equivalente, vincular o catálogo ao portal EdTech, se disponível no ambiente.
+- Validar a aba **Catalog Portal Pages**:
+    - não criar página nova;
+    - usar página nativa existente quando necessário;
+    - deixar o catálogo apontando para a navegação padrão do Service Portal.
+- Repetir para:
+    - Catálogo da Secretaria Acadêmica
+    - Catálogo de Suporte Técnico
+- Validar se as categorias dos catálogos estão ativas:
+    - Boletos e Pagamentos
+    - Documentos e Declarações
+    - Serviços de TI / AVA
+- Validar se os Record Producers estão ativos e dentro das categorias corretas.
+- Acessar /rocket.
+- Testar navegação até os Record Producers usando as páginas nativas.
+
+**Navegação esperada**:
+
+- Portal: /rocket
+- Catálogo: página nativa de catálogo
+- Categoria: sc_category
+- Record Producer: sc_cat_item
+- Solicitações do aluno: requests
+- Detalhe da solicitação: standard_ticket
+
+**Critérios de aceite**:
+
+- Portal Rocket EdTech existe e acessa por /rocket.
+- Catálogo Financeiro está disponível no portal.
+- Catálogo da Secretaria Acadêmica está disponível no portal.
+- Catálogo de Suporte Técnico está disponível no portal.
+- Categorias aparecem corretamente dentro dos catálogos.
+- Record Producers aparecem dentro das categorias corretas.
+- Nenhuma página custom de catálogo foi criada nesta story.
+
+**Observação de modelagem**:  
+Nesta fase, o objetivo é só publicar os **Maintain Catalogs** já criados no portal  EdTech. As páginas customizadas ficam para as próximas stories, como home_aluno, home_secretaria, home_financeiro e dashboards.

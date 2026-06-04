@@ -1,0 +1,576 @@
+
+## STRY0090 - Criar Dados das Novas Tabelas Acadêmicas
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_V2_STRY0090_MASSA_DADOS_ACADEMICOS  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Secretaria Acadêmica e Professor
+
+**O que precisa**:  
+Criar dados fictícios, realistas e consistentes para alimentar as novas tabelas acadêmicas usadas na Home do Professor, nos cadastros internos e na apresentação do MVP.
+
+**Onde aplicar**:
+
+- u_edu_curso
+- u_edu_campus
+- u_edu_disciplina
+- u_edu_turma
+- u_edu_professor_turma
+- u_edu_aula
+- u_edu_atividade
+- u_edu_perfil_academico
+
+**O que fazer no ServiceNow**:
+
+- Criar cursos.
+- Criar campus.
+- Criar disciplinas vinculadas aos cursos.
+- Criar turmas com curso, disciplina, campus, turno, período letivo e status.
+- Vincular professores fictícios às turmas.
+- Criar aulas futuras, aulas do dia e aulas realizadas.
+- Criar atividades pendentes, em correção e corrigidas.
+- Garantir que todos os registros usados no portal estejam com status ativo.
+- Não usar dados pessoais reais.
+
+**Critérios de aceite**:
+
+- Home do Professor exibe turmas reais de demonstração.
+- Widget de aulas do dia retorna dados.
+- Widget de atividades pendentes retorna dados.
+- Secretaria consegue manter esses cadastros.
+- Gestor consegue consultar dados acadêmicos quando tiver permissão.
+- Dados parecem coerentes para apresentação do TCC.
+
+---
+
+## STRY0091 - Criar Listas Administrativas da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_V2_STRY0091_LISTAS_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA_V2
+
+**Persona**: Secretaria Acadêmica
+
+**O que precisa**:  
+Criar listas e módulos administrativos para que a Secretaria acompanhe suas solicitações sem precisar buscar manualmente a tabela.
+
+**Onde aplicar**:
+
+- System Definition > Application Menus
+- System Definition > Modules
+- Tabela u_edu_secretaria.
+
+- **O que fazer no ServiceNow**:
+
+- Criar agrupamento administrativo: Secretaria Acadêmica.
+- Criar módulos/listas:
+    - Minhas Tarefas
+    - Solicitações Abertas
+    - Pendentes
+    - Atrasadas
+    - Encerradas
+    - Todos os Documentos
+- Configurar filtros por responsável, grupo, estado, SLA e tipo de documento.
+- Definir list layout com campos úteis:
+    - Número
+    - Solicitante
+    - Tipo de documento
+    - Estado
+    - Responsável
+    - Prazo/SLA
+    - Atualizado em
+- Proteger os módulos com u_edu_secretaria.
+
+**Critérios de aceite**:
+
+- Secretaria acessa sua fila por módulos organizados.
+- Secretaria consegue separar solicitações abertas, pendentes, atrasadas e encerradas.
+- Usuários de outras áreas não visualizam listas da Secretaria.
+- A lista exibe campos relevantes para atendimento.
+- O acesso funciona sem perfil admin.
+
+---
+
+## STRY0092 - Criar Listas Administrativas do Financeiro
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_03_FINANCEIRO_V2_STRY0092_LISTAS_FINANCEIRO  
+**Parent**: EDTECH_03_FINANCEIRO_V2
+
+**Persona**: Financeiro
+
+**O que precisa**:  
+Criar listas e módulos administrativos para que o Financeiro acompanhe solicitações por fila, status e tipo de demanda.
+
+**Onde aplicar**:
+
+- System Definition > Application Menus
+- System Definition > Modules
+- Tabela u_edu_financeiro.
+
+**O que fazer no ServiceNow**:
+
+- Criar agrupamento administrativo: Financeiro Acadêmico.
+- Criar módulos/listas:
+    - Minhas Tarefas
+    - Solicitações Abertas
+    - Pendentes
+    - Atrasadas
+    - Encerradas
+    - 2ª Via de Boleto
+    - Comprovantes
+    - Contestações de Multa
+- Configurar filtros por tipo de solicitação financeira, estado, responsável, grupo e SLA.
+- Definir list layout com:
+    - Número
+    - Solicitante
+    - Tipo de solicitação
+    - Competência
+    - Valor aproximado
+    - Estado
+    - Responsável
+    - Atualizado em
+- Proteger os módulos com u_edu_financeiro.
+
+**Critérios de aceite**:
+
+- Financeiro acessa sua fila por tipo de demanda.
+- Solicitações de boleto, comprovante e multa ficam separadas.
+- Secretaria, Aluno e Professor não acessam listas financeiras internas.
+- O acesso funciona sem perfil admin.
+
+---
+
+## STRY0093 - Criar Listas de Cadastros Acadêmicos
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_V2_STRY0093_LISTAS_CADASTROS_ACADEMICOS  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Secretaria Acadêmica
+
+**O que precisa**:  
+Criar listas administrativas para manutenção dos cadastros acadêmicos usados por alunos, professores, portal, relatórios e widgets.
+
+**Onde aplicar**:
+
+- System Definition > Application Menus
+- System Definition > Modules
+- Tabelas acadêmicas do projeto
+
+**O que fazer no ServiceNow**:
+
+- Criar agrupamento: Cadastros Acadêmicos.
+- Criar módulos/listas para:
+    - Cursos
+    - Campus
+    - Disciplinas
+    - Turmas
+    - Vínculos Professor/Turma
+    - Aulas
+    - Atividades
+- Definir list layout específico para cada tabela.
+- Permitir criação/edição somente para u_edu_cadastro_academico.
+- Permitir leitura para u_edu_gestor, se a ACL gerencial estiver aplicada.
+- Bloquear exclusão para usuários de negócio.
+
+**Critérios de aceite**:
+
+- Secretaria mantém cadastros acadêmicos por listas organizadas.
+- Gestor consegue consultar sem editar.
+- Professor não edita turmas, aulas ou atividades pelo backoffice.
+- Aluno não acessa cadastros acadêmicos administrativos.
+- As listas alimentam corretamente os widgets do portal.
+
+---
+
+## STRY0094 - Criar Listas Gerenciais para Gestão Acadêmica
+
+**Prioridade**: Média  
+**Update Set**: EDTECH_01_CORE_V2_STRY0094_LISTAS_GESTAO_ACADEMICA  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Gestor Acadêmico
+
+**O que precisa**:  
+Criar listas de consulta para que a Gestão Acadêmica acompanhe solicitações, atrasos, satisfação e dados acadêmicos sem editar registros operacionais.
+
+**Onde aplicar**:
+
+- System Definition > Application Menus
+- System Definition > Modules
+- Reports
+- Dashboards
+
+**O que fazer no ServiceNow**:
+
+- Criar agrupamento: Gestão Acadêmica.
+- Criar módulos/listas:
+    - Solicitações por Área
+    - Chamados Atrasados
+    - Satisfação
+    - Turmas Ativas
+    - Atividades Pendentes
+    - Resumo de Atendimento
+- Usar filtros de leitura sobre:
+    - incident
+    - u_edu_financeiro
+    - u_edu_secretaria
+    - u_edu_turma
+    - u_edu_atividade
+    - dados de pesquisa de satisfação
+- Garantir acesso somente leitura.
+- Não permitir alteração de responsável, estado, prazo ou dados acadêmicos.
+
+**Critérios de aceite**:
+
+- Gestor consulta indicadores sem editar dados.
+- Gestor visualiza solicitações de Suporte, Financeiro e Secretaria.
+- Gestor identifica chamados atrasados.
+- Gestor consulta turmas e atividades pendentes.
+- Gestor acessa satisfação por área.
+- Gestor não precisa receber admin.
+
+---
+
+## STRY0095 - Personalizar Identidade Visual da Instância ServiceNow
+
+**Prioridade**: Média  
+**Update Set**: EDTECH_01_CORE_V2_STRY0095_PERSONALIZAR_INSTANCIA_SERVICENOW  
+**Parent**: EDTECH_01_CORE_V2
+
+**Persona**: Administrador ServiceNow
+
+**O que precisa**:  
+Personalizar a aparência geral da instância ServiceNow, alterando nome, ícone, logo e elementos visuais da plataforma administrativa. Esta story não trata do portal.
+
+**Onde aplicar**:
+
+- System UI > Images
+- System Properties > Basic Configuration
+- Configurações de tema da instância, conforme versão da ServiceNow
+- Next Experienc
+
+**O que fazer no ServiceNow**:
+
+- Criar ou importar logo da EdTech.
+- Ajustar nome visual da instância para algo como EdTech ServiceNow.
+- Aplicar identidade visual no cabeçalho/interface administrativa quando permitido.
+- Validar se o nome aparece corretamente na aba do navegador.
+- Validar se o ícone aparece corretamente no navegador.
+- Validar se a alteração não impacta Service Portal, Record Producers ou módulos.
+- Documentar quais propriedades/configurações foram alteradas.
+
+**Fora de escopo**:
+
+- Não personalizar o Portal EdTech nesta story.
+- Não alterar páginas, widgets ou tema do Service Portal.
+- Não recriar layout de home do aluno ou professor.
+
+**Critérios de aceite**:
+
+- Instância ServiceNow exibe nome customizado.
+- Instância exibe ícone/favico customizado.
+- Logo aparece na interface administrativa quando suportado.
+- EdTech continua funcionando sem alteração.
+- A personalização melhora a apresentação do TCC sem afetar regras de negócio.
+
+---
+
+## STRY0096 - Criar Role Operacional de Atendimento para Secretaria e Financeiro
+
+**Prioridade**: Alta  
+**Update Set**: `EDTECH_01_CORE_V2_STRY0096_ROLE_ATENDIMENTO_OPERADOR`  
+**Parent**: `EDTECH_01_CORE_V2`
+
+**Persona**: Secretaria Acadêmica e Financeiro
+
+**O que precisa**:  
+Permitir que usuários internos da Secretaria e do Financeiro atualizem campos operacionais de atendimento nas solicitações, sem receber perfil `admin`, sem depender de `itil` amplo e sem permissão de exclusão.
+
+**Escopo desta story**:
+
+- Criar ou validar a role `u_edu_atendimento_operador`.
+- Vincular a role aos grupos `Secretaria` e `Financeira`.
+- Liberar escrita apenas nos campos operacionais necessários.
+- Manter dados do aluno, dados acadêmicos e detalhes originais da solicitação somente leitura.
+- Manter `delete` restrito a `admin`.
+- Não criar Catalog Item, Record Producer ou página de portal.
+
+**Onde aplicar**:
+
+- User Administration > Roles
+- User Administration > Groups
+- System Security > Access Control (ACL)
+- Tabelas `u_edu_secretaria`, `u_edu_financeiro` e campos herdados de `Task [task]`
+
+**O que fazer no ServiceNow**:
+
+- Criar ou validar a role `u_edu_atendimento_operador`.
+- Adicionar `u_edu_atendimento_operador` ao grupo `Secretaria`.
+- Adicionar `u_edu_atendimento_operador` ao grupo `Financeira`.
+- Criar ou validar ACL de `write` para `u_edu_secretaria`, usando `u_edu_atendimento_operador`.
+- Criar ou validar ACL de `write` para `u_edu_financeiro`, usando `u_edu_atendimento_operador`.
+- Criar ACLs de campo em `Task [task]` para campos herdados usados no atendimento:
+    - `task.state` com operation `write`
+    - `task.priority` com operation `write`
+    - `task.assignment_group` com operation `write`, se o grupo responsável puder ser ajustado manualmente
+    - `task.work_notes` com operations `read` e `write`
+    - `task.comments` com operation `write`, se comentários visíveis ao solicitante forem usados
+- Nas ACLs de `Task [task]`, usar script para limitar o acesso apenas às classes do projeto:
+
+```javascript
+answer = current.sys_class_name == 'u_edu_secretaria' || current.sys_class_name == 'u_edu_financeiro';
+```
+
+- Não conceder `delete` para `u_edu_atendimento_operador`.
+- Não conceder `itil` apenas para resolver permissão de atendimento, salvo decisão consciente para ambiente de demonstração.
+
+**Critérios de aceite**:
+
+- Usuário da Secretaria consegue alterar estado, prioridade, notas internas, comentários e fechamento em solicitações da Secretaria.
+- Usuário do Financeiro consegue alterar estado, prioridade, notas internas, comentários e fechamento em solicitações financeiras.
+- Usuário da Secretaria não consegue excluir solicitações.
+- Usuário do Financeiro não consegue excluir solicitações.
+- A role não libera edição geral em `incident`, `sc_task`, `change_request` ou outras tabelas que estendem `Task`.
+- Campos herdados de `Task` deixam de apresentar erro `Security prevents writing to this field` nas tabelas permitidas.
+
+---
+
+## STRY0097 - Padronizar Formulário Interno da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: `EDTECH_04_SECRETARIA_V2_STRY0097_FORM_SECRETARIA_ATENDIMENTO`  
+**Parent**: `EDTECH_04_SECRETARIA_V2`
+
+**Persona**: Secretaria Acadêmica
+
+**O que precisa**:  
+Organizar o formulário interno da tabela de Secretaria para que a equipe consiga ler rapidamente os dados da solicitação e atuar somente nos campos de atendimento.
+
+**Escopo desta story**:
+
+- Reorganizar o formulário interno de `u_edu_secretaria`.
+- Agrupar dados do aluno, dados acadêmicos e detalhes da solicitação em uma única aba.
+- Manter atendimento operacional em uma segunda aba.
+- Deixar campos de origem da solicitação em readonly.
+- Remover campos duplicados ou técnicos da view, sem excluir colunas antigas neste momento.
+- Não alterar o formulário do portal nesta story.
+
+**Onde aplicar**:
+
+- System UI > Forms
+- Form Designer / Form Builder
+- System UI > UI Policies
+- Tabela `u_edu_secretaria`
+
+**O que fazer no ServiceNow**:
+
+- Organizar o formulário com duas abas principais:
+    - `Dados da Solicitação`
+    - `Atendimento interno`
+- Na aba `Dados da Solicitação`, exibir:
+    - Solicitante
+    - Telefone
+    - E-mail de Contato
+    - RA
+    - Curso
+    - Campus
+    - Período
+    - Tipo de Documento
+    - Finalidade do Documento
+    - Forma de Entrega
+    - Assunto curto
+    - Descrição
+- Na aba `Atendimento interno`, exibir:
+    - Number
+    - Grupo responsável
+    - Estado da solicitação
+    - Prioridade
+    - Work notes
+    - Additional comments
+    - Close notes
+- Remover da view campos duplicados ou genéricos, como `u_reference_*`, `u_string_*` e `u_choice_*`, quando não forem os campos oficiais usados pelo script.
+- Criar UI Policies de readonly:
+    - `SEC - Readonly dados do aluno`
+    - `SEC - Readonly dados acadêmicos`
+    - `SEC - Readonly detalhes da solicitação`
+- Deixar readonly:
+    - Solicitante
+    - Telefone
+    - E-mail de Contato
+    - RA
+    - Curso
+    - Campus
+    - Período
+    - Tipo de Documento
+    - Finalidade do Documento
+    - Forma de Entrega
+    - Assunto curto
+    - Descrição
+    - Number
+- Manter editáveis:
+    - Estado da solicitação
+    - Prioridade
+    - Work notes
+    - Additional comments
+    - Close notes
+- Se campo de referência não respeitar UI Policy, usar Client Script `onLoad` apenas para readonly visual do campo específico.
+
+**Critérios de aceite**:
+
+- Secretaria visualiza todos os dados da solicitação em uma única aba.
+- Atendimento interno fica separado dos dados originais do aluno.
+- Secretaria não altera RA, curso, campus, período, solicitante, contato ou detalhes do documento no formulário de atendimento.
+- Secretaria consegue atualizar estado, prioridade, notas internas, comentário ao solicitante e close notes.
+- Campos duplicados ou técnicos não aparecem na view usada pela equipe.
+- O formulário fica adequado para demonstração do MVP.
+
+---
+
+## STRY0098 - Padronizar Choices e Mapeamento dos Documentos da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: `EDTECH_04_SECRETARIA_V2_STRY0098_CHOICES_DOCUMENTOS_SECRETARIA`  
+**Parent**: `EDTECH_04_SECRETARIA_V2`
+
+**Persona**: Aluno e Secretaria Acadêmica
+
+**O que precisa**:  
+Garantir que os valores escolhidos nos Record Producers da Secretaria sejam gravados corretamente na tabela `u_edu_secretaria` e exibidos com labels amigáveis, sem mostrar valores técnicos como `comprovante_matricula` ou `estagio`.
+
+**Escopo desta story**:
+
+- Padronizar choices das variáveis do catálogo com os campos da tabela.
+- Ajustar campos da tabela para `Choice` quando necessário.
+- Garantir que os values gravados pelo Record Producer batam com os values das choices da tabela.
+- Corrigir exibição de Tipo de Documento, Finalidade do Documento e Forma de Entrega.
+- Não recriar Record Producers nesta story.
+
+**Onde aplicar**:
+
+- Service Catalog > Catalog Variables
+- System Definition > Dictionary
+- Tabela `u_edu_secretaria`
+- Record Producers da Secretaria
+
+**O que fazer no ServiceNow**:
+
+- Validar a variável `tipo_documento` no variable set `Detalhes da Solicitação Acadêmica`.
+- Validar o campo `u_tipo_documento` na tabela `u_edu_secretaria`.
+- Garantir que `u_tipo_documento` esteja como `Choice`.
+- Criar ou ajustar choices de `u_tipo_documento` com values iguais aos da variável:
+    - `Comprovante de matrícula` / `comprovante_matricula`
+    - `Declaração acadêmica` / `declaracao_academica`
+    - `Histórico escolar` / `historico_escolar`
+    - `Diploma` / `diploma`
+- Validar a variável `finalidade_documento`.
+- Garantir que `u_finalidade_documento` esteja como `Choice`.
+- Criar ou ajustar choices de `u_finalidade_documento` com values iguais aos da variável:
+    - `Comprovação acadêmica geral` / `comprovacao_academica_geral`
+    - `Estágio` / `estagio`
+    - `Emprego / Processo seletivo` / `emprego_processo_seletivo`
+    - `Bolsa / Financiamento` / `bolsa_financiamento`
+    - `Transferência` / `transferencia`
+    - `Órgão público` / `orgao_publico`
+    - `Consulado / Visto` / `consulado_visto`
+- Validar `u_forma_entrega` e alinhar choices com a variável correspondente.
+- Ajustar scripts dos Record Producers para gravar values de forma explícita:
+
+```javascript
+current.u_tipo_documento = producer.tipo_documento ? producer.tipo_documento.toString() : '';
+current.u_finalidade_documento = producer.finalidade_documento ? producer.finalidade_documento.toString() : '';
+current.u_forma_entrega = producer.forma_entrega ? producer.forma_entrega.toString() : '';
+```
+
+- Para Record Producer específico de Diploma, avaliar se o tipo de documento deve ser fixo:
+
+```javascript
+current.u_tipo_documento = 'diploma';
+```
+
+**Critérios de aceite**:
+
+- Ao abrir uma solicitação, o campo Tipo de Documento exibe label amigável.
+- Ao abrir uma solicitação, o campo Finalidade do Documento exibe label amigável.
+- Valores técnicos como `comprovante_matricula` e `estagio` não aparecem para a Secretaria no formulário interno.
+- Record Producers continuam gravando valores corretamente.
+- Registros antigos com values válidos passam a exibir labels quando a choice correspondente existe.
+- O formulário fica mais claro para apresentação e atendimento.
+
+---
+
+## STRY0099 - Criar Notificações In-App e Revisar E-mails da Secretaria
+
+**Prioridade**: Alta  
+**Update Set**: `EDTECH_04_SECRETARIA_V2_STRY0099_NOTIFICACOES_SECRETARIA_IN_APP`  
+**Parent**: `EDTECH_04_SECRETARIA_V2`
+
+**Persona**: Aluno e Secretaria Acadêmica
+
+**O que precisa**:  
+Garantir que o aluno e a Secretaria sejam notificados corretamente sobre abertura e atualização de solicitações, tanto por e-mail quanto por notificação interna no ServiceNow quando suportado pela instância.
+
+**Escopo desta story**:
+
+- Revisar destinatários das Email Notifications existentes da Secretaria.
+- Criar notificação para a equipe Secretaria quando uma nova solicitação for aberta.
+- Criar notificações internas/in-app para aparecer no sino do ServiceNow, se o recurso estiver disponível.
+- Manter notificações por solicitação individual, sem enviar para todos os alunos.
+- Não criar novo portal ou widget nesta story, salvo se for necessário para exibir notificações no portal customizado.
+
+**Onde aplicar**:
+
+- System Notification > Email > Notifications
+- System Notification > Provider > Notifications, se disponível na instância
+- Flow Designer, se a ação de in-app notification estiver disponível
+- Tabela `u_edu_secretaria`
+- Campo `u_solicitante`
+- Grupo `Secretaria`
+
+**O que fazer no ServiceNow**:
+
+- Revisar Email Notifications de Secretaria:
+    - chamado aberto
+    - chamado em andamento
+    - chamado pendente
+    - chamado concluído
+    - chamado atualizado
+- Em notificações para o aluno, usar destinatário:
+    - `Users/Groups in fields` = `Solicitante`
+- Remover grupo `Alunos` de notificações individuais.
+- Criar notificação de e-mail para equipe interna:
+    - Nome: `SEC - Nova solicitação para Secretaria`
+    - Tabela: `u_edu_secretaria`
+    - Quando enviar: registro inserido
+    - Destinatário: grupo `Secretaria`
+- Criar Provider Notification ou notificação in-app para equipe Secretaria:
+    - Nome: `SEC - Nova solicitação para Secretaria - In-app`
+    - Tabela: `u_edu_secretaria`
+    - Disparo: registro inserido
+    - Destinatário: grupo responsável ou grupo `Secretaria`
+    - Mensagem: `Nova solicitação acadêmica aberta: ${number}`
+- Criar Provider Notification ou notificação in-app para aluno:
+    - Nome: `SEC - Solicitação aberta para aluno - In-app`
+    - Tabela: `u_edu_secretaria`
+    - Disparo: registro inserido
+    - Destinatário: `Solicitante`
+    - Mensagem: `Sua solicitação ${number} foi aberta com sucesso.`
+- Criar notificação in-app de atualização para aluno:
+    - Disparo: registro atualizado
+    - Condição: estado da solicitação muda
+    - Destinatário: `Solicitante`
+    - Mensagem: `Sua solicitação ${number} foi atualizada.`
+- Validar se o portal customizado possui header/widget que exibe notificações internas.
+- Se o portal não exibir notificações in-app, registrar isso como limitação técnica e manter e-mail/sys_email como validação do MVP.
+
+**Critérios de aceite**:
+
+- Ao abrir solicitação da Secretaria, o aluno recebe notificação individual.
+- Ao abrir solicitação da Secretaria, o grupo Secretaria recebe aviso da nova demanda.
+- Notificações individuais não são enviadas para todos os usuários do grupo Alunos.
+- Mudança de estado gera notificação para o solicitante.
+- Registros aparecem em `sys_email.list` quando a notificação de e-mail dispara.
+- Notificações internas aparecem no sino do ServiceNow quando o recurso de Provider Notification estiver disponível.
+- O comportamento e as limitações da PDI ficam documentados para apresentação.

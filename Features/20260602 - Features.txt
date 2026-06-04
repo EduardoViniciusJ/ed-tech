@@ -1,0 +1,336 @@
+## STRY0100 - Melhorar Short Descriptions e Ícones dos Catalog Items
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0100_SHORT_DESCRIPTION_ICONS_CATALOG_ITEMS  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno ou professor que acessa o Portal EdTech e precisa identificar rapidamente qual serviço deve abrir, sem depender de nomes técnicos ou explicações longas.
+
+**O que precisa**:  
+Revisar todos os **Catalog Items / Record Producers** principais do projeto, melhorando o campo **Short description** e adicionando **ícones padronizados** para facilitar a navegação no portal.
+
+**Por que essa story existe**:  
+Hoje os serviços existem, mas alguns nomes e descrições ainda estão simples ou genéricos. No portal, o aluno precisa bater o olho e entender rapidamente o que cada item faz. Ícones também ajudam muito.
+
+**Catalog Items impactados**:
+
+- Relatar Problema com AVA 
+- Enviar Comprovante de Pagamento
+- Contestar Multa por Atraso de Boleto
+- Emitir Comprovante de Matrícula
+- Solicitar Declaração Acadêmica
+- Solicitar Histórico Escolar
+- Solicitar Diploma
+
+**Short descriptions sugeridas**:
+
+Relatar Problema com AVA
+Relate dificuldades de acesso, aula, vídeo ou envio de atividade no AVA/Moodle.
+
+Solicitar 2ª Via de Boleto  
+Solicite uma nova via de boleto acadêmico para pagamento.
+
+Enviar Comprovante de Pagamento  
+Envie seu comprovante para análise do Financeiro Acadêmico.
+
+Contestar Multa por Atraso de Boleto  
+Solicite análise de multa aplicada por atraso no boleto.
+
+Emitir Comprovante de Matrícula  
+Solicite seu comprovante de matrícula atualizado.
+
+Solicitar Declaração Acadêmica  
+Solicite uma declaração acadêmica para estágio, emprego, bolsa ou outro fim.
+
+Solicitar Histórico Escolar  
+Solicite a emissão do seu histórico escolar.
+
+Solicitar Diploma  
+Solicite orientações ou emissão relacionada ao seu diploma.
+
+**Ícones sugeridos por item**:
+
+- Relatar Problema com AVA: ícone de suporte, headset, computador ou alerta.
+- Solicitar 2ª Via de Boleto: ícone de boleto, documento financeiro ou código de barras.
+- Enviar Comprovante de Pagamento: ícone de upload, recibo ou comprovante.
+- Contestar Multa por Atraso de Boleto: ícone de alerta financeiro, moeda ou revisão.
+- Emitir Comprovante de Matrícula: ícone de documento acadêmico ou certificado.
+- Solicitar Declaração Acadêmica: ícone de documento assinado.
+- Solicitar Histórico Escolar: ícone de lista, boletim ou documento com linhas.
+- Solicitar Diploma: ícone de diploma, medalha ou certificado.
+
+**Critérios de aceite**:
+
+- Todos os 8 Catalog Items principais possuem Short description clara.
+- Nenhum item usa descrição genérica demais, como apenas “Solicite seu documento”.
+- Todos os 8 Catalog Items possuem ícone configurado.
+- Ícones aparecem corretamente no portal.
+- Ícones seguem padrão visual consistente.
+- O aluno consegue entender o objetivo de cada serviço pela descrição curta.
+- A alteração não impacta abertura dos Record Producers.
+- A alteração não modifica regras de atendimento, SLA, notificações ou mapeamentos.
+
+
+## STRY0101 - Criar Home Operacional da Secretaria no Portal EdTech
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0101_HOME_SECRETARIA  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Usuário da Secretaria Acadêmica que precisa acessar rapidamente as solicitações de documentos, pendências e atrasos pelo Portal EdTech.
+
+**O que precisa**:  
+Criêmicas, indicaar uma página inicial operacional para a Secretaria no portal, exibindo fila de solicitações acaddores rápidos e atalhos de atendimento.
+
+**Onde aplicar**:
+
+- Portal EdTech
+- Página home_secretaria
+- Tabela u_edu_secretaria
+- Grupo Secretaria
+- Role u_edu_secretaria
+- Widget custom ou Data Table from Instance Definition
+
+**Conteúdo da página**:
+
+- Saudação com nome do usuário logado.
+- Indicadores rápidos:
+    - Solicitações abertas
+    - Em atendimento
+    - Aguardando aluno
+    - Atrasadas
+    - Concluídas no dia
+- Lista de solicitações recentes da Secretaria.
+- Atalhos:
+    - Minhas tarefas
+    - Solicitações abertas
+    - Pendentes
+    - Atrasadas
+    - Encerradas
+    - Todos os documentos
+- Card de SLA ou prazo de 3 dias úteis, se disponível.
+
+**O que fazer no ServiceNow**:
+
+- Criar página home_secretaria.
+- Criar widget EDTech - Home Secretaria, ou usar widgets/listas nativas quando possível.
+- Buscar registros em u_edu_secretaria com assignment_group = Secretaria.
+- Exibir apenas registros permitidos pelas ACLs.
+- Adicionar cards de indicadores.
+- Adicionar lista de solicitações recentes.=
+
+**Critérios de aceite**:
+
+- Usuário da Secretaria acessa home_secretaria.
+- A home exibe solicitações acadêmicas da Secretaria.
+- Indicadores mostram números coerentes.
+- A lista exibe número, solicitante, tipo de documento, estado e atualização.
+- Usuário sem u_edu_secretaria não visualiza a página.
+- A navegação funciona dentro do Portal EdTech.
+
+---
+
+## STRY0102 - Criar Home Operacional do Financeiro no Portal EdTech
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0102_HOME_FINANCEIRO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Usuário do Financeiro Acadêmico que precisa acompanhar solicitações de boleto, comprovantes, multas e pendências pelo Portal EdTech.
+
+**O que precisa**:  
+Criar uma página inicial operacional para o Financeiro no portal, exibindo fila de solicitações financeiras, indicadores rápidos e atalhos por tipo de demanda.
+
+**Onde aplicar**:
+
+- Portal EdTech
+- Página home_financeiro
+- Tabela u_edu_financeiro
+- Grupo Financeira
+- Role u_edu_financeiro
+- Widget custom ou **Data Table** from Instance Definition
+
+**Conteúdo da página**:
+
+- Saudação com nome do usuário logado.
+- Indicadores rápidos:
+    - Solicitações abertas
+    - 2ª via de boleto
+    - Comprovantes recebidos
+    - Contestações de multa
+    - Atrasadas
+    - Concluídas no dia
+- Lista de solicitações financeiras recentes.
+- Atalhos:
+    - Minhas tarefas
+    - Solicitações abertas
+    - 2ª via de boleto
+    - Comprovantes
+    - Contestações
+    - Pendentes
+    - Atrasadas
+    - Encerradas
+
+**O que fazer no ServiceNow**:
+
+- Criar página home_financeiro.
+- Criar widget EDTech - Home Financeiro, ou usar widgets/listas nativas quando possível.
+- Buscar registros em u_edu_financeiro com assignment_group = Financeira.
+- Exibir apenas registros permitidos pelas ACLs.
+- Usar GlideRecordSecure em widget custom.
+- Adicionar cards de indicadores.
+- Adicionar lista de solicitações recentes.
+- Adicionar links para listas administrativas criadas na STRY0092.
+- Exibir a página apenas para usuários com role u_edu_financeiro.
+- Validar que aluno, professor e Secretaria não acessam a home do Financeiro.
+
+**Critérios de aceite**:
+
+- Usuário do Financeiro acessa home_financeiro.
+- A home exibe solicitações financeiras.
+- Indicadores mostram números coerentes.
+- A lista exibe número, solicitante, tipo de solicitação, estado, valor aproximado e atualização.
+- Usuário sem u_edu_financeiro não visualiza a página.
+- A navegação funciona dentro do Portal EdTech.
+
+---
+
+## STRY0103 - Criar Home Operacional do Suporte no Portal EdTech
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0103_HOME_SUPORTE  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Usuário do Suporte Técnico que precisa acompanhar incidentes de AVA/Moodle, portal, aulas, vídeos e envio de atividades pelo Portal EdTech.
+
+**O que precisa**:  
+Criar uma página inicial operacional para o Suporte no portal, exibindo incidentes técnicos, indicadores rápidos e atalhos de atendimento.
+
+**Onde aplicar**:
+
+- Portal EdTech
+- Página home_suporte
+- Tabela Incident [incident]
+- Grupo Suporte
+- Role u_edu_suporte
+- Record Producer Relatar Problema com AVA
+
+**Conteúdo da página**:
+
+- Saudação com nome do usuário logado.
+- Indicadores rápidos:
+    - Incidentes abertos
+    - Em atendimento
+    - Aguardando aluno/professor
+    - Atrasados
+    - Resolvidos no dia
+    - SLA próximo de vencer
+- Lista de incidentes recentes de AVA/Moodle.
+- Atalhos:
+    - Minha fila
+    - Incidentes abertos
+    - Pendentes
+    - Atrasados
+    - Resolvidos
+    - Base de conhecimento
+- Card de SLA:
+    - Resposta em 3h
+    - Resolução em 8h
+
+**O que fazer no ServiceNow**:
+
+- Criar página home_suporte.
+- Criar widget EDTech - Home Suporte, ou usar widgets/listas nativas quando possível.
+- Buscar registros em incident com assignment_group = Suporte.
+- Filtrar incidentes relacionados ao RP de AVA, se houver campo de identificação.
+- Exibir apenas registros permitidos pelas ACLs.
+- Adicionar indicadores de SLA.
+- Adicionar lista de incidentes recentes.
+- Adicionar links para dashboard/listas de suporte.
+- Exibir a página apenas para usuários com role u_edu_suporte.
+- Validar que aluno, professor, Secretaria e Financeiro não acessam a home do Suporte.
+
+**Critérios de aceite**:
+
+- Usuário do Suporte acessa home_suporte.
+- A home exibe incidentes do grupo Suporte.
+- Indicadores mostram números coerentes.
+- A lista exibe número, solicitante, sistema afetado, tipo de problema, estado e atualização.
+- Usuário sem u_edu_suporte não visualiza a página.
+- A navegação funciona dentro do Portal EdTech.
+
+---
+
+## STRY0104 - Criar Home Gerencial do Gestor Acadêmico no Portal EdTech
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0104_HOME_GESTOR  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Gestor Acadêmico que precisa acompanhar indicadores de atendimento, SLA, satisfação e volume de solicitações das áreas core do projeto.
+
+**O que precisa**:  
+Criar uma página inicial gerencial para o Gestor Acadêmico no portal, reunindo indicadores consolidados de Suporte, Financeiro, Secretaria, satisfação e atrasos.
+
+**Onde aplicar**:
+
+- Portal EdTech
+- Página home_gestor
+- Role u_edu_gestor
+- Tabelas:
+    - incident
+    - u_edu_financeiro
+    - u_edu_secretaria
+    - tabelas de satisfação, se existirem
+- Dashboards e relatórios.
+
+**Conteúdo da página**:
+
+- Saudação com nome do gestor.
+- Indicadores consolidados:
+    - Solicitações abertas por área
+    - Solicitações atrasadas
+    - SLA dentro do prazo
+    - Satisfação média
+    - Chamados concluídos no mês
+- Cards por área:
+    - Secretaria
+    - Financeiro
+    - Suporte
+- Gráficos simples:
+    - Volume por área
+    - Atrasos por área
+    - Satisfação por área
+    - Status geral das solicitações
+- Atalhos:
+    - Dashboard Secretaria
+    - Dashboard Financeiro
+    - Dashboard Suporte
+    - Relatório consolidado
+    - Satisfação
+
+**O que fazer no ServiceNow**:
+
+- Criar página home_gestor.
+- Criar widget EDTech - Home Gestor, ou compor a página com relatórios/widgets nativos.
+- Exibir indicadores consolidados das áreas core.
+- Usar dados de incident, u_edu_financeiro e u_edu_secretaria.
+- Reaproveitar relatórios/dashboards já criados quando possível.
+- Exibir a página apenas para usuários com role u_edu_gestor.
+- Garantir acesso somente leitura.
+- Validar que gestor não consegue editar registros operacionais pela home.
+
+**Critérios de aceite**:
+
+- Gestor acessa home_gestor.
+- A home exibe indicadores consolidados das três áreas core.
+- Gestor visualiza volume, atrasos, SLA e satisfação.
+- Gestor possui links para dashboards operacionais.
+- Gestor não consegue editar dados de atendimento pela home.
+- Usuário sem u_edu_gestor não visualiza a página.
+- A navegação funciona dentro do Portal EdTech.

@@ -1,0 +1,358 @@
+
+
+
+
+## STRY0065 - Criar Home do Aluno e Vincular ao Portal EdTech
+
+
+**Tipo:** Portal
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0065_HOME_ALUNO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno que acessa o portal EdTech e precisa cair diretamente em uma página inicial simples, organizada e voltada para abertura e acompanhamento de solicitações acadêmicas.
+
+**O que precisa**:  
+Criar a página inicial do aluno no Service Portal e vinculá-la como **Homepage**do portal EdTech.
+
+**Escopo desta story**:
+
+- Criar a página edtech_home_aluno.
+- Preencher título e descrição da página.
+- Vincular a página como homepage do portal EdTech.
+- Manter a página protegida para usuário logado.
+- Preparar a página para receber os widgets futuros da Home do Aluno.
+
+**Onde aplicar**:
+
+- Service Portal > Pages
+- Service Portal > Portals
+- Portal: EdTech
+- Página: edtech_home_aluno
+
+**O que fazer no ServiceNow**:
+
+- Criar nova página em Service Portal > Pages.
+- Preencher:
+    - **Title**: EdTech Home Aluno
+    - **ID**: edtech_home_aluno
+    - **Short description**: Página inicial do aluno no portal EdTech, usada para acesso rápido a solicitações, aulas e acompanhamento de pedidos.
+    - **Public**: false
+    - **Draft**: false
+- Abrir o portal EdTech.
+- Configurar:
+    - **URL suffix**: edtech
+    - **Homepage**: edtech_home_aluno
+    - **404 page**: 404
+- Validar que o portal abre a página correta ao acessar /edtech.
+
+**Critérios de aceite**:
+
+- A página edtech_home_aluno foi criada.
+- A página possui título e descrição preenchidos.
+- O portal EdTech usa edtech_home_aluno como homepage.
+- Ao acessar /edtech, o aluno é direcionado para a Home do Aluno.
+- A página não está pública para usuários sem login.
+- A página fica pronta para receber os widgets da Home do Aluno.
+
+---
+## STRY0066 - Criar Página de Aulas do Aluno no Portal EdTech
+
+**Tipo:** Portal
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0066_PAGINA_AULA_ALUNO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno que acessa o portal EdTech e precisa encontrar uma área de aulas para visualizar disciplinas, próximos encontros, materiais e links de acesso.
+
+**O que precisa**:  
+Criar a página base de **Aulas** no Service Portal para ser usada no menu do aluno e nos atalhos da Home.
+
+**Escopo desta story**:
+
+- Criar a página edtech_aulas.
+- Preencher título e descrição da página.
+- Deixar a página pronta para receber widgets futuros de aulas.
+- Garantir que a página seja acessível pelo portal EdTech.
+
+**Onde aplicar**:
+
+- Service Portal > Pages
+- Portal: EdTech
+- Página: edtech_aulas
+- Menu/header do portal EdTech na próxima story
+
+**O que fazer no ServiceNow**:
+
+- Criar nova página em Service Portal > Pages.
+- Preencher:
+    - **Title**: EdTech Aulas
+    - **ID**: edtech_aulas
+    - **Short description**: Página de aulas do aluno no portal EdTech, preparada para exibir disciplinas, próximas aulas, materiais e links de acesso.
+    - **Public**: false
+    - **Draft**: false
+- Validar acesso direto pela URL:
+    - /edtech?id=edtech_aulas
+
+**Critérios de aceite**:
+
+- A página edtech_aulas foi criada.
+- A página possui título e descrição preenchidos.
+- A página não está pública para usuários sem login.
+- A página abre corretamente dentro do portal EdTech.
+- A página fica pronta para ser vinculada ao menu Aulas.
+- Nenhuma integração real com AVA/Moodle foi criada nesta story.
+
+**Observação de modelagem**:  
+Essa story cria apenas a página base de Aulas. Os widgets de disciplinas, progresso, materiais e próximos encontros devem ser tratados em stories próprias, conforme evolução do wireframe.
+
+---
+
+## STRY0067 - Copiar e Ajustar Widget SP Header Menu do Portal EdTech
+
+**Tipo:** Portal
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0067_HEADER_MENU_ALUNO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno que acessa o portal EdTech e precisa de uma navegação simples para abrir solicitações, acompanhar pedidos e acessar aulas.
+
+**O que precisa**:  
+**Copiar** o widget **SP Header Menu** e criar uma versão própria do EdTech, removendo links que não fazem sentido para o aluno e renomeando os itens principais.
+
+**Escopo desta story**:
+
+- Copiar/clonar o widget SP Header Menu.
+- Criar widget próprio chamado EdTech - SP Header Menu.
+- Não alterar o widget nativo do ServiceNow.
+- Exibir apenas os links necessários para o aluno.
+- Renomear Catalog para Solicitações.
+- Renomear Requests para Minhas Solicitações.
+- Remover Knowledge, System Status, Cart e Tours.
+- Incluir link Aulas, apontando para edtech_aulas.
+- Manter o logo/nome EdTech apontando para a Home do Aluno.
+
+**Onde aplicar**:
+
+- Service Portal > Widgets
+- Widget base: SP Header Menu
+- Widget novo: EdTech - SP Header Menu
+- Portal: EdTech
+- Página: edtech_home_aluno
+- Página: edtech_aulas
+- Tema usado pelo portal EdTech, se o header for aplicado via theme
+
+**Links finais esperados**:
+
+- EdTech ou logo -> ?id=edtech_home_aluno
+- Solicitações -> ?id=sc_home
+- Minhas Solicitações -> ?id=requests
+- Aulas -> ?id=edtech_aulas
+
+**O que fazer no ServiceNow**:
+
+- Localizar o widget SP Header Menu.
+- Clonar/copiar o widget.
+- Renomear a cópia para EdTech - SP Header Menu.
+- Atualizar HTML/Server Script/Client Script conforme necessário para controlar os links exibidos.
+- Remover da navegação:
+    - Knowledge
+    - System Status
+    - Cart
+    - Tours
+- Alterar labels:
+    - Catalog para Solicitações
+    - Requests para Minhas Solicitações
+- Adicionar link Aulas, apontando para edtech_aulas.
+- Configurar o logo/nome EdTech para voltar para edtech_home_aluno.
+- Usar o widget copiado apenas no portal EdTech.
+- Validar que o link Aulas funciona após a criação da página edtech_aulas.
+
+**Critérios de aceite**:
+
+- O menu exibe apenas Solicitações, Minhas Solicitações, Aulas, Profile e Logo para voltar para o menu.
+
+- Knowledge, System Status, Cart e Tours não aparecem.
+- Solicitações abre a página de catálogo.
+- Minhas Solicitações abre a página de acompanhamento de pedidos.
+- Aulas abre a página edtech_aulas.
+- O logo/nome EdTech retorna para a Home do Aluno.
+
+---
+
+## STRY0068 - Criar Widget Reutilizável de Perfil Acadêmico do Usuário
+
+**Tipo:** Portal
+**Prioridade**: Alta  
+**Update Set**: EDTECH_05_PORTAL_V2_STRY0068_WIDGET_PERFIL_ACADEMICO  
+**Parent**: EDTECH_05_PORTAL_V2
+
+**Persona**:  
+Aluno ou professor que acessa o portal EdTech e precisa visualizar rapidamente seus dados acadêmicos principais em páginas diferentes do portal.
+
+**O que precisa**:  
+Criar um widget customizado e reutilizável para exibir os dados do perfil acadêmico do usuário logado, seguindo como base do wireframe da Home do Aluno. OBS: Não precisa ficar igual
+
+**Escopo desta story**:
+
+- Criar o widget EdTech - Perfil Acadêmico.
+- Permitir reutilização do widget em várias páginas do portal.
+- Buscar dados do usuário logado na tabela u_edu_perfil_academico.
+- Buscar nome e iniciais na tabela sys_user.
+- Exibir dados em formato de banner/hero.
+- Não permitir edição dos dados pelo widget.
+
+**Onde aplicar**:
+
+- Service Portal > Widgets
+- Tabela u_edu_perfil_academico
+- Tabela sys_user
+- Página edtech_home_aluno
+- Futuras páginas do portal EdTech
+
+**Dados exibidos no widget**:
+
+- Nome do usuário
+- Iniciais do usuário
+- Curso
+- RA, quando for aluno
+-Registro funcional, quando for professor/colaborador
+- Camp us
+- Período
+- Tipo de perfil
+
+**O que fazer no ServiceNow **:
+
+- Criar widget chamado EdTech - Perfil Acadêmico.
+- No **Server Script**, identificar o usuário logado com gs.getUserID().
+- Consultar a tabela u_edu_perfil_academico filtrando pelo campo Usuário.
+- Buscar os dados acadêmicos/profissionais do usuário.
+- Usar getDisplayValue() para campos de referência como Curso e Campus.
+- Montar objeto data.usuario com nome, iniciais, tipo de perfil, RA/registro funcional, curso, campus e período.
+- No HTML do widget, montar o banner visual com:
+    - círculo de iniciais Obs: Use um Script que pegue o full name  e faça o split das iniciais. Podemos utilizar uma foto aqui tbm nesse circulo 
+    - saudação Obs: Acho interessante ter 
+    - curso ou vínculo principal; Obs: Para aluno Curso, Campus, Periodo
+    - RA
+- Criar CSS próprio do widget para seguir o wireframe.
+- Adicionar o widget na página edtech_home_aluno.
+
+**Critérios de aceite**:
+
+- Widget EdTech - Perfil Acadêmico foi criado.
+- Widget exibe nome, iniciais, curso, RA, campus e período para aluno.
+- Widget exibe nome, iniciais, curso/campus e registro funcional quando aplicável.
+- Widget busca os dados em u_edu_perfil_academico.
+- Widget usa dados do usuário logado, sem permitir escolher outro usuário manualmente.
+- Widget pode ser inserido em mais de uma página do portal EdTech.
+- Se o usuário não tiver perfil acadêmico, o widget exibe mensagem simples sem quebrar a página.
+- Nenhum dado é editado pelo widget.
+
+---
+
+## STRY0069 - Criar Update Sets Pais V2 por Módulo do Projeto EdTech
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0069_UPDATE_SETS_PAIS_V2  
+**Parent**: EDTECH_01_CORE
+
+**Persona**:  
+Administrador ServiceNow que precisa organizar a segunda versão do projeto EdTech em update sets separados por módulo.
+
+**O que precisa**:  
+Criar os **update sets pais V2** dos módulos principais do projeto, seguindo o padrão de organização já usado na primeira versão.
+
+**Escopo desta story**:
+
+- Criar update set pai V2 para Core.
+- Criar update set pai V2 para Suporte.
+- Criar update set pai V2 para Financeiro.
+- Criar update set pai V2 para Secretaria.
+- Padronizar a descrição dos update sets pais.
+- Não mover alterações antigas da V1.
+
+**Onde aplicar**:
+
+- System Update Sets > Local Update Sets
+- Update sets pais do projeto EdTech
+
+**Update Sets pais esperados**:
+
+- EDTECH_01_CORE_V2
+- EDTECH_02_SUPORTE_V2
+- EDTECH_03_FINANCEIRO_V2
+- EDTECH_04_SECRETARIA_V2
+
+**O que fazer no ServiceNow**:
+
+- Acessar System Update Sets > Local Update Sets.
+- Criar o update set EDTECH_01_CORE_V2.
+- Criar o update set EDTECH_02_SUPORTE_V2.
+- Criar o update set EDTECH_03_FINANCEIRO_V2.
+- Criar o update set EDTECH_04_SECRETARIA_V2.
+- Validar que EDTECH_05_PORTAL_V2 já está criado.
+- Preencher descrição em cada update set, indicando que são pais da segunda versão do projeto.
+- Usar os pais V2 apenas como agrupadores lógicos para as próximas stories.
+
+**Critérios de aceite**:
+
+- Update set EDTECH_01_CORE_V2 criado.
+- Update set EDTECH_02_SUPORTE_V2 criado.
+- Update set EDTECH_03_FINANCEIRO_V2 criado.
+- Update set EDTECH_04_SECRETARIA_V2 criado.
+- Update set EDTECH_05_PORTAL_V2 validado.
+- Todos os update sets pais possuem descrição clara.
+- Novas stories V2 podem ser criadas como update sets filhos dentro do parent correto.
+- Nenhuma alteração antiga da V1 foi movida ou alterada.
+
+---
+
+## REFACTOR005 - Padronizar Scripts dos Record Producers da Secretaria
+
+**Tipo**: Refactor  
+**Módulo**: Secretaria  
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_V2_REFACTOR005_MAPEAMENTO_RP_SECRETARIA  
+**Parent**: EDTECH_04_SECRETARIA_V2
+
+**Persona**:  
+Equipe da Secretaria Acadêmica que precisa receber solicitações com os dados do aluno, dados acadêmicos e detalhes do documento gravados corretamente na tabela u_edu_secretaria.
+
+**O que precisa**:  
+Atualizar os scripts dos Record Producers da Secretaria para copiar os dados dos Variable Sets para os campos reais da tabela u_edu_secretaria, incluindo a padronização de u_solicitante e opened_by, assim como já foi feito nos Record Producers financeiros.
+
+**Record Producers impactados**:
+
+- Solicitar Histórico Escolar
+- Solicitar Diploma
+- Emitir Comprovante de Matrícula
+- Solicitar Declaração Acadêmica
+
+**Onde aplicar**:
+
+- Service Catalog > Record Producers
+- Tabela destino: Solicitação Secretaria [u_edu_secretaria]
+- Campo Script dos quatro Record Producers da Secretaria
+- Variable Sets:
+    - Dados do Solicitante
+    - Dados Acadêmicos do Solicitante
+    - Contato e Retorno
+    - Descrição da Solicitação
+    - Detalhes da Solicitação Acadêmica
+
+**O que fazer no ServiceNow**:
+
+- Abrir cada Record Producer da Secretaria.
+- Validar que todos apontam para a tabela u_edu_secretaria.
+- Validar que os Variable Sets corretos estão vinculados.
+- Atualizar o campo Script dos quatro Record Producers.
+- Adicionar a padronização de solicitante:
+
+`var solicitante = producer.solicitante ? producer.solicitante.toString() : gs.getUserID(); current.u_solicitante = solicitante; current.opened_by = solicitante;`
+
+- Mapear os dados acadêmicos para os campos da tabela.
+- Mapear contato, assunto, descrição e detalhes do documento.
+- Validar os nomes técnicos reais das variáveis antes de salvar o script.
