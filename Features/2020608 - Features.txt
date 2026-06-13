@@ -1,0 +1,153 @@
+## STRY0113 - Refatorar Widget de Satisfação
+
+**Responsável**: Arthur Marinho  
+**Update Set**: EDTECH_05_PORTAL_STRY0113_WIDGET_SATISFACAO_TASK  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**: exibir o número da solicitação avaliada e trocar a escolha de avaliação para Select Box.
+
+**O que fazer**:
+
+- Atualizar widget de satisfação
+- Mostrar number da task vinculada
+- Usar Select Box na escolha da avaliação
+
+**Aceite**:
+
+- Número da solicitação aparece no widget
+- Campo de avaliação aparece como select box
+- Avaliação continua salvando corretamente
+
+---
+
+## STRY0114 - Refatorar Atalhos Rápidos por Área
+
+**Responsável**: Matheus  
+**Update Set**: EDTECH_05_PORTAL_STRY0114_QUICK_LINKS_AREAS  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**: deixar os atalhos rápidos iguais ao padrão do Suporte, apontando para os links corretos de Secretaria, Suporte e Financeiro.
+
+**O que fazer**:
+
+- Padronizar visual dos atalhos rápidos
+- Corrigir links por área
+- Validar navegação no portal
+
+**Aceite**:
+
+- Atalho de Secretaria abre Secretaria
+- Atalho de Suporte abre Suporte
+- Atalho de Financeiro abre Financeiro
+- Todos tem que levar para knowledge 
+
+---
+
+## STRY0115 - Substituir Fila de Atendimento por Data Table
+
+**Responsável**: Matheus  
+**Update Set**: EDTECH_05_PORTAL_STRY0115_DATATABLE_AREAS  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**: remover provisoriamente o widget de Fila de Atendimento e usar Data Table nas áreas.
+
+**O que fazer**:
+
+- Remover/ocultar widget de Fila de Atendimento
+- Adicionar Data Table para:
+    - u_edu_suporte
+    - u_edu_financeiro
+    - u_edu_secretaria
+
+**Aceite**:
+
+- Fila provisória não aparece
+- Data Table aparece nas áreas corretas 
+- Registros da área são listados corretamente
+
+---
+
+## STRY0116 - Ajustar Ícones e Remover Títulos dos Links Rápidos
+
+**Responsável**: Thayla  
+**Update Set**: EDTECH_05_PORTAL_STRY0116_ICONS_QUICK_LINKS  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**: remover títulos dos links rápidos e atualizar ícones para azul, somente nas homes.
+
+**O que fazer**:
+
+- Remover títulos links rápidos
+- Alterar ícones para #061d55 ou azul compatível
+- Aplicar ajuste nos widgets de resumo e quick links
+
+**Aceite**:
+
+- Links rápidos ficam sem títulos extras
+- Ícones aparecem em azul
+- Visual fica consistente com o portal
+
+---
+
+## STRY0117 - Criar Widgets SLA para Suporte e Secretaria
+
+**Responsável**: Matheus  
+**Prioridade**: Média  
+**Update Set**: EDTECH_05_PORTAL_STRY0117_WIDGET_SLA_AREAS  
+**Parent**: EDTECH_05_PORTAL
+
+**O que precisa**: copiar o EDTech - Financeiro SLA para criar versões de Suporte e Secretaria, removendo o link de ver mais detalhes.
+
+**O que fazer**:
+
+- Copiar widget EDTech - Financeiro SLA
+- Criar widget EDTech - Suporte SLA
+- Criar widget EDTech - Secretaria SLA
+- Remover link Ver mais detalhes
+- Ajustar filtros por área
+
+**Aceite**:
+
+- Suporte tem widget SLA próprio
+- Secretaria tem widget SLA próprio
+- Financeiro não exibe mais “Ver mais detalhes”
+
+---
+
+## STRY0118 - CriarDados Acadêmica e Solicitações de Teste
+
+**Update Set**: EDTECH_01_CORE_STRY0118_MASSA_DADOS_ACADEMICA  
+**Parent**: EDTECH_01_CORE
+
+
+**O que precisa**: criar dados realistas para demonstrar o portal do aluno, professor e áreas internas, incluindo solicitações, disciplinas, aulas e atividades.
+
+**Escopo desta story**:
+
+- Criar 10 solicitações via Record Producer usando usuários Aluno e Professor - Ana Clara Souza e professor Laura Mendes
+- Criar 10 disciplinas na tabela de disciplinas
+- Vincular cada disciplina a um professor
+- Criar dados na tabela de aulas - 10 novos dados
+- Vincular aulas a professor, turma, disciplina e aluno
+- Usar a aluna Ana Clara Souza como referência principal de teste
+- Definir status das aulas
+- Criar dados na tabela atividades - 10 novos dados
+- Vincular atividades a aluno e disciplinas
+
+**Onde aplicar**:
+
+- Record Producers de Suporte, Financeiro e Secretaria
+- Tabela de Disciplina
+- Tabela de Aula
+- Tabela de Atividade
+- Perfil acadêmico da aluna Ana Clara Souza
+- Cadastro de professores e turmas
+
+**Critérios de aceite**:
+
+- Existem 10 solicitações criadas por Record Producers
+- Existem 10 disciplinas cadastradas e vinculadas a professores
+- A aluna Ana Clara Souza possui aulas vinculadas
+- As aulas possuem professor, turma, disciplina, aluno e status preenchidos
+- Existem 10 atividades vinculadas a aluno e disciplinas
+- Os widgets de disciplinas, aulas e atividades exibem dados no Portal EdTech

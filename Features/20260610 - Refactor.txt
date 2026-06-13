@@ -1,0 +1,92 @@
+## REFACTOR009 - Padronizar Painéis Laterais Operacionais
+
+
+**Update Set**: EDTECH_05_PORTAL REFACTOR009_PAINEIS_LATERAIS_AREAS  
+**Parent**: EDTECH_05_PORTAL
+
+**Objetivo**:  
+Padronizar os widgets de Painel Lateral de Suporte, Financeiro e Secretaria, ajustando links, textos e prazos de atendimento conforme cada área.
+
+**Onde aplicar**:
+
+- Widget Suporte - Painel Lateral
+- Widget Financeiro - Painel Lateral
+- Widget Secretaria - Painel Lateral
+- Páginas/listas operacionais do Portal EdTech
+
+**O que fazer**:
+
+- Remover o link Minha fila dos três painéis laterais.
+- Manter os atalhos operacionais:
+    - Solicitações abertas
+    - Pendentes
+    - Atrasadas
+    - Encerradas
+    - Base de conhecimento
+- Validar se cada link leva para a lista correta, seguindo o modelo já aplicado na Secretaria.
+- Ajustar os filtros por área:
+    - Suporte: tabela u_edu_suporte
+    - Financeiro: tabela u_edu_financeiro
+    - Secretaria: tabela u_edu_secretaria
+- Atualizar o bloco Prazo de Atendimento conforme a área:
+    - Suporte: resposta inicial em até 3 horas e resolução em até 8 horas.
+    - Financeiro: atendimento em até 1 dia útil.
+    - Secretaria: documentos acadêmicos em até 3 dias úteis.
+
+**Critérios de aceite**:
+
+- Os três painéis laterais não exibem mais o link Minha fila.
+- Todos os links levam para listas filtradas corretamente.
+- O Painel Lateral de Suporte exibe o prazo correto de suporte.
+- O Painel Lateral Financeiro exibe o prazo correto financeiro.
+- O Painel Lateral da Secretaria exibe o prazo correto da Secretaria.
+- O comportamento visual e de navegação fica padronizado entre as três áreas.
+
+---
+
+## REFACTOR010 - Padronizar Quick Links de Knowledge por Base de Área
+
+**Prioridade**: Média  
+**Update Set**: EDTECH_05_PORTAL_REFACTOR010_QUICK_LINKS_KNOWLEDGE_AREAS  
+**Parent**: EDTECH_05_PORTAL
+
+**Objetivo**:  
+Padronizar os widgets de Quick Links de Knowledge para que Suporte e Financeiro sigam o mesmo modelo da Secretaria, exibindo cards específicos para cada base/categoria de conhecimento da área.
+
+**Onde aplicar**:
+
+- Widget EDTech - Quick Links - Secretaria
+- Widget EDTech - Quick Links - Financeiro
+- Widget EDTech - Quick Links - Suporte
+- Bases/Categorias de Conhecimento do Portal EdTech
+
+**O que fazer**:
+
+- Usar o widget da Secretaria como referência visual e funcional.
+- Manter o padrão de cards com:
+    - ícone;
+    - título;
+    - descrição curta;
+    - seta de navegação.
+- Alterar títulos e descrições curtas dos cards para ficarem padronizados, claros e entendíveis.
+- Validar os links atuais da Secretaria para garantir que cada card leva à base/categoria correta.
+- Atualizar o widget do Financeiro para exibir cards específicos de conhecimento financeiro, por exemplo:
+    - Financeiro
+    - Boletos
+    - Pagamentos
+    - Multas e Contestações
+- Atualizar o widget do Suporte para exibir cards específicos de conhecimento técnico, por exemplo:
+    - Suporte Técnico
+- Garantir que cada card abra a base/categoria correspondente no Portal EdTech.
+- Manter os ícones atuais quando possível.
+- Não alterar a estrutura visual geral dos Quick Links.
+
+**Critérios de aceite**:
+
+- Secretaria mantém cards específicos de Knowledge funcionando corretamente.
+- Financeiro passa a exibir cards específicos para bases/categorias financeiras.
+- Suporte passa a exibir cards específicos para bases/categorias técnicas.
+- Títulos e descrições dos cards ficam claros, padronizados e compreensíveis.
+- Cada card leva para sua respectiva base/categoria de conhecimento.
+- O padrão visual dos cards fica consistente entre Secretaria, Financeiro e Suporte.
+- Os links funcionam no Portal EdTech.

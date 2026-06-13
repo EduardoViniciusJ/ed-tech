@@ -1,0 +1,290 @@
+STRY0122 - Criar Base de Conhecimento Administrativa EdTech
+Prioridade: Média
+Update Set: EDTECH_05_PORTAL_STRY0122_BASE_CONHECIMENTO_ADMIN
+Parent: EDTECH_05_PORTAL
+
+Persona:
+Gestor Acadêmico, Secretaria Acadêmica, Financeiro e Suporte de TI.
+
+O que precisa:
+Criar uma base de conhecimento administrativa separada da base de conhecimento do aluno, com categorias e artigos voltados para apoio operacional das equipes internas e acompanhamento administrativo do Gestor Acadêmico.
+
+Escopo desta story:
+
+Criar a base Base Administrativa EdTech.
+Criar categorias administrativas para Gestão Acadêmica, Secretaria, Financeiro e Suporte.
+Criar artigos operacionais para Secretaria, Financeiro e Suporte.
+Criar artigos gerenciais para o Gestor Acadêmico.
+Não misturar artigos internos com a base de conhecimento do aluno.
+Onde aplicar:
+
+Knowledge > Administration > Knowledge Bases
+Knowledge > Articles
+User Criteria / permissões da base, se necessário
+O que fazer no ServiceNow:
+
+Criar uma nova Knowledge Base:
+
+Nome: Base Administrativa EdTech
+Descrição: Base de conhecimento voltada para gestores e equipes administrativas do Portal EdTech.
+Can Read: Gestor Acadêmico, Secretaria, Financeiro e Suporte
+Criar as categorias:
+
+Gestão Acadêmica
+Secretaria
+Financeiro
+Suporte
+Criar artigos na categoria Secretaria:
+
+Como atender solicitação de diploma e os outros records producers
+Criar artigos na categoria Financeiro:
+
+Como enviar 2ª via de boleto os outros records producers
+Criar artigos na categoria Suporte:
+
+Como atender solicitação com problema no AVA
+Criar artigos na categoria Gestão Acadêmica:
+
+Como acompanhar áreas administrativas
+Como criar dashboards gerenciais
+Como acompanhar pesquisas de satisfação
+Critérios de aceite:
+
+A base Base Administrativa EdTech foi criada.
+As categorias Gestão Acadêmica, Secretaria, Financeiro e Suporte existem na base.
+Os artigos usam linguagem clara e operacional.
+
+
+STRY0123 - Criar Atalhos do Gestor com Base no Widget da Secretaria
+Prioridade: Média
+Update Set: EDTECH_05_PORTAL_STRY0123_ATALHOS_GESTOR
+Parent: EDTECH_05_PORTAL
+
+Persona:
+Gestor Acadêmico.
+
+O que precisa:
+Criar o widget de atalhos do Gestor Acadêmico a partir de uma cópia do widget de atalhos da Secretaria, mantendo o mesmo padrão visual, estrutura, cores, ícones, espaçamento e comportamento de navegação.
+
+Escopo desta story:
+
+Copiar o widget de atalhos da Secretaria.
+Renomear a cópia para uso do Gestor.
+Adaptar título, itens, ícones e links para o contexto gerencial.
+Manter a aparência igual ao widget da Secretaria.
+Exibir somente os atalhos definidos para o Gestor:
+Todas em aberto
+Atrasadas
+Aguardando aluno
+Encerradas
+Base administrativa
+O que fazer no ServiceNow:
+
+Localizar o widget de atalhos do financeiro.
+Clonar/copiar o widget. "EDTech - Financeiro Relatórios Rápidos"
+Renomear a cópia para:
+"EDTech - Relatórios Rápidos"
+Ajustar o título exibido para:
+Atalhos do Gestor
+Remover a informação de Prazo de Atendimento.
+Alterar os itens do widget para:
+Todas em aberto
+Atrasadas
+Aguardando aluno
+Encerradas
+Base administrativa
+Manter o mesmo HTML/CSS estrutural do widget da Secretaria.
+Ajustar apenas labels, ícones e URLs.
+Configurar os links para abrir listas consolidadas no caso todas as tabelas de solicitações.
+Configurar Base administrativa para abrir a base/artigos administrativos da STRY0122.
+Inserir o novo widget na Home do Gestor.
+Critérios de aceite:
+
+O widget EDTech - Atalhos do Gestor foi criado a partir da cópia do widget da Secretaria.
+O widget mantém o mesmo estilo visual do widget do Financeiro.
+O título exibido é Atalhos do Gestor.
+O widget exibe somente:
+Todas em aberto
+Atrasadas
+Aguardando aluno
+Encerradas
+Base administrativa
+Os links funcionam com o usuário Gestor Acadêmico.
+O widget está publicado na Home do Gestor.
+
+
+
+
+REFACTOR012 - Remover Bloco “Concluídas Hoje” do Widget Gestor
+Prioridade: Média
+Update Set: EDTECH_05_PORTAL_REFACTOR012_REMOVER_CONCLUIDAS_HOJE
+Parent: EDTECH_05_PORTAL
+
+Persona:
+Gestor Acadêmico.
+
+O que precisa:
+Remover o bloco/card “Concluídas hoje” do widget EDTech - Gestor Resumo de Atividades, mantendo apenas os indicadores principais de acompanhamento operacional.
+
+Onde aplicar:
+
+Service Portal > Widgets
+Widget: EDTech - Gestor Resumo de Atividades
+Página/home do Gestor Acadêmico no Portal EdTech
+O que fazer no ServiceNow:
+
+Abrir o widget EDTech - Gestor Resumo de Atividades.
+Remover do HTML o bloco visual referente a Concluídas hoje.
+Revisar o CSS/grid dos cards para que os indicadores restantes fiquem alinhados.
+Testar com o usuário Gestor Acadêmico no portal.
+Critérios de aceite:
+
+O card “Concluídas hoje” não aparece mais no widget.
+Os demais indicadores continuam aparecendo corretamente.
+Não há espaço vazio no local onde o card foi removido.
+
+
+
+REFACTOR014 - Ajustar Quick Links do Aluno para Base de Conhecimento
+Update Set: EDTECH_05_PORTAL_REFACTOR014_QUICK_LINKS_BASE_CONHECIMENTO_ALUNO
+Parent: EDTECH_05_PORTAL
+
+O que precisa:
+Remover o quick link “Minhas Solicitações” da Home do Aluno e adicionar o quick link “Base de Conhecimento”, direcionando para os artigos de orientação do aluno sobre como solicitar serviços, acompanhar pedidos e resolver dúvidas comuns.
+
+Escopo desta refatoração:
+
+Remover o card Minhas Solicitações dos quick links da Home do Aluno.
+Criar/adicionar o card Base de Conhecimento.
+- Posicionar Base de Conhecimento como último item da ordem dos quick links.
+Direcionar o card para a base/artigos de conhecimento do aluno.
+Manter os demais links na ordem atual.
+Onde aplicar:
+
+Service Portal > Widgets
+Widget de quick links da Home do Aluno
+Base de Conhecimento EdTech
+Página Home do Aluno no Portal EdTech
+Nova ordem dos quick links:
+
+Documentos Acadêmicos
+Financeiro
+Suporte AVA
+Base de Conhecimento
+O que fazer no ServiceNow:
+
+Abrir o widget responsável pelos quick links da Home do Aluno.
+Remover o objeto/card Minhas Solicitações.
+Adicionar novo objeto/card:
+Título: Base de Conhecimento
+Descrição: Consulte guias e orientações do aluno
+Ícone: ícone de livro/conhecimento, mantendo padrão visual atual
+Garantir que o novo card fique como último item.
+Critérios de aceite:
+
+O card Minhas Solicitações não aparece mais nos quick links da Home do Aluno.
+O card Base de Conhecimento aparece como último quick link.
+
+
+
+REFACTOR013 - Padronizar Dashboards Gerenciais e de Pesquisa
+Prioridade: Média
+Update Set: EDTECH_06_GESTAO_REFACTOR013_PADRONIZAR_DASHBOARDS_GESTOR
+Parent: EDTECH_06_GESTAO
+
+Persona:
+Gestor Acadêmico.
+
+O que precisa:
+Melhorar os dashboards acessados pelo gestor no ambiente nativo do ServiceNow, padronizando nomes, descrições, tamanho e identificação dos dashboards de pesquisa de satisfação.
+
+Escopo desta refatoração:
+
+Revisar dashboards gerenciais de Secretaria, Financeiro e Suporte.
+Revisar dashboards de pesquisa de satisfação por área.
+Padronizar nomes dos dashboards.
+Adicionar descrição em todos os dashboards.
+Ajustar nomes dos componentes/cards/gráficos para linguagem clara.
+Aumentar os dashboards/widgets para melhorar leitura em apresentação.
+Manter os links de acesso no Portal do Gestor.
+Onde aplicar:
+
+Platform Analytics / Dashboards
+Dashboards nativos do ServiceNow
+Portal EdTech > Home do Gestor, apenas para validar links
+O que fazer no ServiceNow:
+
+Padronizar os dashboards operacionais com nomes curtos e claros:
+
+Dashboard Secretaria
+Dashboard Financeiro
+Dashboard Suporte
+Dashboard Gestão Acadêmica
+Padronizar os dashboards de pesquisa de satisfação:
+
+Dashboard Pesquisa Secretaria
+Dashboard Pesquisa Financeiro
+Dashboard Pesquisa Suporte
+Dashboard Pesquisa Geral
+Preencher a descrição de todos os dashboards, por exemplo:
+
+Revisar nomes dos cards/gráficos para evitar termos técnicos ou ambíguos.
+
+Aumentar o tamanho dos widgets/cards/gráficos para melhorar leitura.
+
+Reorganizar os indicadores principais na primeira linha.
+
+Validar se os links do Portal do Gestor continuam abrindo os dashboards corretos.
+
+Critérios de aceite:
+
+Todos os dashboards operacionais possuem nomes padronizados.
+Todos os dashboards de pesquisa possuem nomes padronizados.
+Todos os dashboards possuem descrição preenchida.
+Os widgets/gráficos ficam maiores e legíveis em tela cheia.
+Os nomes dos cards/gráficos estão claros para apresentação.
+
+
+
+REFACTOR015 - Simplificar Acesso aos Dashboards do Gestor
+Prioridade: Média
+Update Set: EDTECH_05_PORTAL_REFACTOR015_BOTAO_DASHBOARDS_GESTOR
+Parent: EDTECH_05_PORTAL
+
+Persona:
+Gestor Acadêmico.
+
+O que precisa:
+Substituir os três cards laterais de dashboards por área por um único botão azul de acesso aos dashboards gerenciais no Platform Analytics.
+
+Escopo desta refatoração:
+
+Remover os cards do widget "EdTech - Painel Lateral Gestor":
+Secretaria Acadêmica
+Departamento Financeiro
+Suporte de TI
+Criar um único botão/link azul, manter o padrão visual que ja tem, pode usar o card da secretaria.
+O botão deve direcionar para a biblioteca de dashboards do Platform Analytics.
+Onde aplicar:
+
+Service Portal > Widgets
+Widget: EdTech - Painel Lateral Gestor
+Home do Gestor Acadêmico no Portal EdTech
+O que fazer no ServiceNow:
+
+Abrir o widget EdTech - Painel Lateral Gestor.
+Remover os três blocos/cards individuais de acesso a dashboards.
+Adicionar um único botão:
+Texto: Gestão Acadêmica - Dashboards
+Descrição opcional: Acesse e gerencie dashboards no ServiceNow
+URL: https://dev393595.service-now.com/now/platform-analytics-workspace/pages/params/library/dashboards
+Estilo: Manter o do card da secretaria, cores azul.
+Configurar abertura na mesma aba ou nova aba, conforme padrão do portal.
+Critérios de aceite:
+
+Os três cards antigos de dashboard por área não aparecem mais.
+Existe apenas um botão azul de acesso aos dashboards.
+O botão exibe o texto Gestão Acadêmica - Dashboards.
+O botão redireciona corretamente para a biblioteca de dashboards do Platform Analytics.
+O botão está visualmente alinhado à paleta oficial do Portal EdTech.
+O Gestor Acadêmico consegue acessar a página de dashboards no ambiente nativo do ServiceNow.

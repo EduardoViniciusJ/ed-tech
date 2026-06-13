@@ -1,0 +1,222 @@
+## REFACTOR014 - Enriquecer Banner da Home do Aluno
+  
+**Update Set**: `EDTECH_05_PORTAL_V2_REFACTOR009_BANNER_ALUNO_DADOS_ACADEMICOS`  
+**Parent**: `EDTECH_05_PORTAL_V2`
+
+**Persona**:  
+Aluno que deseja visualizar rapidamente seus principais dados acadêmicos ao acessar o Portal EdTech.
+
+**O que precisa**:  
+Atualizar o widget `EDTech - Home Banner Aluno` para apresentar informações acadêmicas completas e uma mensagem especial quando o curso estiver concluído.
+
+**Dados exibidos**:
+
+- Curso: `u_curso`
+- RA: `u_matricula`
+- Campus: `u_campus`
+- Grau Acadêmico: `u_periodo`  (Colocar o nome como Grau Acadêmico)
+- **Mensagem de conclusão** se o aluno concluiu o curso, verificar o campo na u_edu_perfil_academico "Curso concluído" e colocar uma msg de conclusão se for concluido, se não for nem mostrar nada.  
+
+**Mensagem de conclusão**:
+
+> Parabéns pela conclusão do seu curso! Você já pode solicitar a emissão do seu diploma.
+
+Embora o nome técnico permaneça `u_periodo`, o texto visível no banner deve ser **Grau Acadêmico**.
+
+
+---
+
+## REFACTOR015 - Padronizar IDs das Páginas Home do Portal
+
+**Update Set**: `EDTECH_05_PORTAL_V2_REFACTOR010_PADRONIZAR_IDS_HOMES`  
+**Parent**: `EDTECH_05_PORTAL_V2`
+
+**O que precisa**:  
+Revisar e padronizar os IDs e links das páginas principais do Portal EdTech.
+
+**Padrão obrigatório**:
+
+- `home_aluno`
+- `home_gestor`
+- `home_financeiro`
+- `home_suporte`
+- `home_secretaria`
+
+
+Depois atualizar o widget de redirecionamento EdTech - Redirecionar Home por Perfil  o server script para esse Código aqui:  
+
+(function() {
+    data.redirectUrl = '';
+    data.message = '';
+
+    if (gs.getUser().isMemberOf('Professores')) {
+        data.redirectUrl = '?id=home_professor';
+        return;
+    }
+
+    if (gs.getUser().isMemberOf('Alunos')) {
+        data.redirectUrl = '?id=home_aluno';
+        return;
+    }
+
+    if (gs.getUser().isMemberOf('Suporte')) {
+        data.redirectUrl = '?id=home_suporte';
+        return;
+    }
+
+    if (gs.getUser().isMemberOf('Financeiro')) {
+        data.redirectUrl = '?id=home_financeiro';
+        return;
+    }
+
+    if (gs.getUser().isMemberOf('Secretaria')) {
+        data.redirectUrl = '?id=home_secretaria';
+        return;
+    }
+
+    if (gs.getUser().isMemberOf('Gestores Acadêmicos')) {
+        data.redirectUrl = '?id=home_gestor';
+        return;
+    }
+
+    data.message =
+        'Seu perfil ainda não está configurado para acessar este portal.';
+})();
+
+**Critérios de aceite**:
+
+- Todas as páginas seguem os IDs definidos.
+- Navegação e redirecionamento por perfil funcionam.
+- Nenhum link apresenta página não encontrada.
+- Os links funcionam dentro do Portal EdTech.
+
+---
+
+## REFACTOR016 - Padronizar Links Rápidos das Áreas
+
+**Prioridade**: Média  
+**Update Set**: `EDTECH_05_PORTAL_V2_REFACTOR016 _QUICK_LINKS_AREAS`  
+**Parent**: `EDTECH_05_PORTAL_V2`
+
+**O que precisa**:  
+Padronizar os widgets de links rápidos do Suporte, Financeiro e Secretaria, direcionando cada acesso para a lista filtrada correspondente.
+
+**Suporte Técnico**:
+
+- Manter somente `Solicitações de Suporte`.
+- Direcionar para todas as solicitações de Suporte.
+- Remover `Relatórios TI` e `Minha Fila`.
+
+**Financeiro**:
+
+- `2ª Via de Boleto`: exibir todas as solicitações de segunda via.
+- `Comprovantes de Pagamento`: exibir todas as solicitações de comprovante de pagamento.
+- `Multas e Contestações`: exibir todas as solicitações de contestação de multa.
+
+**Secretaria**:
+
+- `Comprovantes de Matrícula`: exibir todas as solicitações de comprovante de matrícula.
+- `Declarações Acadêmicas`: exibir todas as solicitações de declaração.
+- `Históricos Escolares`: exibir todas as solicitações de histórico escolar.
+- `Diplomas`: exibir todas as solicitações de diploma.
+
+**O que fazer**:
+
+- Atualizar o HTML e o Server Script dos widgets.
+- Aplicar a view padronizada do portal nas listas.
+- Remover links antigos ou duplicados.
+
+**Critérios de aceite**:
+
+- O Suporte possui somente o link `Solicitações de Suporte`.
+- Financeiro possui exatamente três links rápidos.
+- Secretaria possui exatamente quatro links rápidos.
+- Cada link abre somente as solicitações do tipo selecionado.
+- Nenhum link abre registros de outra área ou categoria.
+- Todos os links funcionam no Portal EdTech.
+
+---
+
+## REFACTOR017 - Padronizar Acordos de Atendimento nos Relatórios Rápidos
+
+**Update Set**: `EDTECH_05_PORTAL_V2_REFACTOR012_ACORDOS_ATENDIMENTO`  
+**Parent**: `EDTECH_05_PORTAL_V2`
+
+**O que precisa**:  
+Padronizar os widgets `Relatórios Rápidos` das áreas de Suporte, Secretaria e Financeiro.
+
+**Suporte Técnico**:
+
+- Remover o título `Prazo de Atendimento`.
+- Manter apenas a seção `Acordos de Atendimento`.
+- Preservar as informações de resposta e resolução existentes.
+
+**Secretaria**:
+
+- Remover o título `Prazo de Atendimento`.
+- Renomear `Prazos Esperados` para `Acordos de Atendimento`.
+- Manter a informação do prazo.
+
+**Financeiro**:
+
+- Aplicar o mesmo padrão visual e textual da Secretaria.
+- Remover o título `Prazo de Atendimento`.
+- Renomear `Prazos Esperados` para `Acordos de Atendimento`.
+- Manter a informação do prazo.
+
+**Critérios de aceite**:
+
+- Nenhum widget exibe o título `Prazo de Atendimento`.
+- As três áreas exibem `Acordos de Atendimento`.
+- Os prazos permanecem corretos para cada área.
+- Layout e nomenclatura ficam consistentes entre os widgets.
+
+---
+
+## EFACTOR018 - Padronizar Data Tables das Áreas
+
+**Update Set**: `EDTECH_05_PORTAL_V2_REFACTOR018_DATATABLE_AREAS`  
+**Parent**: `EDTECH_05_PORTAL_V2`
+
+**O que precisa**:  
+Adicionar e padronizar as Data Tables operacionais do Financeiro, Suporte e Secretaria.
+
+**Títulos**:
+
+- `Fila de Atendimento - Suporte`
+- `Fila de Atendimento - Secretaria`
+- `Fila de Atendimento - Financeiro`
+
+**O que fazer**:
+
+- Adicionar a Data Table na Home do Financeiro.
+- Revisar as Data Tables existentes do Suporte e da Secretaria.
+- Padronizar os campos exibidos nas três áreas.
+- Remover `Prioridade`, pois não é utilizada no processo.
+- Aplicar as views específicas do Portal EdTech.
+- Filtrar cada tabela pelo grupo responsável correspondente.
+
+**Critérios de aceite**:
+
+- As três homes possuem Data Table.
+- Cada tabela apresenta o título correto.
+- Todas utilizam o mesmo padrão de campos.
+- O campo `Prioridade` não é exibido.
+- Cada equipe visualiza apenas as solicitações da própria área.
+- Busca, ordenação e paginação funcionam corretamente.
+
+---
+
+## REFACTOR019 - Remover Coluna Prazo do Resumo de Atendimentos
+
+**Update Set**: `EDTECH_05_PORTAL_V2_REFACTOR019_RESUMO_GESTOR`  
+**Parent**: `EDTECH_05_PORTAL_V2`
+
+**O que precisa**:  
+Atualizar o widget `Gestor - Resumo de Atendimentos`, removendo a coluna `Prazo`, pois essa informação não é utilizada.
+
+**Critérios de aceite**:
+
+- A coluna `Prazo` não aparece no widget.
+- As demais colunas permanecem alinhadas.
+- O widget continua responsivo e funcional.

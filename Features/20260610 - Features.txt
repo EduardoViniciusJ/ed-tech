@@ -1,0 +1,157 @@
+STRY0119 - Personalizar Login do Portal EdTech
+Prioridade: Alta
+Update Set: EDTECH_05_PORTAL_STRY0119_LOGIN_EDTECH
+Parent: EDTECH_05_PORTAL
+
+Objetivo:
+Copiar a página padrão de login do Service Portal e criar uma versão personalizada para o Portal EdTech.
+
+O que fazer:
+
+Copiar a página padrão login.
+Criar a página edtech_login.
+Manter o login nativo do ServiceNow.
+Aplicar logo, textos e identidade visual do EdTech.
+Configurar o portal /edtech para usar edtech_login como página de login. Service Portal > Portals > EdTech > Login Page  
+Manter a homepage como a página atual de redirect por perfil.
+
+Critérios de aceite:
+
+Usuário não logado em /edtech vê a tela edtech_login.
+Login funciona com usuário e senha reais.
+Após login, o usuário é redirecionado por perfil.
+A tela de login padrão da instância não é alterada.
+
+---
+
+
+## STRY0120 - Completar Dados e Validar Usuários do Portal
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_01_CORE_STRY0120_USUARIOS_TESTE_PORTAL  
+**Parent**: EDTECH_01_CORE
+
+**Objetivo**:  
+Completar os dados dos usuários de teste, adicionar foto de perfil e validar login real no Portal EdTech para garantir que as informações apareçam corretamente nos banners e homes por perfil.
+
+**Onde aplicar**:
+
+- User Administration > Users
+- Tabela de Perfil Acadêmico
+- Grupos e roles do projeto
+- Portal EdTech /edtech
+
+**O que fazer**:
+
+- Adicionar foto de perfil nos usuários de teste.
+- Completar informações faltantes como RA, curso, campus, período, grupo e perfil.
+- Garantir que os dados acadêmicos apareçam corretamente nos banners do portal.
+- Criar ou redefinir senha dos usuários.
+- Validar login sem impersonate.
+- Confirmar redirecionamento correto por perfil após login.
+
+**Usuários para validar**:
+
+- Fernanda Alves - Secretaria
+- Mariana Costa - Financeiro
+- Diego Santos - Suporte
+- Mateus Andrade - Professor
+- Camila Torres Almeida - Aluno
+- Bruno Henrique Lima - Aluno
+
+**Critérios de aceite**:
+
+- Todos os usuários conseguem acessar o Portal EdTech com senha própria.
+- Cada usuário é direcionado para a home correta.
+- Foto e dados principais aparecem no banner quando aplicável.
+- Alunos possuem RA, curso, campus e período preenchidos.
+- Professor possui dados acadêmicos/profissionais preenchidos.
+- Usuários internos possuem grupo e perfil corretos
+
+---
+
+
+## STRY0121 - Exibir Solicitação de Diploma Apenas para Alunos Formados
+
+**Prioridade**: Alta  
+**Update Set**: EDTECH_04_SECRETARIA_STRY0121_VISIBILIDADE_DIPLOMA  
+**Parent**: EDTECH_04_SECRETARIA
+
+**Objetivo**:  
+Exibir o Record Producer Solicitar Diploma apenas para alunos que possuem curso concluído no Perfil Acadêmico.
+
+**Onde aplicar**:
+
+- Tabela Perfil Acadêmico
+- Record Producer Solicitar Diploma
+- User Criteria
+
+**O que fazer**:
+
+- Criar campo no Perfil Acadêmico:
+    
+    - **Label**: Curso concluído
+    - **Name**: u_curso_concluido
+    - **Type**: True/False
+    - **Default**: false
+- Adicionar o campo no formulário interno do Perfil Acadêmico.
+    
+- Preencher o campo nos alunos de teste:
+    
+    - true para alunos formados;
+    - false para alunos ainda cursando.
+- Criar User Criteria:
+    
+    - **Name**: EDTech - Aluno com curso concluído
+    - **Advanced**: true
+    - Regra: retornar verdadeiro apenas quando o usuário logado tiver Perfil Acadêmico com Curso concluído = true.
+- Aplicar o User Criteria no Record Producer Solicitar Diploma, em **Available For**.
+    
+
+**Critérios de aceite**:
+
+- Aluno com Curso concluído = true visualiza o item Solicitar Diploma.
+- Aluno com Curso concluído = false não visualiza o item Solicitar Diploma.
+- O controle funciona no portal com login real, sem impersonate.
+- A configuração não altera os demais Record Producers da Secretaria.
+
+---
+
+## STRY0122 - Validar E-mail e Telefone no Variable Set Contato e Retorno
+
+**Prioridade**: Média  
+**Update Set**: EDTECH_05_PORTAL_STRY0122_VALIDAR_CONTATO_RETORNO  
+**Parent**: EDTECH_05_PORTAL
+
+**Objetivo**:  
+Validar o formato do e-mail e do telefone informados pelo usuário nos formulários do portal que utilizam o Variable Set Contato e Retorno.
+
+**Onde aplicar**:
+
+- Variable Set Contato e Retorno
+- Catalog Client Script
+
+**O que fazer**:
+
+- Criar um Catalog Client Script no Variable Set Contato e Retorno.
+- Configurar o script como onSubmit.
+- Identificar os nomes reais das variáveis de e-mail e telefone.
+- Validar se o e-mail informado possui formato válido.
+- Validar se o telefone possui DDD e quantidade mínima de dígitos.
+- Bloquear o envio do formulário quando e-mail ou telefone estiverem inválidos.
+- Exibir mensagem clara no campo correspondente.
+
+**Mensagens sugeridas**:
+
+- Informe um e-mail válido.
+- Informe um telefone válido com DDD.
+
+**Critérios de aceite**:
+
+- Formulários que usam Contato e Retorno validam e-mail e telefone antes do envio.
+- E-mails válidos permitem o envio.
+- Telefones válidos com DDD permitem o envio.
+- E-mails inválidos bloqueiam o envio.
+- Telefones inválidos bloqueiam o envio.
+- A mensagem de erro aparece no campo correspondente.
+- A validação funciona no portal, sem depender de impersonate.
